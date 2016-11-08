@@ -6,6 +6,7 @@ use Yii;
 use yii\db\Exception;
 use common\models\User;
 use common\models\Points;
+use common\base\BaseModel;
 
 
 /**
@@ -27,7 +28,7 @@ use common\models\Points;
  * @property integer $update_at
  * @property integer $create_at
  */
-class Auth extends \yii\db\ActiveRecord
+class Auth extends BaseModel
 {
     /**
      * 用户类型

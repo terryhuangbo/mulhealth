@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\base\BaseModel;
 use Yii;
 use yii\console\Exception;
 
@@ -22,7 +23,7 @@ use yii\console\Exception;
  * @property integer $is_deleted
  * @property integer $create_at
  */
-class Address extends \yii\db\ActiveRecord
+class Address extends BaseModel
 {
     /**
      * 收货时间

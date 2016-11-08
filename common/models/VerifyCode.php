@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\base\BaseModel;
 use Yii;
 use yii\db\Exception;
 
@@ -13,7 +14,7 @@ use yii\db\Exception;
  * @property integer $verify_code
  * @property integer $update_at
  */
-class VerifyCode extends \yii\db\ActiveRecord
+class VerifyCode extends BaseModel
 {
     const EXPIRE_TIME = 120;//验证码过期时间
 

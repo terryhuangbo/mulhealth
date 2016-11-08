@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\base\BaseModel;
 use Yii;
 use yii\base\Exception;
 use common\models\Auth;
@@ -27,7 +28,7 @@ use common\models\Session;
  * @property integer $update_at
  * @property integer $create_at
  */
-class User extends \yii\db\ActiveRecord
+class User extends BaseModel
 {
 
     /**

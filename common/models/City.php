@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\base\BaseModel;
 use Yii;
 use common\lib\Category;
 
@@ -12,7 +13,7 @@ use common\lib\Category;
  * @property integer $pid
  * @property string $name
  */
-class City extends \yii\db\ActiveRecord
+class City extends BaseModel
 {
     /**
      * @inheritdoc

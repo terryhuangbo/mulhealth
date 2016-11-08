@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 use yii\db\Exception;
 use yii\helpers\ArrayHelper;
+use common\base\BaseModel;
 
 /**
  * This is the model class for table "{{%cart}}".
@@ -12,7 +13,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $cart_id
  * @property integer $uid
  */
-class Cart extends \yii\db\ActiveRecord
+class Cart extends BaseModel
 {
     /**
      * @inheritdoc

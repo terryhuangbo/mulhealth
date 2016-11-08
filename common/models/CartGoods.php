@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\base\BaseModel;
 use Yii;
 use yii\db\Exception;
 
@@ -15,7 +16,7 @@ use yii\db\Exception;
  * @property integer $count
  * @property integer $create_at
  */
-class CartGoods extends \yii\db\ActiveRecord
+class CartGoods extends BaseModel
 {
     /**
      * @inheritdoc

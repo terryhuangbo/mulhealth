@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\base\BaseModel;
 use Yii;
 use yii\base\Exception;
 use common\lib\Filter;
@@ -19,7 +20,7 @@ use common\lib\Filter;
  * @property integer $goods_status
  * @property integer $create_at
  */
-class Goods extends \yii\db\ActiveRecord
+class Goods extends BaseModel
 {
     /**
      * 商品状态

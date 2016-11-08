@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\base\BaseModel;
 use Yii;
 use yii\db\Exception;
 use common\models\PointsRecord;
@@ -18,7 +19,7 @@ use common\models\PointsRecord;
  * @property integer $create_at
  * @property integer $update_at
  */
-class Points extends \yii\db\ActiveRecord
+class Points extends BaseModel
 {
     /**
      * 积分类型

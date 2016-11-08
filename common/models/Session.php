@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\base\BaseModel;
 use Yii;
 use yii\db\Exception;
 
@@ -14,7 +15,7 @@ use yii\db\Exception;
  * @property string $nick
  * @property string $avatar
  */
-class Session extends \yii\db\ActiveRecord
+class Session extends BaseModel
 {
     /**
      * @inheritdoc

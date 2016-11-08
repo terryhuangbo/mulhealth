@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\base\BaseModel;
 use Yii;
 use yii\db\Exception;
 
@@ -15,7 +16,7 @@ use yii\db\Exception;
  * @property string $points_name
  * @property integer $create_at
  */
-class PointsRecord extends \yii\db\ActiveRecord
+class PointsRecord extends BaseModel
 {
     /**
      * @inheritdoc

@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\base\BaseModel;
 use Yii;
 use yii\db\Exception;
 use common\models\Address;
@@ -25,7 +26,7 @@ use common\models\Address;
  * @property integer $update_at
  * @property integer $create_at
  */
-class Order extends \yii\db\ActiveRecord
+class Order extends BaseModel
 {
     /**
      * 商品状态
