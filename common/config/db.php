@@ -7,12 +7,9 @@
  */
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=121.43.96.68;dbname=acc',
-//    'dsn' => 'mysql:host=127.0.0.1;dbname=acc',
-    'username' => 'acc',
-//    'username' => 'root',
-    'password' => 'acc@admin@626',
-//    'password' => '',
+    'dsn' => 'mysql:host=121.43.96.68;dbname=hf',
+    'username' => 'hf',
+    'password' => 'hf@626',
     'tablePrefix' => 'tb_',
     'charset' => 'utf8'
 ];
