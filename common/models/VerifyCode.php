@@ -14,7 +14,7 @@ use yii\db\Exception;
  * @property integer $verify_code
  * @property integer $update_at
  */
-class VerifyCode extends BaseModel 
+class VerifyCode extends BaseModel  
 {
     const EXPIRE_TIME = 120;//验证码过期时间
 
