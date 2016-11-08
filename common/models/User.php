@@ -4,12 +4,11 @@ namespace common\models;
 
 use common\base\BaseModel;
 use common\behavior\PointBehavior;
+use common\behavior\TimeBehavior;
+use common\lib\RegexValidator;
 use Yii;
 use yii\base\Exception;
-use common\models\Auth;
-use common\models\Points;
-use common\models\Cart;
-use common\models\Session;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "{{%user}}".
@@ -29,7 +28,7 @@ use common\models\Session;
  * @property integer $update_at
  * @property integer $create_at
  */
-class User extends BaseModel
+class User extends BaseModel implements IdentityInterface
 {
 
     /**
@@ -65,14 +64,16 @@ class User extends BaseModel
     public function rules()
     {
         return [
-            [['points', 'user_type', 'user_status', 'update_at', 'create_at'], 'integer'],
-            [['nick', 'name'], 'string', 'max' => 30],
-            [['avatar', 'name_card'], 'string', 'max' => 250],
-            [['email'], 'string', 'max' => 40],
-            [['user_type_imgs'], 'string', 'max' => 600],
-            [['wechat_openid'], 'string', 'max' => 50],
-            [['mobile'], 'unique', 'message' => '手机号码已经注册过了'],
-            [['wechat_openid'], 'unique', 'message' => '微信号已经注册过了'],
+            [['points', 'update_at', 'create_at', 'login_at'], 'integer'],
+            //手机号码
+            [['mobile'], RegexValidator::className(), 'method' => 'mobile', 'message' => '手机格式不正确'],
+            [['mobile'], 'unique', 'message' => '手机号必须唯一'],
+            //积分
+            [['points'], RegexValidator::className(), 'method' => 'unsigned', 'message' => '积分必须为非负整数'],
+            //authKey
+            [['authKey'], 'string'],
+            [['authKey'], 'required', 'message' => 'authKey号不能为空'],
+            [['authKey'], 'unique', 'message' => 'authKey号必须唯一'],
             [['create_at', 'update_at'], 'default', 'value' => time()],
         ];
     }
@@ -84,6 +85,7 @@ class User extends BaseModel
     {
         return [
             'uid' => '用户ID',
+            'authKey' => 'authKey',
             'nick' => '用户微信昵称',
             'name' => '用户真实姓名',
             'avatar' => '用户微信头像',
@@ -97,6 +99,7 @@ class User extends BaseModel
             'user_status' => '状态（1-启用；2-禁用）',
             'update_at' => '更新时间',
             'create_at' => '创建时间',
+            'login_at' => '最近登录时间',
         ];
     }
 
@@ -114,12 +117,66 @@ class User extends BaseModel
      */
     public function behaviors()
     {
-        return array_merge(parent::behaviors(), [
-                'point' => [
-                    'class' => PointBehavior::className()
-                ],
-            ]);
+        return [
+            'timeStamp' => [
+                'class' => TimeBehavior::className(),
+                'create' => ['create_at', 'login_at'],
+                'update' => 'update_at',
+            ],
+            'points' => [
+                'class' => PointBehavior::className()
+            ],
+        ];
     }
+
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentity($uid)
+    {
+        return static::findOne($uid);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getId()
+    {
+        return $this->uid;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAuthKey()
+    {
+        return $this->authKey;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function validateAuthKey($authKey)
+    {
+        return $this->authKey === $authKey;
+    }
+
+    /**
+     * 获取手机号
+     **/
+    public function getMobile() {
+        return $this->mobile;
+    }
+
+
 
     /**
      * 关联购物车
