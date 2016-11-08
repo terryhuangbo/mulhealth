@@ -3,6 +3,7 @@
 namespace common\models;
 
 use common\base\BaseModel;
+use common\behavior\PointBehavior;
 use Yii;
 use yii\base\Exception;
 use common\models\Auth;
@@ -44,6 +45,11 @@ class User extends BaseModel
 
     const NO_DELETE = 1;//启用
     const IS_DELETE = 2;//禁用
+
+    /**
+     * 事件
+     */
+    const EVENT_POINTS = 'event_points';//赠送积分事件
 
     /**
      * @inheritdoc
@@ -100,6 +106,19 @@ class User extends BaseModel
     public static function getDb()
     {
         return Yii::$app->get('db');
+    }
+
+    /**
+     * 公共模型的行为，比如对某些字段自动更新时间戳操作
+     * @return array
+     */
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+                'point' => [
+                    'class' => PointBehavior::className()
+                ],
+            ]);
     }
 
     /**

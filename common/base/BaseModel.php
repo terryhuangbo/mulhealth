@@ -53,8 +53,8 @@ class BaseModel extends ActiveRecord
         return [
             'timeStamp' => [
                 'class' => TimeBehavior::className(),
-                'create' => 'create_time',
-                'update' => 'update_time',
+                'create' => 'create_at',
+                'update' => 'update_at',
             ],
         ];
     }
