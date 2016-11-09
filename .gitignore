@@ -7,7 +7,7 @@
 /frontend/webrc/assets
 
 /backend/runtime/
-/backend/web/assets
+/backend/web/assets/
 /backend/web/upload
 
 backend/runtime/debug/index.data
