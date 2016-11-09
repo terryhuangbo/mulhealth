@@ -43,17 +43,12 @@
         <div class="title">
             <span>用户认证</span>
         </div>
-        <input type="hidden" name="key" value="<?php echo $key ?>"/>
         <div class="form-group">
             <label>手机号码</label>
             <input type="text" name="mobile" placeholder="请输入您的手机号码"/>
         </div>
 
-        <div class="form-group">
-            <label>验&nbsp;证&nbsp;码</label>
-            <input class="verificationCode" name="verifycode" type="text" placeholder="请输入验证码"/>
-            <div class="send">发送验证码</div>
-        </div>
+
         <div class="pb"></div>
         <div class="button">
             <a href="javaScript:void(0);" id="submit" class="btn">确认</a>

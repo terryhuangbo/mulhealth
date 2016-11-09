@@ -177,7 +177,6 @@ class User extends BaseModel implements IdentityInterface
     }
 
 
-
     /**
      * 关联购物车
      **/

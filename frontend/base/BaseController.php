@@ -35,13 +35,13 @@ class BaseController extends Controller
         }
         $this->uid = $session->get('user_id');
         if(empty($this->uid)){
-            $this->redirect('/redeem/user/reg');
+            $this->redirect('/redeem/user/login');
             return false;
         }
         $this->user = (new User())->_get_info(['uid' => $this->uid]);
         $this->open_id = $this->user['wechat_openid'];
         if(empty($this->user)){
-            $this->redirect('/redeem/user/reg');
+            $this->redirect('/redeem/user/login');
             return false;
         }
         //引入jssdk实例

@@ -26,6 +26,7 @@ class UserController extends BaseController
             'wechat',
             'wechat-auth',
             'rect',
+            'login',
         ];
     }
 
@@ -33,51 +34,17 @@ class UserController extends BaseController
      * 用户注册
      * @return type
      */
-    public function actionReg()
+    public function actionLogin()
     {
-        $session = Yii::$app->session;
-        $redirect = $this->_request('redirect', '');
-        if(!empty($redirect)){
-            $session->set('REDIRECT_URL', $redirect);
-        }
-
         //加载
         if(!$this->isAjax()){
             $key = $this->_request('key', '');
             $_data = [
                 'key' => $key,
             ];
-            return $this->render('reg', $_data);
+            return $this->render('login', $_data);
         }
 
-        //保存
-        $mobile = trim($this->_request('mobile'));
-        $verifycode = intval($this->_request('verifycode'));
-        $key = trim($this->_request('key'));
-
-        $param = [
-            'mobile' => $mobile,
-            'verifycode' => $verifycode,
-            'key' => $key,
-        ];
-        $res = (new User())->_add_user($param);
-        if($res['code'] < 0 ){
-            $this->_json($res['code'], $res['msg']);
-        }
-
-        //设置登录session
-        $session->set('user_id', $res['data']['uid']);
-
-        //判断是否有跳转
-        $redirect = $session->get('REDIRECT_URL');
-        if(!empty($redirect)){
-            $session->remove('REDIRECT_URL');
-        }
-        $_data = [
-            'redirect' => !empty($redirect) ? $redirect : '/redeem/home/index'
-        ];
-        //成功返回
-        $this->_json(20000, '成功', $_data);
     }
 
     /**

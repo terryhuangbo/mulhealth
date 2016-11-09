@@ -34,7 +34,6 @@ return [
                 "<controller:\w+>/<action:\w+>" => "redeem/<controller>/<action>",
             ],
         ],
-
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
