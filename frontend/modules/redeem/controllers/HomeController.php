@@ -29,7 +29,6 @@ class HomeController extends BaseController
             'user' => $this->user,
             'goods_list' => $_goods_list,
         ];
-
         return $this->render('index', $_data);
     }
 

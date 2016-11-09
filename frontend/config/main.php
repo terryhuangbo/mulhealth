@@ -29,8 +29,6 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                "<module:\w+>/<controller:\w+>/<action:\D+>" => "<module>/<controller>/<action>",
-                "<controller:\w+>/<action:\w+>/<id:\d+>" => "redeem/<controller>/<action>",
                 "<controller:\w+>/<action:\w+>" => "redeem/<controller>/<action>",
             ],
         ],

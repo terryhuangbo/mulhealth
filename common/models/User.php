@@ -216,6 +216,7 @@ class User extends BaseModel implements IdentityInterface
             $reg = true;
         }
         Yii::$app->user->login($user, 24*24*60);
+        $user->touch('login_at');//更新登录时间
         return ['code' => '20000', 'msg' => $reg ? '注册成功' : '登录成功'];
 
     }

@@ -102,4 +102,22 @@ class OrderController extends BaseController
         $this->_json($res['code'], $res['msg']);
     }
 
+    /**
+     * 兑换信息页面
+     * @return type
+     */
+    public function actionExchange()
+    {
+        $gid = json_decode($this->_request('gid'));
+        if(empty($gid)){
+            $this->_json(-20001, '您没有选择任何订单');
+        }
+        $_data = [
+
+        ];
+        return $this->render('exchange', $_data);
+    }
+
+
+
 }
