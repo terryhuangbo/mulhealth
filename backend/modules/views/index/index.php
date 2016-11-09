@@ -6,14 +6,14 @@ use yii\helpers\Html;
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>积分商城管理后台</title>
-    <?= Html::cssFile('@web/static/bui-index/css/dpl-min.css') ?>
-    <?= Html::cssFile('@web/static/bui-index/css/bui-min.css') ?>
-    <?= Html::cssFile('@web/static/bui-index/css/main-min.css') ?>
-    <?= Html::cssFile('@web/static/bui-index/css/page-min.css') ?>
-    <?= Html::jsFile('@web/static/bui-index/js/jquery-1.8.1.min.js') ?>
-    <?= Html::jsFile('@web/static/bui-index/js/bui-min.js') ?>
-    <?= Html::jsFile('@web/static/bui-index/js/common/main-min.js') ?>
-    <?= Html::jsFile('@web/static/bui-index/js/config-min.js') ?>
+    <?= Html::cssFile('@web/assets/css/dpl-min.css') ?>
+    <?= Html::cssFile('@web/assets/css/bui-min.css') ?>
+    <?= Html::cssFile('@web/assets/css/main-min.css') ?>
+    <?= Html::cssFile('@web/assets/css/page-min.css') ?>
+    <?= Html::jsFile('@web/assets/js/jquery-1.8.1.min.js') ?>
+    <?= Html::jsFile('@web/assets/js/bui-min.js') ?>
+    <?= Html::jsFile('@web/assets/js/common/main-min.js') ?>
+    <?= Html::jsFile('@web/assets/js/config-min.js') ?>
     <script>
         $(function () {
             //ajaxPull();
