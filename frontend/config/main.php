@@ -37,6 +37,7 @@ return [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
+            'loginUrl' => ['redeem/user/login'],
         ],
         'jssdk' => [
             'class' => 'frontend\components\Wechat\Jssdk',

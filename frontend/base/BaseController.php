@@ -3,9 +3,9 @@
 namespace app\base;
 
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use common\lib\Tools;
-use common\models\User;
 
 class BaseController extends Controller
 {
@@ -17,36 +17,35 @@ class BaseController extends Controller
     public $signPackage = '';//微信jssdk实例
     public $_uncheck = []; //不用校验登录的方法,可子类复写
 
-    /**
-     * 获取登录信息
-     */
-    public function beforeAction()
+    public function behaviors()
     {
-        //不用校验的页面，自动跳过
-        $action_id = Yii::$app->controller->action->id;
-        if(in_array($action_id, $this->_uncheck)){
-            return true;
-        }
-
-        //从session中校验用户登录信息
-        $session = Yii::$app->session;
-        if(!$session->isActive){
-            $session->open();
-        }
-        $this->uid = $session->get('user_id');
-        if(empty($this->uid)){
-            $this->redirect('/redeem/user/login');
-            return false;
-        }
-        $this->user = (new User())->_get_info(['uid' => $this->uid]);
-        $this->open_id = $this->user['wechat_openid'];
-        if(empty($this->user)){
-            $this->redirect('/redeem/user/login');
-            return false;
-        }
-        //引入jssdk实例
-        $this->signPackage = Yii::$app->jssdk->GetSignPackage();
-        return true;
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    //用户认证登录
+                    [
+                        'allow' => true,
+                        'matchCallback' => function ($role, $action) {
+                            if (in_array($action->id, $this->_uncheck, true)) {
+                                return true;
+                            }else if(!Yii::$app->user->isGuest){
+                                $this->user = Yii::$app->user->identity->toArray();
+                                $this->uid = Yii::$app->user->identity->uid;
+                                $this->signPackage = Yii::$app->jssdk->GetSignPackage();
+                                return true;
+                            }
+                            $absUrl = Yii::$app->getRequest()->absoluteUrl;
+                            Yii::$app->session->set('_redirectUrl', $absUrl);
+                            return false;
+                        },
+                        'denyCallback' => function($rule, $action){//跳转登录页面
+                            return Yii::$app->user->loginRequired();
+                        },
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -104,25 +103,15 @@ class BaseController extends Controller
         if (strpos($agent, 'MSIE') !== false || strpos($agent, 'rv:11')) //ie11判断
         {
             return "ie";
-        }
-        else if (strpos($agent, 'Firefox') !== false)
-        {
+        } else if (strpos($agent, 'Firefox') !== false) {
             return "firefox";
-        }
-        else if (strpos($agent, 'Chrome') !== false)
-        {
+        } else if (strpos($agent, 'Chrome') !== false) {
             return "chrome";
-        }
-        else if (strpos($agent, 'Opera') !== false)
-        {
+        } else if (strpos($agent, 'Opera') !== false) {
             return 'opera';
-        }
-        else if ((strpos($agent, 'Chrome') == false) && strpos($agent, 'Safari') !== false)
-        {
+        } else if ((strpos($agent, 'Chrome') == false) && strpos($agent, 'Safari') !== false) {
             return 'safari';
-        }
-        else
-        {
+        } else {
             return 'unknown';
         }
     }
@@ -132,7 +121,8 @@ class BaseController extends Controller
      * @param array $data
      * @return string
      */
-    public function _to_json($data) {
+    public function _to_json($data)
+    {
         if (!empty($data)) {
             return json_encode($data);
         }
@@ -146,7 +136,8 @@ class BaseController extends Controller
      * @param bool $data
      * @return string
      */
-    public function _json($code, $msg = '', $data = null) {
+    public function _json($code, $msg = '', $data = null)
+    {
         @header('Content-Type:application/json;charset=utf-8');
         $r_data = [
             'code' => $code,
@@ -185,12 +176,13 @@ class BaseController extends Controller
      * @param bool|array|string $default 当请求的参数不存在时的默认值
      * @return string
      */
-    public function _request($key = '', $default = false) {
+    public function _request($key = '', $default = false)
+    {
         $request = array_merge(Yii::$app->request->get(), Yii::$app->request->post());
-        if(empty($key)){
+        if (empty($key)) {
             return $request;
         }
-        if(!isset($request[$key])){
+        if (!isset($request[$key])) {
             return $default;
         }
         return $request[$key];
@@ -202,12 +194,13 @@ class BaseController extends Controller
      * @param bool|array|string $default 当请求的参数不存在时的默认值
      * @return string
      */
-    public function _post($key = '', $default = false) {
+    public function _post($key = '', $default = false)
+    {
         $request = Yii::$app->request->post();
-        if(empty($key)){
+        if (empty($key)) {
             return $request;
         }
-        if(!isset($request[$key])){
+        if (!isset($request[$key])) {
             return $default;
         }
         return $request[$key];

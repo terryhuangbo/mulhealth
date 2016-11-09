@@ -176,6 +176,62 @@ class User extends BaseModel implements IdentityInterface
         return $this->mobile;
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert) {
+        if(parent::beforeSave($insert)){
+            if($insert){ //插入操作
+
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function login($param)
+    {
+        if (empty($param['mobile'])) {
+            return ['code' => '-40301', 'msg' => '手机号码不能为空'];
+        }
+        $mobile = $param['mobile'];
+        $user = static::findOne(['mobile' => $mobile]);
+
+        $reg = false;
+        if (empty($user)) {
+            $user = new static();
+            $user->mobile = $mobile;
+            $user->authKey = $this->genAuthKey();
+            if (!$user->validate()) {
+                return ['code' => '-40302', 'msg' => reset($user->getFirstErrors())];
+            }
+            $ret = $user->save();
+            if ($ret['code'] < 0) {
+                return ['code' => '-40303', 'msg' => $ret['code']];
+            }
+            $reg = true;
+        }
+        Yii::$app->user->login($user, 24*24*60);
+        return ['code' => '20000', 'msg' => $reg ? '注册成功' : '登录成功'];
+
+    }
+
+    /**
+     * 生成唯一用户authKey
+     * @return string
+     */
+    protected function genAuthKey() {
+        $authKey = Yii::$app->security->generateRandomString();
+        $exist = static::find()->where(['authKey' => $authKey])->exists();
+        if($exist){
+            $this->genAuthKey();
+        }
+        return $authKey;
+    }
 
     /**
      * 关联购物车

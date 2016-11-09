@@ -24,7 +24,6 @@ class HomeController extends BaseController
     public function actionIndex()
     {
         $g_mdl = new Goods();
-
         $_goods_list = $g_mdl->_get_list(['goods_status' => $g_mdl::STATUS_UPSHELF], 'gid DESC');
         $_data = [
             'user' => $this->user,
