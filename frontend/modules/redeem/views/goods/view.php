@@ -18,7 +18,7 @@
 <section class="top">
     <a onclick="goBack();" class="fl back"><img src="/images/arrowLeft.png"/>返回</a>
     <p>【兑换】 手机充值卡</p>
-    <a href="userCenter.html" class="fr user"><img src="/images/user.png"/></a>
+    <a href="/my/order" class="fr user"><img src="/images/user.png"/></a>
 </section>
 <section class="detail">
     <img src="<?php echo yiiParams('img_host') . $goods['thumb'] ?>"/>

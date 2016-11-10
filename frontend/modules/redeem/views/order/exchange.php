@@ -14,7 +14,7 @@
 <section class="top">
     <a onclick="goBack();" class="fl back"><img src="/images/arrowLeft.png"/>返回</a>
     <p>确认兑换</p>
-    <a href="userCenter.html" class="fr user"><img src="/images/user.png"/></a>
+    <a href="/my/order" class="fr user"><img src="/images/user.png"/></a>
 </section>
 <section class="queryExchange">
     <div class="view">

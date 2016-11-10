@@ -17,10 +17,10 @@
 <section class="top">
     <a onclick="goBack();" class="fl back"><img src="/images/arrowLeft.png"/>返回</a>
     <p>聚惠银联 嗨翻大东北</p>
-    <a href="userCenter.html" class="fr user"><img src="/images/user.png"/></a>
+    <a href="/my/order" class="fr user"><img src="/images/user.png"/></a>
 </section>
 <section class="banner">
-    <a href="activity.html"><img src="/images/banner.png"/></a>
+    <a href="/activity/index"><img src="/images/banner.png"/></a>
 </section>
 <section class="info">
     <div class="name">

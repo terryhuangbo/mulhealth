@@ -131,6 +131,25 @@ class HomeController extends BaseController
         return $this->render('about');
     }
 
+    /**
+     * 关于我们
+     * @return type
+     */
+    public function actionActivity()
+    {
+        return $this->render('activity');
+    }
+
+    /**
+     * 关于我们
+     * @return type
+     */
+    public function actionProvinceHlj()
+    {
+        return $this->render('hlj');
+    }
+
+
 
 
 
