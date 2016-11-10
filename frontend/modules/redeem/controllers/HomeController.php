@@ -2,6 +2,7 @@
 
 namespace frontend\modules\redeem\controllers;
 
+use common\behavior\PointBehavior;
 use Yii;
 use yii\helpers\ArrayHelper;
 use app\base\BaseController;
@@ -70,9 +71,7 @@ class HomeController extends BaseController
      */
     public function actionSign()
     {
-        $p_mdl = new Points();
-        $r_mdl = new PointsRecord();
-        $sign = $r_mdl::find()
+        $sign = PointsRecord::find()
             ->where(['uid' => $this->uid])
             ->andWhere(['point_id' => Points::POINTS_SIGNIN])
             ->andWhere(['>', 'create_at', strtotime('today')])
@@ -82,7 +81,15 @@ class HomeController extends BaseController
         if($sign){
             $this->_json(-20001, '今天已经签到过了');
         }
-        $ret = $p_mdl->_add_points($this->uid, Points::POINTS_SIGNIN);
+        $user = Yii::$app->user->identity;//当前登录用户
+        //附属添加积分行为到登录用户
+        $user->attachBehavior('signpoints', [
+            'class' =>  PointBehavior::className(),
+            'points' => Points::SIGNIN_POINTS,
+            'type' =>   Points::POINTS_SIGNIN,
+        ]);
+        $user->points += Points::SIGNIN_POINTS;
+        $ret = $user->save();
         $this->_json($ret['code'], $ret['msg']);
     }
 

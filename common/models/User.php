@@ -123,9 +123,6 @@ class User extends BaseModel implements IdentityInterface
                 'create' => ['create_at', 'login_at'],
                 'update' => 'update_at',
             ],
-            'points' => [
-                'class' => PointBehavior::className()
-            ],
         ];
     }
 
@@ -182,7 +179,6 @@ class User extends BaseModel implements IdentityInterface
     public function beforeSave($insert) {
         if(parent::beforeSave($insert)){
             if($insert){ //插入操作
-
             }
             return true;
         }

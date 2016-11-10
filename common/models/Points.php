@@ -32,6 +32,14 @@ class Points extends BaseModel
     const POINTS_PRAISE = 6; //奖励积分
 
     /**
+     * 积分类型和数量
+     */
+    const SIGNIN_POINTS = 1; //每日签到
+    const RULES_POINTS  = 1; //查看规则
+    const SHARE_POINTS  = 1; //分享活动
+
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
