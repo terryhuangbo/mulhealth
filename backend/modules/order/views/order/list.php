@@ -121,32 +121,23 @@ use common\models\Order;
                 selectedEvent: 'click',
                 columns: [
                     {title: '序号', dataIndex: 'oid', width: 80, elCls : 'center'},
-                    {title: '订单编号', dataIndex: 'order_id', width: 160, elCls : 'center'},
-                    {title: '商品编号', dataIndex: 'goods_id', width: 150, elCls : 'center'},
+                    {title: '订单编号', dataIndex: 'order_id', width: 165, elCls : 'center'},
+//                    {title: '商品编号', dataIndex: 'goods_id', width: 150, elCls : 'center'},
                     {title: '商品名称', dataIndex: 'goods_name', width: 90, elCls : 'center',},
-                    {title: '买家姓名', dataIndex: 'buyer_name', width: 80, elCls : 'center'},
                     {title: '买家手机', dataIndex: 'buyer_phone', width: 110, elCls : 'center'},
+                    {title: '收货人姓名', dataIndex: 'receiver_name', width: 80, elCls : 'center'},
+                    {title: '收货人手机', dataIndex: 'receiver_mobile', width: 80, elCls : 'center'},
+                    {title: '收货人省份', dataIndex: 'receiver_province', width: 80, elCls : 'center'},
                     {title: '订单状态', dataIndex: 'status_name', width: 80, elCls : 'center'},
-                    {
-                        title: '物流编号',
-                        width: 140,
-                        elCls : 'center',
-                        renderer: function (v, obj) {
-                            return "<a class='' href='javaScript:void(0)' onclick='checkLogDetail(" + obj.oid + ")'>" + obj.express_num + "</a>";
-                        }
-                    },
-                    {title: '收货地址', dataIndex: 'address', width: 180},
                     {title: '创建时间', dataIndex: 'create_at', width: 150, elCls : 'center'},
 
-                    {
-                        title: '操作',
-                        width: 300,
-                        renderer: function (v, obj) {
-                            return "<a class='button button-primary' onclick='updateOrder(" + obj.oid + ")'>编辑</a>" +
-                            "<a class='button button-info' onclick='checkLogestic("+ obj.oid +")'>物流</a>" +
-                            " <a class='button button-danger' onclick='del(" + obj.oid + ")'>删除</a>";
-                        }
-                    }
+//                    {
+//                        title: '操作',
+//                        width: 300,
+//                        renderer: function (v, obj) {
+//                            return "<a class='button button-primary' onclick='updateOrder(" + obj.oid + ")'>查看</a>";
+//                        }
+//                    }
                 ],
                 loadMask: true, //加载数据时显示屏蔽层
                 store: store,

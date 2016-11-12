@@ -231,9 +231,6 @@ class Goods extends BaseModel
         if(empty($goods['thumb'])){
             return ['code' => -20005, 'msg' => '请上传商品缩略图'];
         }
-        if(empty($goods['thumb_list'])){
-            return ['code' => -20006, 'msg' => '请上传商品图片！'];
-        }
 
         $_save_data = [
             'goods_id' => static::_gen_goods_id(),
@@ -241,7 +238,6 @@ class Goods extends BaseModel
             'redeem_pionts' => intval($goods['redeem_pionts']),
             'description' => Filter::filters_outcontent($goods['description']),
             'thumb' =>trim($goods['thumb']),
-            'thumb_list' => json_encode($goods['thumb_list']),
         ];
         if(isset($goods['gid'])){//更新，否则为添加
             $_save_data['gid'] = $goods['gid'];

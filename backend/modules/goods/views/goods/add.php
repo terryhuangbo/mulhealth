@@ -99,20 +99,6 @@ use yii\helpers\Html;
             </div>
         </div>
 
-        <div class="control-group">
-            <label class="control-label"><s>*</s>商品图片：</label>
-            <div id="thumblistpic" class="controls">
-                <span class="button button-primary">上传图片</span>
-            </div>
-        </div>
-        <div class="row" >
-            <div class="span16 layout-outer-content">
-                <div id="thumblistpic-content" class="layout-content content-list" aria-disabled="false" aria-pressed="false" >
-
-                </div>
-            </div>
-        </div>
-
         <div class="control-group" id="description_content">
             <label class="control-label">商品描述：</label>
             <div class="controls  control-row-auto">

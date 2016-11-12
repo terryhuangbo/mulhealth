@@ -102,7 +102,7 @@ class OrderController extends BaseController
         $_order_by = 'oid DESC';
         $query_count = clone($query);
         $orderArr = $query
-            ->joinWith('address')
+            ->joinWith('goods')
             ->joinWith('user')
             ->offset($offset)
             ->limit($pageSize)
@@ -115,13 +115,20 @@ class OrderController extends BaseController
                 'gid',
                 'order_id',
                 'goods_id',
-                'goods_name',
+
                 'order_status',
                 'express_num',
                 'express_type',
+                'receiver_name',
+                'receiver_mobile',
+                'receiver_province',
                 'status_name' => function ($m) {
                     return Order::_get_order_status($m->order_status);
                 },
+                'goods_name' => function ($m) {
+                    return getValue($m, 'goods.name', '');
+                },
+
                 'buyer_name' => function ($m) {
                     return getValue($m, 'user.name', '');
                 },
@@ -129,9 +136,6 @@ class OrderController extends BaseController
                     return getValue($m, 'user.mobile', '');
                 },
 
-                'address' => function ($m) {
-                    return _value($m['address']['detail']);
-                },
                 'create_at' => function ($m) {
                     return date('Y-m-d h:i:s', $m->create_at);
                 },
@@ -251,108 +255,6 @@ class OrderController extends BaseController
         }
         $this->_json(20000, '删除成功');
     }
-
-    /**
-     * 物流单号
-     * @return array
-     */
-    function actionLogistic()
-    {
-        $oid = intval($this->_request('oid'));
-
-        $mdl = new Order();
-        //检验参数是否合法
-        if (empty($oid)) {
-            $this->_json(-20001, '订单序号oid不能为空');
-        }
-
-        //检验订单是否存在
-        $order = $mdl->_get_info(['oid' => $oid]);
-        if (!$order) {
-            $this->_json(-20002, '订单信息不存在');
-        }
-
-        $lgt = new Logistic();
-        $res = $lgt->express2();
-        $exp_array = ArrayHelper::map($res['result'], 'type', 'name');
-
-        $_data = [
-            'order' => $order,
-            'exp_array' => $exp_array,
-        ];
-        return $this->render('logestic', $_data);
-    }
-
-    /**
-     * 异步保存物流公司和物流单号
-     * @return array
-     */
-    function actionAjaxSaveLogestic()
-    {
-        $oid = intval($this->_request('oid'));
-        $express_type = trim($this->_request('express_type'));
-        $express_num = trim($this->_request('express_num'));
-
-        $mdl = new Order();
-        //检验参数是否合法
-        if (empty($oid)) {
-            $this->_json(-20001, '订单序号oid不能为空');
-        }
-
-        //检验订单是否存在
-        $order = $mdl->_get_info(['oid' => $oid]);
-        if (!$order) {
-            $this->_json(-20002, '订单信息不存在');
-        }
-
-        $ret = $mdl->_save([
-            'oid' => $oid,
-            'order_status' => Order::STATUS_RECEIVE,
-            'express_type' => $express_type,
-            'express_num' => $express_num,
-        ]);
-        if(!$ret){
-            $this->_json(-20000, '保存失败');
-        }
-
-        $this->_json(20000, '保存成功');
-    }
-
-    /**
-     * 异步获取订单信息
-     * @return array
-     */
-    function actionLogesticDetail()
-    {
-        $oid = intval($this->_request('oid'));
-        $express_type = trim($this->_request('express_type'));
-        $express_num = trim($this->_request('express_num'));
-
-        $mdl = new Order();
-        //检验参数是否合法
-        if (empty($oid)) {
-            $this->_json(-20001, '订单序号oid不能为空');
-        }
-
-        //检验订单是否存在
-        $order = $mdl->_get_info(['oid' => $oid]);
-        if (!$order) {
-            $this->_json(-20002, '订单信息不存在');
-        }
-
-        $lgt = new Logistic();
-        $res = $lgt->express1($order['express_type'], $order['express_num']);
-
-        $_data = [
-            'log_list' => getValue($res, 'result.list', [])
-        ];
-        return $this->render('logestic-detail', $_data);
-    }
-
-
-
-
-
 
 
 

@@ -36,12 +36,8 @@ class Order extends BaseModel
     /**
      * 商品状态
      */
-    const STATUS_PAY        = 1;//待付款
-    const STATUS_SEND       = 2;//待发货
-    const STATUS_RECEIVE    = 3;//待收货
-    const STATUS_DONE       = 4;//已完成
-    const STATUS_UNDO       = 5;//已撤销
-    const STATUS_COMMENT    = 6;//待评论
+    const STATUS_SUCCESS    = 1;//付款成功
+    const STATUS_FAIL       = 2;//付款失败
 
     /**
      * 是否删除
@@ -304,23 +300,11 @@ class Order extends BaseModel
      */
     public static function _get_order_status($status = 1){
         switch(intval($status)){
-            case self::STATUS_PAY:
-                $_name = '待付款';
+            case self::STATUS_SUCCESS:
+                $_name = '付款成功';
                 break;
-            case self::STATUS_SEND:
-                $_name = '待发货';
-                break;
-            case self::STATUS_RECEIVE:
-                $_name = '待收货';
-                break;
-            case self::STATUS_DONE:
-                $_name = '已完成';
-                break;
-            case self::STATUS_UNDO:
-                $_name = '已撤销';
-                break;
-            case self::STATUS_COMMENT:
-                $_name = '待评论';
+            case self::STATUS_FAIL:
+                $_name = '付款失败';
                 break;
 
             default:
@@ -336,13 +320,8 @@ class Order extends BaseModel
      */
     public static function _get_status_list(){
         $statusArr = [];
-        $statusArr[self::STATUS_PAY]     = '待付款';
-        $statusArr[self::STATUS_SEND]    = '待发货';
-        $statusArr[self::STATUS_RECEIVE] = '待收货';
-        $statusArr[self::STATUS_DONE]    = '已完成';
-        $statusArr[self::STATUS_UNDO]    = '已撤销';
-        $statusArr[self::STATUS_COMMENT] = '待评论';
-
+        $statusArr[self::STATUS_SUCCESS]     = '付款成功';
+        $statusArr[self::STATUS_FAIL]     = '付款失败';
         return $statusArr;
     }
 
