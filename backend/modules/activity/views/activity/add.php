@@ -205,7 +205,7 @@
                 // 选择文件的按钮。可选。
                 pick: '#thumbpic',
                 //文件数量
-                fileNumLimit: 1,
+//                fileNumLimit: 1,
                 //文件大小 byte
                 fileSizeLimit: 5 * 1024 * 1024,
                 // 只允许选择图片文件。
