@@ -77,6 +77,15 @@
             $("#act_way").text(activities[num].way);
             $("#act_limitation").text(activities[num].limitation);
             $("#act_details").text(activities[num].details);
+
+            var id = activities[num].id;
+            $._ajax('/activity/points', {id: id}, 'POST', 'JSON', function(json){
+                if(json.code > 0){
+
+                }else{
+
+                }
+            })
         });
 
     })

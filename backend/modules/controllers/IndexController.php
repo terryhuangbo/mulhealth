@@ -198,15 +198,6 @@ class IndexController extends Controller
             ],
         ];
         $menu[] = [
-            'top' => ['积分配置' => 'home'],
-            '积分列表' => [
-                ['积分列表' => 'points/points/list'],
-            ],
-            '积分配置' => [
-                ['积分类型' => 'points/config/list'],
-            ],
-        ];
-        $menu[] = [
             'top' => ['活动管理' => 'home'],
             '活动管理' => [
                 ['活动列表' => 'activity/activity/list'],
