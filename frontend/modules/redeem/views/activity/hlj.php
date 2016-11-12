@@ -32,7 +32,7 @@
     <div class="pop">
         <a class="close"></a>
         <div class="title">
-            <img src="/images/drfLogo.png"/>
+            <img id="act_img" src="/images/drfLogo.png"/>
             <div class="line"></div>
             <p>2016.11.16-2017.01.25</p>
         </div>
@@ -73,6 +73,7 @@
             var dom = $(this);
             var num = parseInt(dom.attr('num'));
             var activities = <?php echo json_encode($activities) ?>;
+            $("#act_img").attr('src', '<?php echo yiiParams("img_host") ?>' + activities[num].poster);
             $("#act_day").text(activities[num].begin_end);
             $("#act_aims").text(activities[num].aims);
             $("#act_way").text(activities[num].way);
