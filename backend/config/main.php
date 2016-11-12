@@ -37,8 +37,8 @@ return [
             'class' => 'backend\modules\order\Module',
         ],
         // 信用
-        'trust' => [
-            'class' => 'backend\modules\trust\Module',
+        'activity' => [
+            'class' => 'backend\modules\activity\Module',
         ],
         // 认证
         'auth' => [

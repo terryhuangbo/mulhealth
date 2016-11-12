@@ -209,8 +209,15 @@ class IndexController extends Controller
             '积分配置' => [
                 ['积分类型' => 'points/config/list'],
             ],
-
         ];
+        $menu[] = [
+            'top' => ['活动管理' => 'home'],
+            '活动管理' => [
+                ['商品列表' => 'activity/activity/list'],
+                ['添加商品' => 'activity/activity/add'],
+            ],
+        ];
+
 
         return $menu;
     }
