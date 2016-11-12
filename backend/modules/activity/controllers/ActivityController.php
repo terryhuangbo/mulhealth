@@ -6,7 +6,6 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use app\base\BaseController;
 use common\models\Activity;
-use common\models\City;
 use app\modules\team\models\Team;
 
 class ActivityController extends BaseController
@@ -105,9 +104,6 @@ class ActivityController extends BaseController
         }
         //只能是上架，或者下架的产品
         $query->andWhere(['in', 'status', [$mdl::STATUS_ON, $mdl::STATUS_OFF]]);
-        //必须在活动期以内
-//        $query->andWhere(['<', 'begin_at', time()]);
-//        $query->andWhere(['>', 'end_at', time()]);
 
         $_order_by = 'list_order ASC,id DESC';
         $query_count = clone($query);

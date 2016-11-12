@@ -8,11 +8,11 @@ return [
     'api_appid' => '1001',
 
     //前台域名
-    'frontend' => 'http://www.redeem.com',
+    'frontend' => 'http://www.bankunion.com',
     //后台域名
-    'backend' => 'http://www.redeem_back.com',
+    'backend' => 'http://www.bankunion_back.com',
     //图片访问域名
-    'img_host' => 'http://www.redeem_back.com',
+    'img_host' => 'http://www.bankunion_back.com',
 
     //手机号码服务商
     'mobileService' => [
