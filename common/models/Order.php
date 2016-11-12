@@ -342,8 +342,10 @@ class Order extends BaseModel
                 //商品已经下架
                 if ($this->goods->goods_status !== Goods::STATUS_UPSHELF)
                 {
-//                    throw new Exception('商品已经下架');
+                    throw new Exception('商品已经下架');
                 }
+                $this->goods_id = $this->goods->goods_id;
+                $this->goods_name = $this->goods->name;
 
             }else{//更新操作
 

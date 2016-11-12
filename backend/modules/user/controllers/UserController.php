@@ -69,11 +69,11 @@ class UserController extends BaseController
         if ($search) {
             if (isset($search['uptimeStart'])) //时间范围
             {
-                $query = $query->andWhere(['>', 'update_at', strtotime($search['uptimeStart'])]);
+                $query = $query->andWhere(['>', 'create_at', strtotime($search['uptimeStart'])]);
             }
             if (isset($search['uptimeEnd'])) //时间范围
             {
-                $query = $query->andWhere(['<', 'update_at', strtotime($search['uptimeEnd'])]);
+                $query = $query->andWhere(['<', 'create_at', strtotime($search['uptimeEnd'])]);
             }
             if (isset($search['user_type'])) //用户类型
             {
@@ -109,37 +109,21 @@ class UserController extends BaseController
                 'avatar',
                 'email',
                 'points',
-                'wechat' => 'wechat_openid',
-                'user_type' => function ($m) {
-                    return User::_get_user_type($m->user_type);
-                },
                 'user_status' => function ($m) {
                     return User::_get_user_status($m->user_status);
                 },
                 'status' => 'user_status',
-                'inputer' => function ($m) {
-                    return '录入人';
-                },
-                'name_card' => function ($m) {
-                    $imgs_list = json_decode($m->user_type_imgs);
-                    if(!empty($imgs_list)){
-                        if(is_array($imgs_list)){
-                            return $imgs_list[0];
-                        }else{
-                            return $imgs_list;
-                        }
-                    }
-                    return '';
-                },
-                'checker' => function ($m) {
-                    return '审核人';
-                },
+
                 'update_at' => function ($m) {
                     return date('Y-m-d h:i:s', $m->update_at);
                 },
                 'create_at' => function ($m) {
                     return date('Y-m-d h:i:s', $m->create_at);
                 },
+                'login_at' => function ($m) {
+                    return date('Y-m-d h:i:s', $m->login_at);
+                },
+
             ],
         ]);
         $totalCount = $query_count->count();

@@ -41,9 +41,9 @@ use common\models\Order;
                         </div>
                     </div>
                     <div class="control-group span8">
-                        <label class="control-label">商品编号：</label>
+                        <label class="control-label">订单编号：</label>
                         <div class="controls">
-                            <input type="text" class="control-text" name="goods_id">
+                            <input type="text" class="control-text" name="order_id">
                         </div>
                     </div>
                     <div class="control-group span8">
@@ -61,7 +61,7 @@ use common\models\Order;
 
                 <div class="row">
                     <div class="control-group span18">
-                        <label class="control-label">时间范围：</label>
+                        <label class="control-label">下单时间：</label>
                         <div class="controls">
                             <input type="text" class="calendar calendar-time" name="uptimeStart"><span> - </span><input name="uptimeEnd" type="text" class="calendar calendar-time">
                         </div>
@@ -121,9 +121,18 @@ use common\models\Order;
                 selectedEvent: 'click',
                 columns: [
                     {title: '序号', dataIndex: 'oid', width: 80, elCls : 'center'},
-                    {title: '订单编号', dataIndex: 'order_id', width: 165, elCls : 'center'},
+                    {title: '订单编号', dataIndex: 'order_id', width: 170, elCls : 'center'},
 //                    {title: '商品编号', dataIndex: 'goods_id', width: 150, elCls : 'center'},
-                    {title: '商品名称', dataIndex: 'goods_name', width: 90, elCls : 'center',},
+                    {title: '商品名称', dataIndex: 'goods_name', width: 90, elCls : 'center'},
+                    {title: '所需积分数', dataIndex: 'points_cost', width: 90, elCls : 'center'},
+                    {
+                        title: '商品图片',
+                        width: 140,
+                        elCls : 'center',
+                        renderer: function (v, obj) {
+                            return "<img class='user_avatar' src='"+ obj.goods_thumb +"'>";
+                        }
+                    },
                     {title: '买家手机', dataIndex: 'buyer_phone', width: 110, elCls : 'center'},
                     {title: '收货人姓名', dataIndex: 'receiver_name', width: 80, elCls : 'center'},
                     {title: '收货人手机', dataIndex: 'receiver_mobile', width: 80, elCls : 'center'},

@@ -34,12 +34,12 @@
                     <span  class="control-text" ><?php echo $user['points'] ?></span>
                 </div>
             </div>
-            <div class="control-group span8">
-                <label class="control-label">用户状态：</label>
-                <div class="controls">
-                    <span  class="control-text" ><?php echo $user['user_status'] ?></span>
-                </div>
-            </div>
+<!--            <div class="control-group span8">-->
+<!--                <label class="control-label">用户状态：</label>-->
+<!--                <div class="controls">-->
+<!--                    <span  class="control-text" >--><?php //echo $user['user_status'] ?><!--</span>-->
+<!--                </div>-->
+<!--            </div>-->
 
             <div class="control-group span8">
                 <label class="control-label">注册时间：</label>

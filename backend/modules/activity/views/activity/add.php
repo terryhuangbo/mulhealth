@@ -71,7 +71,7 @@
     <form id="Goods_Form" action="" class="form-horizontal" onsubmit="return false;" >
         <h2>添加活动</h2>
         <div class="control-group">
-            <label class="control-label"><s>*</s>活动区域：</label>
+            <label class="control-label">活动区域：</label>
             <div class="controls" >
                 <select name="activity[zone]" id="checkstatus">
                     <option value="">请选择</option>
@@ -82,13 +82,13 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label"><s>*</s>排序(1-10)：</label>
+            <label class="control-label">排序(1-10)：</label>
             <div class="controls">
                 <input name="activity[order_list]" type="text" class="input-medium" data-rules="{required : true, number:true}">
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label"><s>*</s>活动图片：</label>
+            <label class="control-label">活动图片：</label>
             <div id="thumbpic" class="controls">
                 <span class="button button-primary">上传图片</span>
             </div>
@@ -101,7 +101,7 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label"><s>*</s>活动时间：</label>
+            <label class="control-label">活动时间：</label>
             <div class="control-group span13">
                 <div class="controls">
                     <input name="activity[begin_at]" type="text" class="calendar calendar-time" >

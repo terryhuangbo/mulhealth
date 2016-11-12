@@ -136,7 +136,7 @@ class City extends BaseModel
         {
             return $provinces;
         }
-        $provinces = (new static)->_get_list(['pid' => 0]);
+        $provinces = static::find()->where(['pid' => 0])->indexBy('id')->asArray()->all();
         if ($cache instanceof Cache )
         {
             $cache->set(['all_province'], $provinces, 30*24*24*3600);

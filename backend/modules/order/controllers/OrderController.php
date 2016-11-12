@@ -2,6 +2,7 @@
 
 namespace backend\modules\order\controllers;
 
+use common\models\City;
 use Yii;
 use yii\helpers\ArrayHelper;
 use app\base\BaseController;
@@ -77,16 +78,21 @@ class OrderController extends BaseController
         if ($search) {
             if (isset($search['uptimeStart'])) //时间范围
             {
-                $query = $query->andWhere(['>', $or_tb . '.update_at', strtotime($search['uptimeStart'])]);
+                $query = $query->andWhere(['>', $or_tb . '.create_at', strtotime($search['uptimeStart'])]);
             }
             if (isset($search['uptimeEnd'])) //时间范围
             {
-                $query = $query->andWhere(['<', $or_tb . '.update_at', strtotime($search['uptimeEnd'])]);
+                $query = $query->andWhere(['<', $or_tb . '.create_at', strtotime($search['uptimeEnd'])]);
             }
             if (isset($search['goods_id'])) //商品编号
             {
                 $query = $query->andWhere(['goods_id' => $search['goods_id']]);
             }
+            if (isset($search['order_id'])) //订单编号
+            {
+                $query = $query->andWhere(['order_id' => $search['order_id']]);
+            }
+
             if (isset($search['order_status'])) //订单状态
             {
                 $query = $query->andWhere(['order_status' => $search['order_status']]);
@@ -115,20 +121,27 @@ class OrderController extends BaseController
                 'gid',
                 'order_id',
                 'goods_id',
-
                 'order_status',
-                'express_num',
-                'express_type',
                 'receiver_name',
                 'receiver_mobile',
                 'receiver_province',
+                'points_cost' => function ($m) {
+                    return getValue($m, ['goods', 'redeem_pionts'], 0);;
+                },
+                'receiver_province' => function ($m) {
+                    return getValue((new City())->getProvinces(), [$m['receiver_province'], 'name'], '');;
+                },
+
                 'status_name' => function ($m) {
                     return Order::_get_order_status($m->order_status);
                 },
+
                 'goods_name' => function ($m) {
                     return getValue($m, 'goods.name', '');
                 },
-
+                'goods_thumb' => function ($m) {
+                    return getValue($m, 'goods.thumb', '');
+                },
                 'buyer_name' => function ($m) {
                     return getValue($m, 'user.name', '');
                 },

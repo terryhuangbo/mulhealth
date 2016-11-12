@@ -71,11 +71,11 @@ class ActivityController extends BaseController
         if ($search) {
             if (isset($search['uptimeStart'])) //时间范围
             {
-                $query = $query->andWhere(['>', $memTb . '.created_at', strtotime($search['uptimeStart'])]);
+                $query = $query->andWhere(['>', $memTb . '.create_at', strtotime($search['uptimeStart'])]);
             }
             if (isset($search['uptimeEnd'])) //时间范围
             {
-                $query = $query->andWhere(['<', $memTb . '.created_at', strtotime($search['uptimeEnd'])]);
+                $query = $query->andWhere(['<', $memTb . '.create_at', strtotime($search['uptimeEnd'])]);
             }
             if (isset($search['grouptype'])) //时间范围
             {

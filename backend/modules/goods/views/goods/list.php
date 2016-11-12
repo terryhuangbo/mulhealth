@@ -46,21 +46,11 @@ use yii\helpers\Html;
                             <input type="text" class="control-text" name="filtercontent" id="name">
                         </div>
                     </div>
-                    <div class="control-group span10">
-                        <label class="control-label">审核状态：</label>
-                        <div class="controls" >
-                            <select name="checkstatus" id="checkstatus">
-                                <option value="">请选择</option>
-                                <?php foreach ([] as $key => $name): ?>
-                                    <option value="<?= $key ?>"><?= $name ?></option>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="row">
                     <div class="control-group span20">
-                        <label class="control-label">时间范围：</label>
+                        <label class="control-label">创建时间：</label>
                         <div class="controls">
                             <input type="text" class="calendar calendar-time" name="uptimeStart"><span> - </span><input name="uptimeEnd" type="text" class="calendar calendar-time">
                         </div>
@@ -142,7 +132,7 @@ use yii\helpers\Html;
                     {title: '商品编号', dataIndex: 'goods_id', width: 150, elCls : 'center'},
                     {title: '商品名称', dataIndex: 'name', width: 90, elCls : 'center',},
                     {
-                        title: '缩略图',
+                        title: '商品图片',
                         width: 140,
                         elCls : 'center',
                         renderer: function (v, obj) {

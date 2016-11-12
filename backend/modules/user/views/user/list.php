@@ -38,30 +38,22 @@ use common\models\User;
                         <div class="controls" data-type="city">
                             <input type="text" class="control-text" name="mobile" id="name">
                         </div>
-                        <div class="control-group span10">
-                            <label class="control-label">用户状态：</label>
-                            <div class="controls" >
-                                <select name="user_status" id="checkstatus">
-                                    <option value="">请选择</option>
-                                    <?php foreach (User::_get_user_status_list() as $key => $name): ?>
-                                        <option value="<?php echo $key ?>"><?php echo  $name ?></option>
-                                    <?php endforeach ?>
-                                </select>
-                            </div>
-                        </div>                </div>
-                <div class="row">
 
+                    </div>
                     <div class="control-group span16">
-                        <label class="control-label">时间范围：</label>
+                        <label class="control-label">注册时间：</label>
                         <div class="controls">
                             <input type="text" class="calendar calendar-time" name="uptimeStart"><span> - </span><input name="uptimeEnd" type="text" class="calendar calendar-time">
                         </div>
                     </div>
 
+                <div class="row">
+
                     <div class="control-group span10">
                         <button type="button" id="btnSearch" class="button button-primary"  onclick="searchUsers()">查询</button>
                     </div>
                 </div>
+
             </form>
         </div>
         <div class="bui-grid-tbar">
@@ -131,8 +123,8 @@ use common\models\User;
                     {title: '用户编号', dataIndex: 'uid', width: 80, elCls : 'center'},
                     {title: '手机号码', dataIndex: 'mobile', width: 120},
                     {title: '积分', dataIndex: 'points', width: 80, elCls : 'center'},
-                    {title: '用户状态', dataIndex: 'user_status', width: 80, elCls : 'center'},
-                    {title: '更新时间', dataIndex: 'update_at', width: 150, elCls : 'center'},
+                    {title: '注册时间', dataIndex: 'create_at', width: 150, elCls : 'center'},
+                    {title: '最近登录时间', dataIndex: 'login_at', width: 150, elCls : 'center'},
                     {
                         title: '操作',
                         width: 300,

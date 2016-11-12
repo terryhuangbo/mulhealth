@@ -32,35 +32,10 @@ use common\models\Activity;
         <div class="search-bar form-horizontal well">
             <form id="authsearch" class="form-horizontal">
 
+
                 <div class="row">
-                    <div class="control-group span12">
-                        <label class="control-label">活动：</label>
-                        <div class="controls" data-type="city">
-                            <select name="filtertype" id="filtertype">
-                                <option value="">请选择</option>
-                                <option value="1">活动注册ID</option>
-                                <option value="2">活动名称</option>
-                            </select>
-                        </div>
-                        <div class="controls">
-                            <input type="text" class="control-text" name="filtercontent" id="name">
-                        </div>
-                    </div>
-                    <div class="control-group span10">
-                        <label class="control-label">审核状态：</label>
-                        <div class="controls" >
-                            <select name="checkstatus" id="checkstatus">
-                                <option value="">请选择</option>
-                                <?php foreach ([] as $key => $name): ?>
-                                    <option value="<?= $key ?>"><?= $name ?></option>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="control-group span20">
-                        <label class="control-label">时间范围：</label>
+                    <div class="control-group span14">
+                        <label class="control-label">创建时间：</label>
                         <div class="controls">
                             <input type="text" class="calendar calendar-time" name="uptimeStart"><span> - </span><input name="uptimeEnd" type="text" class="calendar calendar-time">
                         </div>
