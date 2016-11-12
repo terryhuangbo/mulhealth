@@ -5,10 +5,10 @@ $(".rule").click(function () {
     $(".fixBg").show();
 });
 $("a.close").click(function () {
-   $(".fixBg").hide();
+    $(".fixBg").hide();
 });
-$(".hljs a,.lns a,.jls a").click(function () {
-   $(".fixBg").show();
+$(".brand").click(function () {
+    $(".fixBg").show();
 });
 function goBack() {
     window.history.back(-1);

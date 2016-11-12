@@ -41,7 +41,11 @@ class ActivityController extends BaseController
         $format = [
             'begin_end' => function($m){
                 return '开始-' . date('Y-m-d H:i:s', $m->begin_at) . '  截止-' . date('Y-m-d H:i:s', $m->begin_at);
-            }
+            },
+            'begin_end1' => function($m){
+                return date('Y-m-d', $m->begin_at) . ' - ' . date('Y-m-d', $m->begin_at);
+            },
+
         ];
         $format = array_merge($mdl->attributes(), $format);
         $activities = $mdl->getAll(['zone' => $zone, 'status' => Activity::STATUS_ON], 'list_order asc, id desc', 0, 10, $format);
@@ -65,7 +69,11 @@ class ActivityController extends BaseController
         $format = [
             'begin_end' => function($m){
                 return '开始-' . date('Y-m-d H:i:s', $m->begin_at) . '  截止-' . date('Y-m-d H:i:s', $m->begin_at);
-            }
+            },
+            'begin_end1' => function($m){
+                return date('Y-m-d', $m->begin_at) . ' - ' . date('Y-m-d', $m->begin_at);
+            },
+
         ];
         $format = array_merge($mdl->attributes(), $format);
         $activities = $mdl->getAll(['zone' => $zone, 'status' => Activity::STATUS_ON], 'list_order asc, id desc', 0, 9, $format);
@@ -88,7 +96,10 @@ class ActivityController extends BaseController
         $format = [
             'begin_end' => function($m){
                 return '开始-' . date('Y-m-d H:i:s', $m->begin_at) . '  截止-' . date('Y-m-d H:i:s', $m->begin_at);
-            }
+            },
+            'begin_end1' => function($m){
+                return date('Y-m-d', $m->begin_at) . ' - ' . date('Y-m-d', $m->begin_at);
+            },
         ];
         $format = array_merge($mdl->attributes(), $format);
         $activities = $mdl->getAll(['zone' => $zone, 'status' => Activity::STATUS_ON], 'list_order asc, id desc', 0, 6, $format);

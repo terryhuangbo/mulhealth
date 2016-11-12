@@ -12,8 +12,9 @@
 </head>
 <body>
 <section class="hljs">
+    <a href="http://game.zuikuh5.com/g/4993.html" target="_blank" class="btn"><img src="/images/hljBtn.png"></a>
     <?php foreach($activities as $k => $activity): ?>
-        <a  class="<?php echo $class_array[$k] ?>">
+        <a  class="<?php echo $class_array[$k] ?> brand">
             <img class="activityDetail" num="<?php echo $k ?>"  src="<?php echo yiiParams('img_host') . $activity['poster'] ?>">
         </a>
     <?php endforeach ?>
@@ -32,9 +33,9 @@
     <div class="pop">
         <a class="close"></a>
         <div class="title">
-            <img src="/images/drfLogo.png"/>
+            <img id="act_img" src="/images/drfLogo.png"/>
             <div class="line"></div>
-            <p>2016.11.16-2017.01.25</p>
+            <p id="begin-end">2016.11.16-2017.01.25</p>
         </div>
         <div class="actInfo">
             <ul>
@@ -73,7 +74,9 @@
             var dom = $(this);
             var num = parseInt(dom.attr('num'));
             var activities = <?php echo json_encode($activities) ?>;
+            $("#act_img").attr('src', '<?php echo yiiParams("img_host") ?>' + activities[num].poster);
             $("#act_day").text(activities[num].begin_end);
+            $("#begin-end").text(activities[num].begin_end1);
             $("#act_aims").text(activities[num].aims);
             $("#act_way").text(activities[num].way);
             $("#act_limitation").text(activities[num].limitation);
