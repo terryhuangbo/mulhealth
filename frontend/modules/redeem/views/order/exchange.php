@@ -8,6 +8,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta name="format-detection" content="telephone=no"/>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery-1.11.1.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/tools.js"></script>
     <title>确认订单</title>
 </head>
 <body>
@@ -25,42 +28,59 @@
         </div>
     </div>
     <div class="infoWrite">
-        <table>
-            <tr>
-                <td>收货人姓名</td>
-                <td><input/></td>
-            </tr>
-            <tr>
-                <td>收货人联系方式</td>
-                <td><input/></td>
-            </tr>
-            <tr>
-                <td>收货人所在地区</td>
-                <td>
-                    <select>
-                        <option value="1">黑龙江省</option>
-                        <option value="2">吉林省</option>
-                        <option value="3">辽宁省</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>手机号码服务商</td>
-                <td>
-                    <select>
-                        <option value="1">移动</option>
-                        <option value="2">联通</option>
-                        <option value="3">电信</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
+        <form id="exchange">
+            <table>
+                <tr>
+                    <td>收货人姓名</td>
+                    <td><input name="receiver_name" value=""/></td>
+                </tr>
+                <tr>
+                    <td>收货人联系方式</td>
+                    <td><input name="receiver_mobile" value=""/></td>
+                </tr>
+                <tr>
+                    <td>收货人所在地区</td>
+                    <td>
+                        <select name="receiver_province">
+                            <?php foreach($provinces as $p): ?>
+                                <option value="<?php echo $p['id'] ?>"><?php echo $p['name'] ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>手机号码服务商</td>
+                    <td>
+                        <select name="receiver_service">
+                            <?php foreach($mobileService as $k => $p): ?>
+                                <option value="<?php echo $k ?>"><?php echo $p ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" name="gid" value="<?php echo $gid ?>">
+        </form>
     </div>
     <div class="confirm">
-        <a href="">立即兑换</a>
+        <a href="javaScript:void(0)">立即兑换</a>
     </div>
 </section>
 </body>
-<script src="/js/jquery-1.11.1.min.js"></script>
-<script src="/js/main.js"></script>
+<script>
+    $(".confirm").on('click', function(){
+        var param = $._get_form_json('#exchange');
+        param._csrf = '<?php echo Yii::$app->request->csrfToken ?>';
+        console.log(param);
+        var url = '<?php echo yiiUrl("redeem/order/confirm-exchange") ?>';
+        $._ajax(url, param, 'POST', 'JSON', function(json){
+            if(json.code > 0){
+
+            }else{
+                alert(json.msg);
+            }
+        });
+    });
+</script>
+
 </html>

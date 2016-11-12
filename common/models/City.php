@@ -5,6 +5,7 @@ namespace common\models;
 use common\base\BaseModel;
 use Yii;
 use common\lib\Category;
+use yii\caching\Cache;
 
 /**
  * This is the model class for table "{{%city}}".
@@ -124,5 +125,24 @@ class City extends BaseModel
             ->asArray(true)
             ->all();
     }
+
+    /**
+     * 获取所有省
+     * @return array
+     */
+    public function getProvinces(){
+        $cache = Yii::$app->cache;
+        if ($cache instanceof Cache && ($provinces = $cache->get(['all_province'])) != false)
+        {
+            return $provinces;
+        }
+        $provinces = (new static)->_get_list(['pid' => 0]);
+        if ($cache instanceof Cache )
+        {
+            $cache->set(['all_province'], $provinces, 30*24*24*3600);
+        }
+        return $provinces;
+    }
+
 
 }

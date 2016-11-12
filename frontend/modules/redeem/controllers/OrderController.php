@@ -3,6 +3,7 @@
 namespace frontend\modules\redeem\controllers;
 
 use common\models\CartGoods;
+use common\models\City;
 use common\models\Order;
 use Yii;
 use app\base\BaseController;
@@ -15,7 +16,7 @@ class OrderController extends BaseController
 {
 
     public $layout = 'layout';
-    public $enableCsrfValidation = false;
+    public $enableCsrfValidation = true;
 
 
     /**
@@ -112,10 +113,34 @@ class OrderController extends BaseController
         if(empty($gid)){
             $this->_json(-20001, '您没有选择任何订单');
         }
+        $cityMdl = new City();
+        $provinces = $cityMdl->getProvinces();
         $_data = [
-
+            'provinces' => $provinces,
+            'gid' => $gid,
+            'mobileService' => yiiParams('mobileService'),
         ];
         return $this->render('exchange', $_data);
+    }
+
+    /**
+     * 兑换信息页面
+     * @return type
+     */
+    public function actionConfirmExchange()
+    {
+        $form = Yii::$app->request->post();
+        $form['uid'] = $this->uid;
+        $order = new Order();
+        $order->setAttributes($form);
+        if(!$order->validate()){
+            $this->_json(-40301, reset($order->getFirstErrors()));
+        }
+        $ret = $order->save(false);
+        if($ret['code'] < 0){
+            $this->_json(-50001, $ret['msg']);
+        }
+        return Yii::$app->response->redirect(['redeem/my/order']);
     }
 
 

@@ -14,5 +14,11 @@ return [
     //图片访问域名
     'img_host' => 'http://www.redeem_back.com',
 
+    //手机号码服务商
+    'mobileService' => [
+        '1' => '移动',
+        '2' => '联通',
+        '3' => '电信',
+    ],
 
 ];

@@ -8,6 +8,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta name="format-detection" content="telephone=no"/>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery-1.11.1.min.js"></script>
+    <script src="/js/main.js"></script>
     <title>我的兑换记录</title>
 </head>
 <body>
@@ -16,41 +18,20 @@
     <p>我的兑换记录</p>
 </section>
 <section class="record">
-    <div class="recordList">
-        <p class="fl">订单编号:00001234</p>
-        <p class="fr">交易时间：2015/11/08</p>
-        <table>
-            <tr>
-                <td><img src="/images/20.png"/> </td>
-                <td>价值20元 手机充值卡 </td>
-                <td><span>999</span>积分 </td>
-            </tr>
-        </table>
-    </div>
-    <div class="recordList">
-        <p class="fl">订单编号:00001234</p>
-        <p class="fr">交易时间：2015/11/08</p>
-        <table>
-            <tr>
-                <td><img src="/images/20.png"/> </td>
-                <td>价值20元 手机充值卡 </td>
-                <td><span>999</span>积分 </td>
-            </tr>
-        </table>
-    </div>
-    <div class="recordList">
-        <p class="fl">订单编号:00001234</p>
-        <p class="fr">交易时间：2015/11/08</p>
-        <table>
-            <tr>
-                <td><img src="/images/20.png"/> </td>
-                <td>价值20元 手机充值卡 </td>
-                <td><span>999</span>积分 </td>
-            </tr>
-        </table>
-    </div>
+    <?php foreach($order_list as $order): ?>
+        <div class="recordList">
+            <p class="fl">订单编号:<?php echo $order['order_id'] ?></p>
+            <p class="fr">交易时间：<?php echo date('Y/m/d', $order['create_at']) ?></p>
+            <table>
+                <tr>
+                    <td><img src="<?php echo yiiParams('img_host') . $order['goods']['thumb'] ?>"/> </td>
+                    <td><?php echo $order['goods']['description'] ?></td>
+                    <td><span><?php echo $order['goods']['redeem_pionts'] ?></span>积分 </td>
+                </tr>
+            </table>
+        </div>
+    <?php endforeach ?>
 </section>
 </body>
-<script src="/js/jquery-1.11.1.min.js"></script>
-<script src="/js/main.js"></script>
+
 </html>

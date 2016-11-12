@@ -3,9 +3,10 @@
 namespace common\models;
 
 use common\base\BaseModel;
+use common\lib\RegexValidator;
+use common\lib\Tools;
 use Yii;
 use yii\db\Exception;
-use common\models\Address;
 
 /**
  * This is the model class for table "{{%order}}".
@@ -16,6 +17,10 @@ use common\models\Address;
  * @property integer $uid
  * @property string $goods_id
  * @property string $goods_name
+ * @property string $receiver_name
+ * @property string $receiver_mobile
+ * @property integer $receiver_province
+ * @property integer $receiver_service
  * @property string $points_cost
  * @property integer $order_status
  * @property integer $count
@@ -67,12 +72,20 @@ class Order extends BaseModel
     public function rules()
     {
         return [
-            [['gid', 'uid', 'order_status', 'points_cost', 'count', 'add_id', 'is_deleted', 'update_at', 'create_at'], 'integer'],
-            [['goods_id'], 'string', 'max' => 40],
-            [['express_type'], 'string', 'max' => 20],
-            [['express_num'], 'string', 'max' => 30],
-            [['goods_name', 'order_id'], 'string', 'max' => 50],
-            [['create_at'], 'default', 'value' => time()],
+            [['gid', 'uid', 'order_status', 'points_cost', 'count', 'is_deleted', 'update_at', 'create_at'], 'integer'],
+            [['uid', 'gid', 'receiver_name', 'receiver_mobile'], 'required'],
+            //用户必须存在
+            ['uid', 'exist', 'targetClass' => User::className(), 'targetAttribute' => 'uid', 'message' => '用户必须存在'],
+            //商品必须存在
+            ['gid', 'exist', 'targetClass' => Goods::className(), 'targetAttribute' => 'gid', 'message' => '商品必须存在'],
+            //接收人姓名
+            ['receiver_name', 'string', 'max' => 50, 'min' => 1, 'tooShort' => '接收人姓名不能为空', 'tooLong' => '接收人姓名太长'],
+            //接收人手机号
+            ['receiver_mobile', RegexValidator::className(), 'method' => 'mobile', 'message' => '接收人手机号不正确'],
+            //接收人省份
+            ['receiver_province', 'required', 'message' => '接收人地区不能为空'],
+            //手机号码服务商
+            ['receiver_service', 'in', 'range' => array_keys(yiiParams('mobileService')), 'message' => '手机号码服务商不正确'],
         ];
     }
 
@@ -88,6 +101,10 @@ class Order extends BaseModel
             'uid' => '用户ID',
             'goods_id' => '商品编号',
             'goods_name' => '商品名称',
+            'receiver_name' => '收货人姓名',
+            'receiver_mobile' => '收货人联系方式',
+            'receiver_province' => '收货人所在地区',
+            'receiver_service' => '手机号码服务商',
             'points_cost' => '所需积分',
             'order_status' => '订单状态（1-待付款；2-待发货；3-待收货；4-已完成；5-已撤销；6-待评论）',
             'count' => '商品数量',
@@ -281,180 +298,6 @@ class Order extends BaseModel
     }
 
     /**
-     * 生成商品id
-     * @return sting
-     */
-    private static function _gen_order_id(){
-        return date('YmdHis', time()) . substr(md5(microtime() . rand(0, 10000)), 0, 7);
-    }
-
-    /**
-     * 添加订单
-     * @param $gids array
-     * @param $uid int
-     * @return array|boolean
-     */
-    public function _add_orders($uid, $gids) {
-        //参数验证
-        if(empty($uid) ||empty($gids)){
-            return ['code' => -20002, 'msg' => '参数不合法'];
-        }
-        $u_mdl = new User();
-        $cg_mdl = new CartGoods();
-        $ad_mdl = new Address();
-        $r_mdl = new self();
-
-        //积分数是否足够
-        $user = $u_mdl->_get_info(['uid' => $uid]);
-        $points = $user['points'];
-        $total_points = 0;
-        $list = $cg_mdl->_get_list_all(['in' , 'id', $gids]);
-        if($list){
-            foreach($list as $val){
-                $total_points += $val['count'] * getValue($val, 'goods.redeem_pionts', 0);
-            }
-        }
-        if($points < $total_points){
-            return ['code' => -20003, 'msg' => '您的积分数量不够'];
-        }
-
-        //获取默认地址
-        $add_id_default = Address::find()->select('add_id')->where(['uid' => $uid, 'is_default' => Address::DEFAULT_YES])->scalar();
-        $add_id_al = Address::find()->select('add_id')->where(['uid' => $uid])->scalar();
-        $add_id = $add_id_default;
-        if(empty($add_id)){
-            $add_id = $add_id_default;
-        }
-        if(empty($add_id)){
-            $add_id = $add_id_al;
-        }
-        if(empty($add_id)){
-//            return ['code' => -20004, 'msg' => '您还没有添加地址'];
-            $add_id = 0;
-        }
-
-
-        //开启事务
-        $transaction = yii::$app->db->beginTransaction();
-        try {
-
-            foreach($gids as $key => $cg_id){
-                //生成订单
-                $good = $cg_mdl->_get_info_all([$cg_mdl::tableName() . '.id' => $cg_id]);
-                if(!$good){
-                    $transaction->rollBack();
-                    throw new Exception('商品信息不存在或者已经下架');
-                }
-                $cost_points =  $good['count'] * getValue($good, 'goods.redeem_pionts', 0);
-                $_data = [
-                    'order_id' => $r_mdl::_gen_order_id(),
-                    'gid' => $good['gid'],
-                    'uid' => $uid,
-                    'goods_id' => getValue($good, 'goods.goods_id', ''),
-                    'goods_name' => getValue($good, 'goods.name', ''),
-                    'count' => $good['count'],
-                    'add_id' => $add_id,
-                    'points_cost' => $cost_points,
-                    'order_status' => self::STATUS_PAY,
-                    'update_at' => time(),
-                ];
-                $ret = $r_mdl->_save($_data);
-                if(!$ret){
-                    $transaction->rollBack();
-                    throw new Exception('生成订单失败');
-                }
-            }
-
-            //删除购物车相应商品
-            $ret = $cg_mdl->_delete(['in', 'id', $gids]);
-            if($ret === false){
-                $transaction->rollBack();
-                throw new Exception('购物车更新失败');
-            }
-
-            //执行
-            $transaction->commit();
-
-            return ['code' => 20000, 'msg' => '保存成功！', 'data' => ['uid' => $uid]];
-
-        } catch (Exception $e) {
-            $transaction->rollBack();
-            return ['code' => -20000, 'msg' => $e->getMessage()];
-        }
-    }
-
-    /**
-     * 支付订单
-     * @param $uid int
-     * @param $oids array
-     * @return array|boolean
-     */
-    public function _pay_orders($uid, $oids) {
-        //参数验证
-        if(empty($uid) ||empty($oids)){
-            return ['code' => -20002, 'msg' => '参数不合法'];
-        }
-        $u_mdl = new User();
-        $p_mdl = new Points();
-        $r_mdl = new self();
-
-        //积分数是否足够
-        $user = $u_mdl->_get_info(['uid' => $uid]);
-        $points = $user['points'];
-        $total_points = 0;
-        $list = $r_mdl->_get_list(['in' , 'oid', $oids]);
-        if($list){
-            foreach($list as $val){
-                $total_points += $val['points_cost'];
-            }
-        }
-        if($points < $total_points){
-            return ['code' => -20003, 'msg' => '您的积分数量不够'];
-        }
-
-        //开启事务
-        $transaction = yii::$app->db->beginTransaction();
-        try {
-
-            foreach($oids as $key => $oid){
-                //支付订单，只能是未支付的订单，及其重要
-                $ord = $r_mdl->_get_info(['oid' => $oid, 'order_status' => self::STATUS_PAY]);
-                if(!$ord){
-                    $transaction->rollBack();
-                    throw new Exception('订单不存在或者已经支付过了');
-                }
-                $_data = [
-                    'oid' => $ord['oid'],
-                    'order_status' => self::STATUS_SEND,
-                    'update_at' => time(),
-                ];
-                $ret = $r_mdl->_save($_data);
-                if(!$ret){
-                    $transaction->rollBack();
-                    throw new Exception('订单状态修改失败');
-                }
-
-                //更新积分，生成记录
-                $res = $p_mdl->_dec_points($uid, $ord['points_cost']);
-                if($res['code'] < 0){
-                    $transaction->rollBack();
-                    throw new Exception($res['msg']);
-                }
-            }
-
-            //执行
-            $transaction->commit();
-
-            return ['code' => 20000, 'msg' => '保存成功！', 'data' => ['uid' => $uid]];
-
-        } catch (Exception $e) {
-            $transaction->rollBack();
-            return ['code' => -20000, 'msg' => $e->getMessage()];
-        }
-    }
-
-
-    /**
      * 订单状态
      * @param $status int
      * @return array|boolean
@@ -501,6 +344,83 @@ class Order extends BaseModel
         $statusArr[self::STATUS_COMMENT] = '待评论';
 
         return $statusArr;
+    }
+
+    /**
+     * 生成财务数据
+     * @inheritdoc
+     */
+    public function beforeSave($insert) {
+        if(parent::beforeSave($insert)){
+            if($insert){
+                //订单编号
+                $this->order_id = $this->genOrderBn();
+                //用户扣积分
+                if ($this->goods->redeem_pionts > $this->user->points)
+                {
+                    throw new Exception('用户积分不足');
+                }
+                //商品已经下架
+                if ($this->goods->goods_status !== Goods::STATUS_UPSHELF)
+                {
+//                    throw new Exception('商品已经下架');
+                }
+
+            }else{//更新操作
+
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 生成财务数据
+     * @inheritdoc
+     */
+    public function afterSave($insert, $changedAttributes) {
+        parent::afterSave($insert, $changedAttributes);
+
+        if($insert)//新增记录
+        {
+            //用户
+            $user = $this->user;
+            //商品
+            $goods = $this->goods;
+            //用户扣积分
+            if ($goods->redeem_pionts > $user->points)
+            {
+                throw new Exception('用户积分不足');
+            }
+            $user->points -= $goods->redeem_pionts;
+            if ($user->save()['code'] < 0)
+            {
+                throw new Exception('用户扣积分失败');
+            }
+            //商品下架
+            $goods->goods_status = Goods::STATUS_OFFSHELF;
+            if ($goods->save()['code'] < 0)
+            {
+                throw new Exception('商品状态更新失败');
+            }
+
+        }else{//更新订单
+
+        }
+    }
+
+    /**
+     * 生成唯一订单编号，格式为BD-V-XXXXX  XXXXX为大写字母和数字的组合
+     * @return string
+     */
+    protected function genOrderBn() {
+        $len = 8;
+        $rand_bn = date('YmdHis', time()) . Tools::genUpcharNum($len);
+        $exist = static::find()->where(['order_id' => $rand_bn])->exists();
+        if($exist){
+            $this->genOrderBn();
+        }
+        return $rand_bn;
     }
 
 
