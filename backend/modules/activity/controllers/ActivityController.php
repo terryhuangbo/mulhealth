@@ -5,7 +5,7 @@ namespace backend\modules\activity\controllers;
 use Yii;
 use yii\helpers\ArrayHelper;
 use app\base\BaseController;
-use common\models\Goods;
+use common\models\Activity;
 use common\models\City;
 use app\modules\team\models\Team;
 
@@ -61,7 +61,7 @@ class ActivityController extends BaseController
         if ($this->isGet()) {
             return $this->render('list');
         }
-        $mdl = new Goods();
+        $mdl = new Activity();
         $query = $mdl::find();
         $search = $this->_request('search');
         $page = $this->_request('page', 0);
@@ -104,8 +104,12 @@ class ActivityController extends BaseController
             }
         }
         //只能是上架，或者下架的产品
-        $query->andWhere(['in', 'goods_status', [$mdl::STATUS_UPSHELF, $mdl::STATUS_OFFSHELF]]);
-        $_order_by = 'gid DESC';
+        $query->andWhere(['in', 'status', [$mdl::STATUS_ON, $mdl::STATUS_OFF]]);
+        //必须在活动期以内
+//        $query->andWhere(['<', 'begin_at', time()]);
+//        $query->andWhere(['>', 'end_at', time()]);
+
+        $_order_by = 'list_order ASC,id DESC';
         $query_count = clone($query);
         $userArr = $query
             ->offset($offset)
@@ -113,34 +117,38 @@ class ActivityController extends BaseController
             ->orderby($_order_by)
             ->all();
         $count = $query_count->count();
-        $goodsList = ArrayHelper::toArray($userArr, [
-            'common\models\Goods' => [
-                'gid',
-                'goods_id',
-                'name',
-                'thumb',
-                'description',
-                'redeem_pionts',
-                'goods_status',
+        $activityList = ArrayHelper::toArray($userArr, [
+            'common\models\Activity' => [
+                'id',
+                'poster',
+                'list_order',
+                'aims',
+                'way',
+                'limitation',
+                'details',
+                'status',
+                'zone' => function ($m) {
+                    return yiiParams('activityZone')[$m->zone];
+                },
                 'status_name' => function ($m) {
-                    return Goods::_get_goods_status($m->goods_status);
-                },
-                'inputer' => function ($m) {
-                    return '录入人';
-                },
-                'checker' => function ($m) {
-                    return '审核人';
+                    return Activity::getActivityStatus($m->status);
                 },
                 'create_at' => function ($m) {
                     return date('Y-m-d h:i:s', $m->create_at);
                 },
+                'begin_at' => function ($m) {
+                    return date('Y-m-d h:i:s', $m->begin_at);
+                },
+                'end_at' => function ($m) {
+                    return date('Y-m-d h:i:s', $m->end_at);
+                },
             ],
         ]);
         $_data = [
-            'goodsList' => $goodsList,
+            'activityList' => $activityList,
             'totalCount' => $count
         ];
-        exit(json_encode($_data));
+        return json_encode($_data);
     }
 
     /**
@@ -150,15 +158,28 @@ class ActivityController extends BaseController
     function actionAdd()
     {
         if(!$this->isAjax()){
-            return $this->render('add');
+            $_data = [
+                'zoneList' => yiiParams('activityZone'),
+            ];
+            return $this->render('add', $_data);
         }
-        $goods = $this->_request('goods', []);
-        if(isset($goods['gid'])){
-            unset($goods['gid']);
+        $activity = $this->_request('activity', []);
+        $activity['begin_at'] = strtotime(getValue($activity, 'begin_at', ''));
+        $activity['end_at'] = strtotime(getValue($activity, 'end_at', ''));
+
+
+        $mdl = new Activity();
+        $mdl->setAttributes($activity);
+        if (!$mdl->validate())
+        {
+            $this->_json(-40304, reset($mdl->getFirstErrors()));
         }
-        $mdl = new Goods();
-        $res = $mdl->_save_goods($goods);
-        $this->_json($res['code'], $res['msg']);
+        if (!$mdl->save(false))
+        {
+            $this->_json(-50001, '添加失败');
+        }
+
+        $this->_json(20000, '添加成功');
     }
 
     /**
@@ -167,33 +188,40 @@ class ActivityController extends BaseController
      */
     function actionUpdate()
     {
-        $gid = intval($this->_request('gid'));
-        $goods_info = $this->_request('goods', []);
+        $id = intval($this->_request('id'));
+        $activity_info = $this->_request('activity', []);
 
-        $mdl = new Goods();
         //检验参数是否合法
-        if (empty($gid)) {
-            $this->_json(-20001, '商品序号gid不能为空');
+        if (empty($id)) {
+            $this->_json(-20001, '商品序号id不能为空');
         }
-
         //检验商品是否存在
-        $goods = $mdl->_get_info(['gid' => $gid]);
-        if (!$goods) {
+        $activity = Activity::findOne($id);
+        if (!$activity) {
             $this->_json(-20002, '商品信息不存在');
         }
 
         //加载
         if(!$this->isAjax()){
             $_data = [
-                'goods' => $goods
+                'activity' => $activity->toArray(),
+                'zoneList' => yiiParams('activityZone'),
             ];
             return $this->render('update', $_data);
         }
-
         //保存
-        $goods_info['gid'] = $gid;
-        $res = $mdl->_save_goods($goods_info);
-        $this->_json($res['code'], $res['msg']);
+        $activity_info['begin_at'] = strtotime(getValue($activity_info, 'begin_at', ''));
+        $activity_info['end_at'] = strtotime(getValue($activity_info, 'end_at', ''));
+        $activity->setAttributes($activity_info);
+        if (!$activity->validate())
+        {
+            $this->_json(-40304, reset($activity->getFirstErrors()));
+        }
+        if (!$activity->save(false))
+        {
+            $this->_json(-50001, '添加失败');
+        }
+        $this->_json(20000, '保存成功');
     }
 
     /**
@@ -202,30 +230,28 @@ class ActivityController extends BaseController
      */
     function actionAjaxChangeStatus()
     {
-        $gid = intval($this->_request('gid'));
-        $goods_status = $this->_request('goods_status');
+        $id = intval($this->_request('id'));
+        $status = intval($this->_request('status'));
 
-        $mdl = new Goods();
         //检验参数是否合法
-        if (empty($gid)) {
-            $this->_json(-20001, '商品序号gid不能为空');
-        }
-        if(!in_array($goods_status, [$mdl::STATUS_OFFSHELF, $mdl::STATUS_UPSHELF, $mdl::STATUS_DELETE])){
-            $this->_json(-20002, '商品状态不正确');
+        if (empty($id)) {
+            $this->_json(-20001, '活动id不能为空');
         }
 
-        //检验商品是否存在
-        $goods = $mdl->_get_info(['gid' => $gid]);
-        if (!$goods) {
-            $this->_json(-20003, '商品信息不存在');
+        $activity = Activity::findOne($id);
+        if (empty($activity)) {
+            $this->_json(-20002, '活动不能为空');
         }
 
-        $res = $mdl->_save([
-            'gid' => $gid,
-            'goods_status' => $goods_status,
-        ]);
-        if(!$res){
-            $this->_json(-20003, '商品状态修改失败');
+        //保持状态
+        $activity->status = $status;
+        if (!$activity->validate(['status']))
+        {
+            $this->_json(-40304, reset($activity->getFirstErrors()));
+        }
+        if (!$activity->save(false))
+        {
+            $this->_json(-50001, '添加失败');
         }
         $this->_json(20000, '保存成功');
     }

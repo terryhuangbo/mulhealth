@@ -213,8 +213,8 @@ class IndexController extends Controller
         $menu[] = [
             'top' => ['活动管理' => 'home'],
             '活动管理' => [
-                ['商品列表' => 'activity/activity/list'],
-                ['添加商品' => 'activity/activity/add'],
+                ['活动列表' => 'activity/activity/list'],
+                ['添加活动' => 'activity/activity/add'],
             ],
         ];
 

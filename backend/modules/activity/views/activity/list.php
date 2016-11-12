@@ -1,11 +1,11 @@
 <?php
-use yii\helpers\Html;
+use common\models\Activity;
 ?>
 <!doctype html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>商品列表</title>
+    <title>活动列表</title>
     <link href="/css/dpl.css" rel="stylesheet">
     <link href="/css/bui.css" rel="stylesheet">
     <link href="/css/page-min.css" rel="stylesheet">
@@ -22,7 +22,7 @@ use yii\helpers\Html;
         }
     </style>
     <script>
-        _BASE_LIST_URL =  "<?php echo yiiUrl('goods/goods/list') ?>";
+        _BASE_LIST_URL =  "<?php echo yiiUrl('activity/activity/list') ?>";
     </script>
 </head>
 
@@ -34,12 +34,12 @@ use yii\helpers\Html;
 
                 <div class="row">
                     <div class="control-group span12">
-                        <label class="control-label">商品：</label>
+                        <label class="control-label">活动：</label>
                         <div class="controls" data-type="city">
                             <select name="filtertype" id="filtertype">
                                 <option value="">请选择</option>
-                                <option value="1">商品注册ID</option>
-                                <option value="2">商品名称</option>
+                                <option value="1">活动注册ID</option>
+                                <option value="2">活动名称</option>
                             </select>
                         </div>
                         <div class="controls">
@@ -67,7 +67,7 @@ use yii\helpers\Html;
                     </div>
                     <div class="row">
                         <div class="control-group span10">
-                            <button type="button" id="btnSearch" class="button button-primary"  onclick="searchGoods()">查询</button>
+                            <button type="button" id="btnSearch" class="button button-primary"  onclick="searchActivity()">查询</button>
                         </div>
                     </div>
                 </div>
@@ -76,7 +76,7 @@ use yii\helpers\Html;
         </div>
         <div class="bui-grid-tbar">
         </div>
-        <div id="goods_grid">
+        <div id="activity_grid">
         </div>
     </div>
 </div>
@@ -129,41 +129,43 @@ use yii\helpers\Html;
                 autoLoad: true, //自动加载数据
                 params: {
                 },
-                root: 'goodsList',//数据返回字段,支持深成次属性root : 'data.records',
+                root: 'activityList',//数据返回字段,支持深成次属性root : 'data.records',
                 totalProperty: 'totalCount',//总计字段
                 pageSize: 10// 配置分页数目,
             });
             var grid = new Grid.Grid({
-                render: '#goods_grid',
+                render: '#activity_grid',
                 idField: 'id', //自定义选项 id 字段
                 selectedEvent: 'click',
                 columns: [
-                    {title: '商品序号', dataIndex: 'gid', width: 80, elCls : 'center'},
-                    {title: '商品编号', dataIndex: 'goods_id', width: 150, elCls : 'center'},
-                    {title: '商品名称', dataIndex: 'name', width: 90, elCls : 'center',},
+                    {title: '活动序号', dataIndex: 'id', width: 80, elCls : 'center'},
+                    {title: '活动区域', dataIndex: 'zone', width: 90, elCls : 'center'},
                     {
-                        title: '缩略图',
+                        title: '活动图片',
                         width: 140,
                         elCls : 'center',
                         renderer: function (v, obj) {
-                            return "<img class='user_avatar' src='"+ obj.thumb +"'>";
+                            return "<img class='user_avatar' src='"+ obj.poster +"'>";
                         }
                     },
-                    {title: '兑换积分', dataIndex: 'redeem_pionts', width: 80, elCls : 'center'},
-                    {title: '商品状态', dataIndex: 'status_name', width: 80, elCls : 'center'},
+                    {title: '排序', dataIndex: 'list_order', width: 80, elCls : 'center'},
+                    {title: '活动对象', dataIndex: 'aims', width: 80, elCls : 'center'},
+                    {title: '活动方式', dataIndex: 'way', width: 80, elCls : 'center'},
+                    {title: '限额说明', dataIndex: 'limitation', width: 80, elCls : 'center'},
+                    {title: '活动状态', dataIndex: 'status_name', width: 80, elCls : 'center'},
+                    {title: '活动开始', dataIndex: 'begin_at', width: 150, elCls : 'center'},
+                    {title: '活动结束', dataIndex: 'end_at', width: 150, elCls : 'center'},
                     {title: '创建时间', dataIndex: 'create_at', width: 150, elCls : 'center'},
                     {
                         title: '操作',
                         width: 300,
                         renderer: function (v, obj) {
-                            if(obj.goods_status == 1){
-                                return "<a class='button button-primary page-action' title='编辑商品' href='/goods/goods/update/?gid="+ obj.gid +"' data-href='/goods/goods/update/?gid="+ obj.gid +"' >编辑</a>" +
-                                " <a class='button button-primary' onclick='offShelf(" + obj.gid + ")'>下架</a>"+
-                                " <a class='button button-danger' onclick='del(" + obj.gid + ")'>删除</a>";
-                            }else if(obj.goods_status == 2){
-                                return "<a class='button button-primary page-action' title='编辑商品信息' data-href='/goods/goods/update/?gid="+ obj.gid +"' >编辑</a>" +
-                                " <a class='button button-primary' onclick='upShelf(" + obj.gid + ")'>上架</a>"+
-                                " <a class='button button-danger' onclick='del(" + obj.gid + ")'>删除</a>";
+                            if(obj.status == <?php echo Activity::STATUS_ON ?>){
+                                return "<a class='button button-primary page-action' title='编辑活动' href='/activity/activity/update/?id="+ obj.id +"' data-href='/activity/activity/update/?id="+ obj.id +"' >编辑</a>" +
+                                " <a class='button button-danger' onclick='offShelf(" + obj.id + ")'>下架</a>";
+                            }else if(obj.status == <?php echo Activity::STATUS_OFF ?>){
+                                return "<a class='button button-primary page-action' title='编辑活动信息' data-href='/activity/activity/update/?id="+ obj.id +"' >编辑</a>" +
+                                " <a class='button button-success' onclick='upShelf(" + obj.id + ")'>上架</a>";
                             }
                         }
                     }
@@ -178,7 +180,7 @@ use yii\helpers\Html;
                 plugins: Grid.Plugins.CheckSelection,// 插件形式引入多选表格
             });
             grid.render();
-            $("#goods_grid").data("BGrid", grid);
+            $("#activity_grid").data("BGrid", grid);
 
         });
 
@@ -187,9 +189,9 @@ use yii\helpers\Html;
 
 <script>
 /**
- * 搜索商品,刷新列表
+ * 搜索活动,刷新列表
  */
-function searchGoods() {
+function searchActivity() {
     var search = {};
     var fields = $("#authsearch").serializeArray();//获取表单信息
     jQuery.each(fields, function (i, field) {
@@ -197,7 +199,7 @@ function searchGoods() {
             search[field.name] = field.value;
         }
     });
-    var store = $("#goods_grid").data("BGrid").get('store');
+    var store = $("#activity_grid").data("BGrid").get('store');
     var lastParams = store.get("lastParams");
     lastParams.search = search;
     store.load(lastParams);//刷新
@@ -205,7 +207,7 @@ function searchGoods() {
 /**
  * 获取过滤项
  */
-function getGoodsGridSearchConditions() {
+function getActivityGridSearchConditions() {
     var search = {};
     var upusername = $("#upusername").val();
     if (upusername != "") {
@@ -219,9 +221,9 @@ function getGoodsGridSearchConditions() {
 }
 
 /**
- * 显示商品详情
+ * 显示活动详情
  */
-function showCheckInfo(gid) {
+function showCheckInfo(id) {
     var width = 700;
     var height = 450;
     var Overlay = BUI.Overlay;
@@ -236,32 +238,32 @@ function showCheckInfo(gid) {
         },
     ];
     dialog = new Overlay.Dialog({
-        title: '商品信息',
+        title: '活动信息',
         width: width,
         height: height,
         closeAction: 'destroy',
         loader: {
             url: "/auth/auth/info",
             autoLoad: true, //不自动加载
-            params: {gid: gid},//附加的参数
+            params: {id: id},//附加的参数
             lazyLoad: false, //不延迟加载
         },
         buttons: buttons,
         mask: false
     });
     dialog.show();
-    dialog.get('loader').load({gid: gid});
+    dialog.get('loader').load({id: id});
 }
 
 
 /**
  * 上架
  */
-function upShelf(gid) {
-    ajax_change_status(gid, 1, function(json){
+function upShelf(id) {
+    ajax_change_status(id, 1, function(json){
         if(json.code > 0){
             BUI.Message.Alert(json.msg, function(){
-                window.location.href = '/goods/goods/list';
+                window.location.href = '/activity/activity/list';
             }, 'success');
         }else{
             BUI.Message.Alert(json.msg, 'error');
@@ -272,11 +274,11 @@ function upShelf(gid) {
 /**
  * 下架
  */
-function offShelf(gid) {
-    ajax_change_status(gid, 2, function(json){
+function offShelf(id) {
+    ajax_change_status(id, 2, function(json){
         if(json.code > 0){
             BUI.Message.Alert(json.msg, function(){
-                window.location.href = '/goods/goods/list';
+                window.location.href = '/activity/activity/list';
             }, 'success');
         }else{
             BUI.Message.Alert(json.msg, 'error');
@@ -287,12 +289,12 @@ function offShelf(gid) {
 /**
  *删除
  */
-function del(gid) {
+function del(id) {
     BUI.Message.Confirm('您确定要删除？', function(){
-        ajax_change_status(gid, 3, function(json){
+        ajax_change_status(id, 3, function(json){
             if(json.code > 0){
                 BUI.Message.Alert(json.msg, function(){
-                    window.location.href = '/goods/goods/list';
+                    window.location.href = '/activity/activity/list';
                 }, 'success');
             }else{
                 BUI.Message.Alert(json.msg, 'error');
@@ -302,13 +304,13 @@ function del(gid) {
 }
 
 /**
- *改变商品状态
+ *改变活动状态
  */
-function ajax_change_status(gid, status, callback){
+function ajax_change_status(id, status, callback){
     var param = param || {};
-    param.gid = gid;
-    param.goods_status = status;
-    $._ajax('<?php echo yiiUrl('goods/goods/ajax-change-status') ?>', param, 'POST','JSON', function(json){
+    param.id = id;
+    param.status = status;
+    $._ajax('<?php echo yiiUrl('activity/activity/ajax-change-status') ?>', param, 'POST','JSON', function(json){
         if(typeof callback == 'function'){
             callback(json);
         }

@@ -170,7 +170,7 @@ class BaseController extends Controller
             'code' => $code,
             'msg' => $msg,
             'data' => $data,
-            'request_ip' => Tools::_get_ip(),
+            'request_ip' => Tools::getIp(),
         ];
 
         if (empty($code) && $code != 0) {

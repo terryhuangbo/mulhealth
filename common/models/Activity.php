@@ -18,11 +18,18 @@ use Yii;
  * @property string $way
  * @property string $limitation
  * @property string $details
+ * @property integer $status
  * @property string $create_at
  * @property string $update_at
  */
 class Activity extends BaseModel
 {
+    /**
+     * 活动状态
+     */
+    const STATUS_ON  = 1;//上线
+    const STATUS_OFF = 2;//下线
+
     /**
      * @inheritdoc
      */
@@ -46,6 +53,9 @@ class Activity extends BaseModel
             ['begin_at', 'compare', 'compareAttribute' => 'end_at', 'operator' => '<', 'message' => '开始时间必须小于结束时间'],
             //活动区域
             ['zone', 'in', 'range' => array_keys(yiiParams('activityZone')), 'message' => '活动区域不正确'],
+            //活动状态
+            ['status', 'in', 'range' => [self::STATUS_ON, self::STATUS_OFF], 'message' => '活动状态不正确'],
+
         ];
     }
 
@@ -65,9 +75,22 @@ class Activity extends BaseModel
             'way' => '活动形式',
             'limitation' => '限额说明',
             'details' => '活动细则',
+            'status' => '活动状态(1-上线；2-下线)',
             'create_at' => '创建时间',
             'update_at' => '更新时间',
         ];
+    }
+
+    /**
+     * 活动状态列表
+     * @return array|boolean
+     */
+    public static function getActivityStatus($status = null){
+        $statusArr = [
+            self::STATUS_ON     => '上线',
+            self::STATUS_OFF      => '下线',
+        ];
+        return is_null($status) ? $statusArr : (isset($statusArr[$status]) ? $statusArr[$status] : '');
     }
 
 

@@ -1,11 +1,10 @@
 <?php
-use yii\helpers\Html;
 ?>
 <!doctype html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>添加商品</title>
+    <title>添加活动</title>
 
     <link href="/css/dpl.css" rel="stylesheet">
     <link href="/css/bui.css" rel="stylesheet">
@@ -34,12 +33,12 @@ use yii\helpers\Html;
         .layout-outer-content{
             padding: 15px;
             margin: 10px 0px 40px 130px;
-            width: 700px;
+            width: 300px;
             background-color: #f6f6fb;
             border: 1px solid #c3c3d6;
         }
         .layout-content{
-            width: 700px;
+            width: 300px;
             margin: 10px 120px;
         }
         .img-content-li{
@@ -70,23 +69,26 @@ use yii\helpers\Html;
 <body>
 <div class="demo-content">
     <form id="Goods_Form" action="" class="form-horizontal" onsubmit="return false;" >
-        <h2>添加商品</h2>
+        <h2>添加活动</h2>
         <div class="control-group">
-            <label class="control-label"><s>*</s>商品名称：</label>
-            <div class="controls">
-                <input name="goods[name]" type="text" class="input-medium" data-rules="{required : true}">
+            <label class="control-label"><s>*</s>活动区域：</label>
+            <div class="controls" >
+                <select name="activity[zone]" id="checkstatus">
+                    <option value="">请选择</option>
+                    <?php foreach ($zoneList as $key => $name): ?>
+                        <option value="<?= $key ?>"><?= $name ?></option>
+                    <?php endforeach ?>
+                </select>
             </div>
         </div>
-
         <div class="control-group">
-            <label class="control-label"><s>*</s>兑换积分：</label>
+            <label class="control-label"><s>*</s>排序(1-10)：</label>
             <div class="controls">
-                <input name="goods[redeem_pionts]" type="text" class="input-medium" data-rules="{number:true}">
+                <input name="activity[order_list]" type="text" class="input-medium" data-rules="{required : true, number:true}">
             </div>
         </div>
-
         <div class="control-group">
-            <label class="control-label"><s>*</s>商品缩略图：</label>
+            <label class="control-label"><s>*</s>活动图片：</label>
             <div id="thumbpic" class="controls">
                 <span class="button button-primary">上传图片</span>
             </div>
@@ -98,33 +100,51 @@ use yii\helpers\Html;
                 </div>
             </div>
         </div>
-
         <div class="control-group">
-            <label class="control-label"><s>*</s>商品图片：</label>
-            <div id="thumblistpic" class="controls">
-                <span class="button button-primary">上传图片</span>
-            </div>
-        </div>
-        <div class="row" >
-            <div class="span16 layout-outer-content">
-                <div id="thumblistpic-content" class="layout-content content-list" aria-disabled="false" aria-pressed="false" >
-
+            <label class="control-label"><s>*</s>活动时间：</label>
+            <div class="control-group span13">
+                <div class="controls">
+                    <input name="activity[begin_at]" type="text" class="calendar calendar-time" >
+                    <span> - </span>
+                    <input name="activity[end_at]" type="text" class="calendar calendar-time">
                 </div>
             </div>
         </div>
 
+
         <div class="control-group" id="description_content">
-            <label class="control-label">商品描述：</label>
+            <label class="control-label">活动对象：</label>
             <div class="controls  control-row-auto">
-<!--                <textarea name="goods[description]" id="" class="control-row3 input-large" data-rules="{required : true}"></textarea>-->
-                <script type="text/plain" id="editor_content" name="goods[description]"></script>
+                <textarea name="activity[aims]" id="" class="control-row3 input-large" data-rules="{required : true}"></textarea>
+<!--                <script type="text/plain" id="editor_content" name="activity[description]"></script>-->
+            </div>
+        </div>
+
+        <div class="control-group" id="description_content">
+            <label class="control-label">活动形式：</label>
+            <div class="controls  control-row-auto">
+                <textarea name="activity[way]" id="" class="control-row3 input-large" data-rules="{required : true}"></textarea>
+            </div>
+        </div>
+
+        <div class="control-group" id="description_content">
+            <label class="control-label">限额说明：</label>
+            <div class="controls  control-row-auto">
+                <textarea name="activity[limitation]" id="" class="control-row3 input-large" data-rules="{required : true}"></textarea>
+            </div>
+        </div>
+
+        <div class="control-group" id="description_content">
+            <label class="control-label">活动细则：</label>
+            <div class="controls  control-row-auto">
+                <textarea name="activity[details]" id="" class="control-row3 input-large" data-rules="{required : true}"></textarea>
             </div>
         </div>
 
         <div class="row actions-bar">
             <div class="form-actions span13 offset3">
-                <button type="submit" class="button button-primary" id="save-goods">保存</button>
-                <button type="reset" class="button" id="cancel-goods">返回</button>
+                <button type="submit" class="button button-primary" id="save-activity">保存</button>
+                <button type="reset" class="button" id="cancel-activity">返回</button>
             </div>
         </div>
     </form>
@@ -138,13 +158,13 @@ use yii\helpers\Html;
             form.render();
 
             //保存
-            $("#save-goods").on('click', function(){
+            $("#save-activity").on('click', function(){
                 if(form.isValid()){
                     var param = $._get_form_json("#Goods_Form");
-                    $._ajax('/goods/goods/add', param, 'POST', 'JSON', function(json){
+                    $._ajax('/activity/activity/add', param, 'POST', 'JSON', function(json){
                         if(json.code > 0){
                             BUI.Message.Alert(json.msg, function(){
-                                window.location.href = '/goods/goods/list';
+                                window.location.href = '/activity/activity/list';
                             }, 'success');
 
                         }else{
@@ -155,8 +175,8 @@ use yii\helpers\Html;
                 }
             });
             //返回
-            $("#cancel-goods").on('click', function(){
-                window.location.href = '/goods/goods/list';
+            $("#cancel-activity").on('click', function(){
+                window.location.href = '/activity/activity/list';
             });
         });
     </script>
@@ -196,7 +216,7 @@ use yii\helpers\Html;
                 },
                 //传递的参数
                 formData: {
-                    objtype: 'goods',
+                    objtype: 'activity',
                 }
             });
             // 当有文件添加进来之前
@@ -220,7 +240,7 @@ use yii\helpers\Html;
                         '<a href="javaScript:;"><span class="label label-important img-delete" file-path="'+ data.filePath +'">删除</span></a>'+
                         '<div aria-disabled="false"  class="" aria-pressed="false">'+
                         '<img  src="'+ data.filePath +'" />'+
-                        '<input type="hidden" name="goods[thumb]" value="'+ data.filePath +'">'+
+                        '<input type="hidden" name="activity[poster]" value="'+ data.filePath +'">'+
                         '<p>'+ file.name +'</p>'+
                         '</div>'+
                         '</div>';
@@ -250,7 +270,7 @@ use yii\helpers\Html;
             });
 
 
-            /*上传商品图*/
+            /*上传活动图*/
             var uploaderlist = WebUploader.create({
                 // 选完文件后，是否自动上传。
                 auto: true,
@@ -274,7 +294,7 @@ use yii\helpers\Html;
                 },
                 //传递的参数
                 formData: {
-                    objtype: 'goods'
+                    objtype: 'activity'
                 }
             });
             // 当有文件添加进来之前
@@ -298,7 +318,7 @@ use yii\helpers\Html;
                         '<a href="javaScript:;"><span class="label label-important img-delete" file-path="'+ data.filePath +'">删除</span></a>'+
                         '<div aria-disabled="false"  class="" aria-pressed="false">'+
                         '<img  src="'+ data.filePath +'" />'+
-                        '<input type="hidden" name="goods[thumb_list]" value="'+ data.filePath +'">'+
+                        '<input type="hidden" name="activity[thumb_list]" value="'+ data.filePath +'">'+
                         '<p>'+ file.name +'</p>'+
                         '</div>'+
                         '</div>';
