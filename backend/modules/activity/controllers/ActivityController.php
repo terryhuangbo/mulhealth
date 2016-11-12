@@ -117,6 +117,7 @@ class ActivityController extends BaseController
             'common\models\Activity' => [
                 'id',
                 'poster',
+                'logo',
                 'list_order',
                 'aims',
                 'way',

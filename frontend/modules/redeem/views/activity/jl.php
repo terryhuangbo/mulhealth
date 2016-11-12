@@ -70,7 +70,7 @@
             var dom = $(this);
             var num = parseInt(dom.attr('num'));
             var activities = <?php echo json_encode($activities) ?>;
-            $("#act_img").attr('src', '<?php echo yiiParams("img_host") ?>' + activities[num].poster);
+            $("#act_img").attr('src', '<?php echo yiiParams("img_host") ?>' + activities[num].logo);
             $("#act_day").text(activities[num].begin_end);
             $("#begin-end").text(activities[num].begin_end1)
             $("#act_aims").text(activities[num].aims);

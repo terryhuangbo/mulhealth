@@ -123,6 +123,14 @@ use common\models\Activity;
                             return "<img class='user_avatar' src='"+ obj.poster +"'>";
                         }
                     },
+                    {
+                        title: '活动Logo',
+                        width: 140,
+                        elCls : 'center',
+                        renderer: function (v, obj) {
+                            return "<img class='user_avatar' src='"+ obj.logo +"'>";
+                        }
+                    },
                     {title: '排序', dataIndex: 'list_order', width: 80, elCls : 'center'},
                     {title: '活动对象', dataIndex: 'aims', width: 80, elCls : 'center'},
                     {title: '活动方式', dataIndex: 'way', width: 80, elCls : 'center'},

@@ -12,6 +12,7 @@ use Yii;
  * @property integer $zone
  * @property integer $list_order
  * @property string $poster
+ * @property string $logo
  * @property string $begin_at
  * @property string $end_at
  * @property string $aims
@@ -46,7 +47,7 @@ class Activity extends BaseModel
         return [
             [['zone', 'list_order', 'begin_at', 'end_at', 'create_at', 'update_at'], 'integer'],
             [['details'], 'string'],
-            [['poster'], 'string', 'max' => 300],
+            [['poster', 'logo'], 'string', 'max' => 300],
             [['aims', 'way', 'limitation'], 'string', 'max' => 400],
             [['zone', 'begin_at', 'end_at', 'details', 'end_at', 'aims', 'way', 'limitation'], 'required'],
             //开始，结束时间
@@ -69,6 +70,7 @@ class Activity extends BaseModel
             'zone' => '活动区域编号(省ID)',
             'list_order' => '默认排序',
             'poster' => '活动图片',
+            'logo' => '活动logo',
             'begin_at' => '活动开始时间',
             'end_at' => '活动结束时间',
             'aims' => '活动对象',

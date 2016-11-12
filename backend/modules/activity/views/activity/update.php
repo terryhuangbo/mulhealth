@@ -111,6 +111,28 @@
         </div>
     </div>
     <div class="control-group">
+        <label class="control-label">活动LOGO：</label>
+        <div id="thumblistpic" class="controls">
+            <span class="button button-primary">上传图片</span>&nbsp;&nbsp;&nbsp;（建议尺寸:217*71px）
+        </div>
+    </div>
+    <div class="row" >
+        <div class="span16 layout-outer-content">
+            <div id="thumblistpic-content" class="layout-content" aria-disabled="false" aria-pressed="false" >
+                <?php if(!empty($activity['logo'])): ?>
+                    <div id="" class=" pull-left img-content-li">
+                        <a href="javaScript:;"><span class="label label-important img-delete" file-path="<?php echo $activity['logo'] ?>">删除</span></a>
+                        <div aria-disabled="false"  class="" aria-pressed="false">
+                            <img  src="<?php echo $activity['logo'] ?>" />
+                            <input type="hidden" name="activity[logo]" value="<?php echo $activity['logo'] ?>">
+                            <p></p>
+                        </div>
+                    </div>
+                <?php endif ?>
+            </div>
+        </div>
+    </div>
+    <div class="control-group">
         <label class="control-label">活动时间：</label>
         <div class="control-group span13">
             <div class="controls">

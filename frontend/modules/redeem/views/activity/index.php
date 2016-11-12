@@ -51,4 +51,16 @@
 </body>
 <script src="/js/jquery-1.11.1.min.js"></script>
 <script src="/js/main.js"></script>
+<script src="/js/tools.js"></script>
+<script>
+    $(".sign").on('click', function(){
+        $._ajax('/home/sign', {}, 'POST', 'JSON', function(json){
+            if(json.code > 0){
+                window.location.reload();
+            }else{
+                $(".sign").off('click');
+            }
+        });
+    });
+</script>
 </html>
