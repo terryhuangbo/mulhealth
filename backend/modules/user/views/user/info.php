@@ -19,39 +19,7 @@
 </style>
 <div id="content" style="display: block" >
     <form id="form" class="form-horizontal">
-        <div class="row">
 
-            <div class="control-group span8">
-                <label class="control-label">微信昵称：</label>
-                <div class="controls">
-                    <span  class="control-text" ><?php echo $user['nick'] ?></span>
-                </div>
-            </div>
-            <div class="control-group span8">
-                <label class="control-label">真实姓名：</label>
-                <div class="controls">
-                    <span  class="control-text" ><?php echo $user['name'] ?></span>
-                </div>
-            </div>
-        </div>
-        <div class="row pic-content">
-
-            <div class="control-group span10 avatar_content" >
-                <label class="control-label">微信头像：</label>
-                <div class="controls">
-                    <img class="avatar_img" src="<?php echo $user['avatar'] ?>">
-                </div>
-            </div>
-            <div  class="control-group span10 avatar_content" >
-                <label class="control-label " id="upload_img">
-                    名片
-                </label>
-                <div  class="controls " >
-                    <img id="name_card_img" class="avatar_img" onclick="viewNameCard(this)" src="<?php echo $user['name_card'] ?>">
-                    <input id="name_card_input" type="hidden" value="<?php echo $user['name_card'] ?>">
-                </div>
-            </div>
-        </div>
         <div class="row">
 
             <div class="control-group span8">
@@ -61,27 +29,9 @@
                 </div>
             </div>
             <div class="control-group span8">
-                <label class="control-label">邮箱：</label>
-                <div class="controls">
-                    <span  class="control-text" ><?php echo $user['email'] ?></span>
-                </div>
-            </div>
-            <div class="control-group span8">
                 <label class="control-label">积分：</label>
                 <div class="controls">
                     <span  class="control-text" ><?php echo $user['points'] ?></span>
-                </div>
-            </div>
-            <div class="control-group span8">
-                <label class="control-label">微信公众号：</label>
-                <div class="controls">
-                    <span  class="control-text" ><?php echo $user['wechat_openid'] ?></span>
-                </div>
-            </div>
-            <div class="control-group span8">
-                <label class="control-label">用户类型：</label>
-                <div class="controls">
-                    <span  class="control-text" ><?php echo $user['user_type'] ?></span>
                 </div>
             </div>
             <div class="control-group span8">
@@ -92,7 +42,7 @@
             </div>
 
             <div class="control-group span8">
-                <label class="control-label">申请时间：</label>
+                <label class="control-label">注册时间：</label>
                 <div class="controls">
                     <span  class="control-text" ><?php echo $user['create_at'] ?></span>
                 </div>

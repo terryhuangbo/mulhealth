@@ -33,42 +33,24 @@ use common\models\User;
         <div class="search-bar form-horizontal well">
             <form id="usersearch" class="form-horizontal">
                 <div class="row">
-                    <div class="control-group span12">
-                        <label class="control-label">姓名：</label>
-                        <div class="controls" data-type="city">
-                            <input type="text" class="control-text" name="name" id="name">
-                        </div>
-                    </div>
                     <div class="control-group span10">
                         <label class="control-label">手机号：</label>
                         <div class="controls" data-type="city">
                             <input type="text" class="control-text" name="mobile" id="name">
                         </div>
-                    </div>
-                    <div class="control-group span10">
-                        <label class="control-label">用户类型：</label>
-                        <div class="controls" >
-                            <select name="user_type" id="grouptype">
-                                <option value="">请选择</option>
-                                <?php foreach (User::_get_user_type_list() as $key => $name): ?>
-                                    <option value="<?php echo $key ?>"><?php echo $name ?></option>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                        <div class="control-group span10">
+                            <label class="control-label">用户状态：</label>
+                            <div class="controls" >
+                                <select name="user_status" id="checkstatus">
+                                    <option value="">请选择</option>
+                                    <?php foreach (User::_get_user_status_list() as $key => $name): ?>
+                                        <option value="<?php echo $key ?>"><?php echo  $name ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>                </div>
                 <div class="row">
-                    <div class="control-group span10">
-                        <label class="control-label">用户状态：</label>
-                        <div class="controls" >
-                            <select name="user_status" id="checkstatus">
-                                <option value="">请选择</option>
-                                <?php foreach (User::_get_user_status_list() as $key => $name): ?>
-                                    <option value="<?php echo $key ?>"><?php echo  $name ?></option>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
-                    </div>
+
                     <div class="control-group span16">
                         <label class="control-label">时间范围：</label>
                         <div class="controls">
@@ -147,29 +129,8 @@ use common\models\User;
                 selectedEvent: 'click',
                 columns: [
                     {title: '用户编号', dataIndex: 'uid', width: 80, elCls : 'center'},
-                    {title: '微信昵称', dataIndex: 'nick', width: 90, elCls : 'center',},
-                    {title: '真实姓名', dataIndex: 'name', width: 90, elCls : 'center',},
-                    {
-                        title: '微信头像',
-                        width: 140,
-                        elCls : 'center',
-                        renderer: function (v, obj) {
-                            return "<img class='user_avatar' src='"+ obj.avatar +"'>";
-                        }
-                    },
-                    {
-                        title: '名片',
-                        width: 140,
-                        elCls : 'center',
-                        renderer: function (v, obj) {
-                            return "<img class='user_avatar name_card'  onclick='viewNameCard(this)' src='"+ obj.name_card +"'>";
-                        }
-                    },
-                    {title: '手机号码', dataIndex: 'mobile', width: 90},
-                    {title: '电子邮箱', dataIndex: 'email', width: 130},
+                    {title: '手机号码', dataIndex: 'mobile', width: 120},
                     {title: '积分', dataIndex: 'points', width: 80, elCls : 'center'},
-                    {title: '微信公众号', dataIndex: 'wechat', width: 120},
-                    {title: '用户类型', dataIndex: 'user_type', width: 80, elCls : 'center'},
                     {title: '用户状态', dataIndex: 'user_status', width: 80, elCls : 'center'},
                     {title: '更新时间', dataIndex: 'update_at', width: 150, elCls : 'center'},
                     {
@@ -177,13 +138,9 @@ use common\models\User;
                         width: 300,
                         renderer: function (v, obj) {
                             if(parseInt(obj.status) == <?php echo User::NO_DELETE ?>){
-                                return "<a class='button button-success' title='用户信息' href='javascript:void(0);' onclick='showUserInfo(" + obj.uid + ")'>查看</a>" +
-                                " <a class='button button-primary' onclick='updateUser(" + obj.uid + ")'>编辑</a>"+
-                                " <a class='button button-danger' onclick='disableUser(" + obj.uid + ")'>禁用</a>";
+                                return "<a class='button button-success' title='用户信息' href='javascript:void(0);' onclick='showUserInfo(" + obj.uid + ")'>查看</a>" ;
                             }else if(parseInt(obj.status) == <?php echo User::IS_DELETE ?>){
-                                return "<a class='button button-success' title='用户信息' href='javascript:void(0);' onclick='showUserInfo(" + obj.uid + ")'>查看</a>" +
-                                " <a class='button button-info' onclick='updateUser(" + obj.uid + ")'>编辑</a>"+
-                                " <a class='button button-primary' onclick='enableUser(" + obj.uid + ")'>启用</a>";
+                                return "<a class='button button-success' title='用户信息' href='javascript:void(0);' onclick='showUserInfo(" + obj.uid + ")'>查看</a>";
                             }
 
                         }
@@ -246,8 +203,8 @@ function getUserGridSearchConditions() {
  * 显示用户详情
  */
 function showUserInfo(uid) {
-    var width = 700;
-    var height = 450;
+    var width = 500;
+    var height = 350;
     var Overlay = BUI.Overlay;
     var buttons = [];
     buttons = [
