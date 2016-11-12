@@ -4,7 +4,6 @@ namespace frontend\modules\redeem\controllers;
 
 use common\behavior\PointBehavior;
 use Yii;
-use yii\helpers\ArrayHelper;
 use app\base\BaseController;
 use common\models\User;
 use common\models\Goods;
@@ -71,22 +70,13 @@ class HomeController extends BaseController
      */
     public function actionSign()
     {
-        $sign = PointsRecord::find()
-            ->where(['uid' => $this->uid])
-            ->andWhere(['point_id' => Points::POINTS_SIGNIN])
-            ->andWhere(['>', 'create_at', strtotime('today')])
-            ->andWhere(['<', 'create_at', strtotime('today + 1 day')])
-            ->asArray()
-            ->one();
-        if($sign){
-            $this->_json(-20001, '今天已经签到过了');
-        }
+        $point_id = 1002;
         $user = Yii::$app->user->identity;//当前登录用户
         //附属添加积分行为到登录用户
         $user->attachBehavior('signpoints', [
             'class' =>  PointBehavior::className(),
-            'points' => Points::SIGNIN_POINTS,
-            'type' =>   Points::POINTS_SIGNIN,
+                'points' => 1,
+                'type' =>   $point_id,
         ]);
         $user->points += Points::SIGNIN_POINTS;
         $ret = $user->save();
@@ -99,8 +89,16 @@ class HomeController extends BaseController
      */
     public function actionShare()
     {
-        $p_mdl = new Points();
-        $ret = $p_mdl->_add_points($this->uid, Points::POINTS_WECHAT);
+        $point_id = 1001;
+        $user = Yii::$app->user->identity;//当前登录用户
+        //附属添加积分行为到登录用户
+        $user->attachBehavior('signpoints', [
+                'class' =>  PointBehavior::className(),
+                'points' => 1,
+                'type' =>   $point_id,
+            ]);
+        $user->points += Points::SIGNIN_POINTS;
+        $ret = $user->save();
         $this->_json($ret['code'], $ret['msg']);
     }
 

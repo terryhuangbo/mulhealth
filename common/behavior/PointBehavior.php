@@ -12,6 +12,7 @@ use yii\db\Exception;
 use yii\db\ActiveRecord;
 use yii\base\Behavior;
 use common\models\User;
+use yii\db\Query;
 
 
 /**
@@ -55,6 +56,27 @@ class PointBehavior extends Behavior
         if (!is_int($this->points ) || $this->points < 0) {
             throw new Exception("the points must be greater than 0");
         }
+        //每种签到只能有一次
+        $sign = PointsRecord::find()
+            ->where(['uid' => $user->uid])
+            ->andWhere(['point_id' => $this->type])
+            ->andWhere(['>', 'create_at', strtotime('today')])
+            ->andWhere(['<', 'create_at', strtotime('today + 1 day')])
+            ->exists();
+        if($sign){
+            throw new Exception("今天已经签到过了");
+        }
+        //每人每天积分不能超过三次
+        $total = (new Query())
+            ->from(PointsRecord::tableName())
+            ->where(['uid' => $user->uid])
+            ->andWhere(['>', 'create_at', strtotime('today')])
+            ->andWhere(['<', 'create_at', strtotime('today + 1 day')])
+            ->sum('points', PointsRecord::getDb());
+        if($total >= 3){
+            throw new Exception("您已经获得3个积分");
+        }
+
         $pmdl = new PointsRecord();
         $pmdl->attributes = [
             'points' => $this->points,

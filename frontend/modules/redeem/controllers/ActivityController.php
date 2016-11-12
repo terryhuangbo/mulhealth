@@ -107,16 +107,6 @@ class ActivityController extends BaseController
     public function actionPoints()
     {
         $id = intval($this->_request('id'));
-        $sign = PointsRecord::find()
-            ->where(['uid' => $this->uid])
-            ->andWhere(['point_id' => $id])
-            ->andWhere(['>', 'create_at', strtotime('today')])
-            ->andWhere(['<', 'create_at', strtotime('today + 1 day')])
-            ->asArray()
-            ->one();
-        if($sign){
-            $this->_json(-20001, '今天已经签到过了');
-        }
         $user = Yii::$app->user->identity;//当前登录用户
         //附属添加积分行为到登录用户
         $user->attachBehavior('signpoints', [
@@ -127,7 +117,6 @@ class ActivityController extends BaseController
         $user->points += Points::SIGNIN_POINTS;
         $ret = $user->save();
         $this->_json($ret['code'], $ret['msg']);
-
     }
 
 }
