@@ -4,6 +4,7 @@ namespace frontend\modules\redeem\controllers;
 
 use common\models\CartGoods;
 use common\models\City;
+use common\models\Goods;
 use common\models\Order;
 use Yii;
 use app\base\BaseController;
@@ -115,9 +116,11 @@ class OrderController extends BaseController
         }
         $cityMdl = new City();
         $provinces = $cityMdl->getProvinces();
+        $goods = (new Goods())->getOne(['gid' => $gid]);
         $_data = [
             'provinces' => $provinces,
             'gid' => $gid,
+            'goods' => $goods,
             'mobileService' => yiiParams('mobileService'),
         ];
         return $this->render('exchange', $_data);

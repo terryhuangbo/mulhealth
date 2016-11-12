@@ -23,8 +23,8 @@
     <div class="view">
         <img src="/images/20.png"/>
         <div class="infoDetail">
-            <p>【兑换】 价值20元 手机充值卡</p>
-            <p>积分 <span>999</span></p>
+            <p>【兑换】 <?php echo $goods['name']  ?></p>
+            <p>积分 <span><?php echo $goods['redeem_pionts']  ?></span></p>
         </div>
     </div>
     <div class="infoWrite">
