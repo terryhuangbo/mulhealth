@@ -21,7 +21,7 @@
 </section>
 <section class="queryExchange">
     <div class="view">
-        <img src="/images/20.png"/>
+        <img src="<?php echo yiiParams('img_host') . $goods['thumb'] ?>"/>
         <div class="infoDetail">
             <p>【兑换】 <?php echo $goods['name']  ?></p>
             <p>积分 <span><?php echo $goods['redeem_pionts']  ?></span></p>
