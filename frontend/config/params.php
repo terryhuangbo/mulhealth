@@ -6,10 +6,10 @@ return [
     'page_size' => 10,
    //微信配置
     'wechatConfig' => [
-        'token' => 're123de456m',
-        'appid' => 'wxd67d44974fa6111c',
-        'appsecret' => 'f4793ce52883b15c9da1a11054929bc4',
-        'encodingaeskey' => 'ETkqIazXfwe7SHSBUG0NIYvUPydXbOIzQYuf9qvvvfc',
+        'token' => 're123de45de',
+        'appid' => 'wx4a7032faa3c317cb',
+        'appsecret' => '38bf39dc2782fc66e98e829101464d17',
+        'encodingaeskey' => '9zFhLjDrrNT7GuSxt4KShwmXjCeu3FuVjzGz3I196HM',
     ],
     //前端上传图片方法
     'uploader_url' => '/common/file/upload',

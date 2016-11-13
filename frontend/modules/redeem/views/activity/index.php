@@ -61,7 +61,9 @@
                     window.location.href = '/home/index';
                 });
             }else{
-                Alert('今天已经签到，不能重复签到', 2000);
+                Alert("今天已经签到，不能重复签到", 2000, function(){
+                    window.location.href = '/home/index';
+                });
                 $(".sign").off('click');
             }
         });
