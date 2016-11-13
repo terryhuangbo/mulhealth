@@ -68,8 +68,10 @@
 <script src="/js/jquery-1.11.1.min.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/tools.js"></script>
+<script src="/js/message.js"></script>
 <script>
     $(function () {
+        var hasGetPoints = false;
         $('.activityDetail').on('click', function(){
             var dom = $(this);
             var num = parseInt(dom.attr('num'));
@@ -82,17 +84,18 @@
             $("#act_limitation").text(activities[num].limitation);
             $("#act_details").text(activities[num].details);
 
+            if(hasGetPoints){
+                return
+            }
             var id = activities[num].id;
             $._ajax('/activity/points', {id: id}, 'POST', 'JSON', function(json){
                 if(json.code > 0){
-
+                    Alert('恭喜获得1点积分', 2000);
+                    hasGetPoints = true;
                 }else{
-
                 }
             })
-
         });
-
     })
 </script>
 

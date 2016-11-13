@@ -123,9 +123,10 @@ class ActivityController extends BaseController
         $user->attachBehavior('signpoints', [
                 'class' =>  PointBehavior::className(),
                 'points' => 1,
-                'type' =>   $id,
+                'point_id' => $id,
+                'points_name' => PointsRecord::POINTS_DETAIL,
             ]);
-        $user->points += Points::SIGNIN_POINTS;
+        $user->points += 1;
         $ret = $user->save();
         $this->_json($ret['code'], $ret['msg']);
     }

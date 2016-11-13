@@ -10,7 +10,7 @@ return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'defaultRoute' => '/redeem/home/index',
+    'defaultRoute' => '/redeem/activity/index',
     'controllerNamespace' => 'frontend\controllers',
     'modules' => [
         //积分兑换

@@ -19,6 +19,13 @@ use yii\db\Exception;
 class PointsRecord extends BaseModel
 {
     /**
+     * @var int 积分类型
+     */
+    const  POINTS_SIGH   = 'sign';
+    const  POINTS_SHARE  = 'share';
+    const  POINTS_DETAIL = 'detail';
+
+    /**
      * @inheritdoc
      */
     public static function tableName()

@@ -52,13 +52,69 @@
 <script src="/js/jquery-1.11.1.min.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/tools.js"></script>
+<script src="/js/message.js"></script>
 <script>
     $(".sign").on('click', function(){
         $._ajax('/home/sign', {}, 'POST', 'JSON', function(json){
             if(json.code > 0){
-                window.location.reload();
+                Alert("+1", 2000, function(){
+                    window.location.href = '/home/index';
+                });
             }else{
+                Alert('今天已经签到，不能重复签到', 2000);
                 $(".sign").off('click');
+            }
+        });
+    });
+</script>
+<!--微信分享-->
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    wx.config({
+        debug: false,
+        appId: '<?php echo $this->context->signPackage["appId"];?>',
+        timestamp: <?php echo $this->context->signPackage["timestamp"];?>,
+        nonceStr: '<?php echo $this->context->signPackage["nonceStr"];?>',
+        signature: '<?php echo $this->context->signPackage["signature"];?>',
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            "onMenuShareAppMessage",
+            "onMenuShareTimeline",
+        ]
+    });
+    wx.ready(function () {
+        // 在这里调用 API
+        //发送给朋友
+        wx.onMenuShareAppMessage({
+            title: '聚惠银联，嗨翻大东北', // 分享标题
+            desc: '', // 分享描述
+            link: '', // 分享链接
+            imgUrl: '<?php echo yiiParams('share_img') ?>', // 分享图标
+            type: '', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () {
+                // 用户确认分享后执行的回调函数
+                $._ajax('/home/share', {}, 'POST', 'JSON', function(json){
+                    if(json.code > 0){
+                        Alert('恭喜获得1点积分', 2000);
+                    }
+                });
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+        });
+        //分享到朋友圈
+        wx.onMenuShareTimeline({
+            title: '聚惠银联，嗨翻大东北', // 分享标题
+            link: '', // 分享链接
+            imgUrl: '<?php echo yiiParams('share_img') ?>', // 分享图标
+            success: function () {
+                // 用户确认分享后执行的回调函数
+                $._ajax('/home/share', {}, 'POST', 'JSON', function(json){});
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
             }
         });
     });

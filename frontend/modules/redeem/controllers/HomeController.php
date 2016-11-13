@@ -76,9 +76,9 @@ class HomeController extends BaseController
         $user->attachBehavior('signpoints', [
             'class' =>  PointBehavior::className(),
                 'points' => 1,
-                'type' =>   $point_id,
+                'points_name' => PointsRecord::POINTS_SIGH,
         ]);
-        $user->points += Points::SIGNIN_POINTS;
+        $user->points += 1;
         $ret = $user->save();
         $this->_json($ret['code'], $ret['msg']);
     }
@@ -95,9 +95,9 @@ class HomeController extends BaseController
         $user->attachBehavior('signpoints', [
                 'class' =>  PointBehavior::className(),
                 'points' => 1,
-                'type' =>   $point_id,
+                'points_name' => PointsRecord::POINTS_SHARE,
             ]);
-        $user->points += Points::SIGNIN_POINTS;
+        $user->points += 1;
         $ret = $user->save();
         $this->_json($ret['code'], $ret['msg']);
     }
