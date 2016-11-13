@@ -64,14 +64,15 @@ function Alert(str, time, callback) {
     txt.innerHTML = str;    
     document.getElementById("alertmsgDiv").appendChild(txt);    
     //设置关闭时间    
-    window.setTimeout("closewin()", time); 
+    window.setTimeout("closewin("+ callback +")", time);
+
+}
+function closewin(callback) {
+    document.body.removeChild(document.getElementById("alertbgDiv"));    
+    document.getElementById("alertmsgDiv").removeChild(document.getElementById("alertmsgTitle"));    
+    document.body.removeChild(document.getElementById("alertmsgDiv"));
     if(typeof callback == "function")
     {
         callback();
-    }    
-}    
-function closewin() {    
-    document.body.removeChild(document.getElementById("alertbgDiv"));    
-    document.getElementById("alertmsgDiv").removeChild(document.getElementById("alertmsgTitle"));    
-    document.body.removeChild(document.getElementById("alertmsgDiv"));    
-} 
+    }
+}

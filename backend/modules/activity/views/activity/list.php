@@ -131,10 +131,10 @@ use common\models\Activity;
                             return "<img class='user_avatar' src='"+ obj.logo +"'>";
                         }
                     },
-                    {title: '排序', dataIndex: 'list_order', width: 80, elCls : 'center'},
-                    {title: '活动对象', dataIndex: 'aims', width: 80, elCls : 'center'},
-                    {title: '活动方式', dataIndex: 'way', width: 80, elCls : 'center'},
-                    {title: '限额说明', dataIndex: 'limitation', width: 80, elCls : 'center'},
+                    {title: '排序', dataIndex: 'list_order', width: 50, elCls : 'center'},
+                    {title: '活动对象', dataIndex: 'aims', width: 120, elCls : 'center'},
+                    {title: '活动方式', dataIndex: 'way', width: 120, elCls : 'center'},
+                    {title: '限额说明', dataIndex: 'limitation', width: 120, elCls : 'center'},
                     {title: '活动状态', dataIndex: 'status_name', width: 80, elCls : 'center'},
                     {title: '活动开始', dataIndex: 'begin_at', width: 150, elCls : 'center'},
                     {title: '活动结束', dataIndex: 'end_at', width: 150, elCls : 'center'},
