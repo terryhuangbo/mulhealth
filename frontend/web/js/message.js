@@ -33,7 +33,7 @@ function Alert(str, time, callback) {
     msgObj.style.left = "50%";    
     msgObj.style.font="12px/1.6em Verdana, Geneva, Arial, Helvetica, sans-serif";    
     //窗口距离左侧和顶端的距离     
-    msgObj.style.marginLeft = "-225px";    
+    msgObj.style.marginLeft = "-150px";    
     //窗口被卷去的高+（屏幕可用工作区高/2）-150    
     msgObj.style.top = document.body.scrollTop+(window.screen.availHeight/2)-150 +"px";    
     msgObj.style.width = msgw + "px";    
