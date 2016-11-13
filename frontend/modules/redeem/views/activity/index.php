@@ -94,6 +94,7 @@
             dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
             success: function () {
                 // 用户确认分享后执行的回调函数
+                alert(12);
                 $._ajax('/home/share', {}, 'POST', 'JSON', function(json){
                     if(json.code > 0){
                         Alert('恭喜获得1点积分', 2000);
@@ -111,6 +112,7 @@
             imgUrl: '<?php echo yiiParams('share_img') ?>', // 分享图标
             success: function () {
                 // 用户确认分享后执行的回调函数
+                alert(34);
                 $._ajax('/home/share', {}, 'POST', 'JSON', function(json){
                     if(json.code > 0){
                         Alert('恭喜获得1点积分', 2000);
