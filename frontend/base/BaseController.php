@@ -32,7 +32,7 @@ class BaseController extends Controller
                             }else if(!Yii::$app->user->isGuest){
                                 $this->user = Yii::$app->user->identity->toArray();
                                 $this->uid = Yii::$app->user->identity->uid;
-                                $this->signPackage = Yii::$app->jssdk->GetSignPackage();
+                                $this->signPackage = Yii::$app->jssdk->getSignPackage();
                                 return true;
                             }
                             $absUrl = Yii::$app->getRequest()->absoluteUrl;

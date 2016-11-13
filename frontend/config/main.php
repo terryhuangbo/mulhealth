@@ -38,7 +38,9 @@ return [
             'loginUrl' => ['redeem/user/login'],
         ],
         'jssdk' => [
-            'class' => 'frontend\components\Wechat\Jssdk',
+            'class' => 'app\components\Wechat\Jssdk',
+            'appId' => 'wx9462dd181a56c284',
+            'appSecret' => '6a6d79adca5a20309e05350da253bdae',
         ],
         'userData' => [
             'class' => 'app\modules\user\models\UserData',

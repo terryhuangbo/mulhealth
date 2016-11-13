@@ -1,31 +1,10 @@
 <?php
-namespace frontend\components\Wechat;
+namespace app\components\Wechat;
 
-use yii;
-use yii\base\Component;
-
-class Jssdk extends Component
+class Jssdk extends \yii\base\Component
 {
-    private $appId;
-    private $appSecret;
-    private $jsapi_ticket;
-    private $access_token;
-
-//    public function __construct($appId, $appSecret) {
-//        $this->appId = $appId;
-//        $this->appSecret = $appSecret;
-//    }
-
-    public function init()
-    {
-        parent::init();
-        $this->appId = yiiParams('wechatConfig')['appid'];
-        $this->appSecret = yiiParams('wechatConfig')['appsecret'];
-        $this->access_token = [
-            'access_token' => yiiParams('wechatConfig')['token'],
-            'expire_time' => 0,
-        ];
-    }
+    public $appId;
+    public $appSecret;
 
     public function getSignPackage() {
         $jsapiTicket = $this->getJsApiTicket();
@@ -71,11 +50,11 @@ class Jssdk extends Component
             // $url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=$accessToken";
             $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=$accessToken";
             $res = json_decode($this->httpGet($url));
-            $ticket = getValue($res, 'ticket');
+            $ticket = getValue($res, 'ticket', false);
             if ($ticket) {
                 $data->expire_time = time() + 7000;
                 $data->jsapi_ticket = $ticket;
-                $this->set_php_file(dirname(__FILE__) . "/jsapi_ticket.php", json_encode($data));
+                $this->set_php_file("jsapi_ticket.php", json_encode($data));
             }
         } else {
             $ticket = $data->jsapi_ticket;
@@ -92,11 +71,12 @@ class Jssdk extends Component
             // $url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$this->appId&corpsecret=$this->appSecret";
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$this->appId&secret=$this->appSecret";
             $res = json_decode($this->httpGet($url));
-            $access_token = getValue($res, 'access_token');
+            $access_token = getValue($res, 'access_token', false);
+
             if ($access_token) {
                 $data->expire_time = time() + 7000;
                 $data->access_token = $access_token;
-                $this->set_php_file(dirname(__FILE__) . "/access_token.php", json_encode($data));
+                $this->set_php_file("access_token.php", json_encode($data));
             }
         } else {
             $access_token = $data->access_token;
@@ -129,3 +109,4 @@ class Jssdk extends Component
         fclose($fp);
     }
 }
+
