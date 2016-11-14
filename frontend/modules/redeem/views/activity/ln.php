@@ -12,7 +12,8 @@
 </head>
 <body>
 <section class="lns">
-    <a href="http://game.zuikuh5.com/g/5002.html" target="_blank" class="btn"><img hidden="hidden" src="/images/lnBtn.png"></a>
+    <a class="game" href="http://game.zuikuh5.com/g/5002.html" target="_blank" class="btn"></a>
+    <a class="btn"><img src="/images/lnBtn.png"></a>
     <?php foreach($activities as $k => $activity): ?>
         <a  class="<?php echo $class_array[$k] ?> brand">
             <img class="activityDetail" num="<?php echo $k ?>"  src="<?php echo yiiParams('img_host') . $activity['poster'] ?>">

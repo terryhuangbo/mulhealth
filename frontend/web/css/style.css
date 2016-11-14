@@ -14,7 +14,7 @@ html,body{font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;}
 .ln{display: block; width:52.34375%;height:29.8245614%;  position: absolute;top:14.210526%;left:47.65625%;}
 .fixBg{position: fixed; width:100%; height:100%;display: none;top:0;left:0;}
 .ruleDetail{background: url("../images/rule.png") no-repeat; background-size:100% 100%; width:95.3125%;
-    height:83.333333%; position: absolute; z-index: 10;top:6.140351%; left:2.34375%;}
+height:83.333333%; position: absolute; z-index: 10;top:6.140351%; left:2.34375%;}
 .ruleDetail a{width:150px; height:150px; float: right; position: absolute; right:0;}
 .ruleDetail .content{height:70%; overflow-y: auto; width:80%;margin:30% auto;}
 .ruleDetail .content h2{color:#d0121b; font-size:13px; line-height: 50px;}
@@ -22,7 +22,7 @@ html,body{font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;}
 .fl{ float: left;}
 .fr{ float: right;}
 .pop{background: url("../images/pop.png") no-repeat;background-size:100% 100%; width:92.982456%; height:92%;
-    position: absolute;z-index: 10;top:3.421053%;left:2.65625%;}
+position: absolute;z-index: 10;top:3.421053%;left:2.65625%;}
 .pop a{width:50px; height:50px; float: right; position: absolute; right:0;}
 .pop .title{height:80px;width:100%;text-align: center;}
 .pop .title img{ width:100px;display: block;margin:10px auto;}
@@ -63,7 +63,7 @@ html,body{font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;}
 .goodsList .goods table tr td p span{color:#ff0000; font-size:20px; margin-right:5px;}
 .goodsList .goods table tr td:nth-child(3) img{ width:10px;}
 .goodsList .goods table tr td a{display: block; width:50px;height:50px;background: url("../images/change.png") no-repeat center;
-    background-size:100% 100%;margin:0 auto; }
+background-size:100% 100%;margin:0 auto; }
 /*商品详情*/
 .detail{width:100%;margin:60px auto 0 auto; padding-bottom: 80px; }
 .detail > img{width:95%;display: block;margin:0 auto;}
@@ -88,7 +88,7 @@ html,body{font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;}
 .queryExchange .infoWrite{width:80%; margin:30px auto;  }
 .queryExchange .infoWrite table{ width:100%; height:200px;font-size:13px; }
 .queryExchange .infoWrite table tr td input,.queryExchange .infoWrite table tr td select{ width:100%; border-radius: 3px;
-    border:1px solid #ccc; background: #fff; outline: none; height:25px; font-size:13px; text-indent: 5px;}
+border:1px solid #ccc; background: #fff; outline: none; height:25px; font-size:13px; text-indent: 5px;}
 .confirm{position: absolute;bottom: 0; width:100%; height:50px;line-height: 50px;}
 .confirm a{display: block;width:100%; height:100%; text-align: center; color:#fff; background: #75d2fe; font-size: 14px;letter-spacing: 4px;}
 .record{width: 100%;margin:60px auto 0 auto;}
@@ -99,7 +99,7 @@ html,body{font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;}
 .record .recordList table span{ color:#ff0000; margin:0 5px;}
 /*商户页面-黑龙江*/
 .btn{display: block; position: absolute;width:22.34375%;height:0.05%;top:32.45614%; left:38.59375%;}
-.hljs{width:100%; height:100%;position: absolute;top:0;left:0; background: url("../images/hlj.png") no-repeat center;
+.hljs{width:100%; height:100%;position: absolute;top:0;left:0; background: url("../images/ssBg.png") no-repeat center;
     background-size:100% 100%; }
 .hljs img{width:100%;}
 .mdl{display: block;position:absolute;width:19.53125%;height:8.947368%;top:40.263158%;left:10.9375%;}
@@ -113,7 +113,7 @@ html,body{font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;}
 .lccb{display: block;position:absolute;width:22.03125%;height:10%;top:79.210526%;left:9.6875%;}
 .zyhcs{display: block;position:absolute;width:22.03125%;height:10%;top:83.3333%;left:39.84375%;}
 /*商户页面-吉林*/
-.jls{width:100%; height:100%;position: absolute;top:0;left:0; background: url("../images/jl.png") no-repeat center;
+.jls{width:100%; height:100%;position: absolute;top:0;left:0; background: url("../images/ssBg.png") no-repeat center;
     background-size:100% 100%; }
 .jls img{ width:100%;}
 .hll_jl{display: block;position: absolute;width:24.21875%; height:10.964912%;left:8.75%;top:63.245614%;}
@@ -123,7 +123,9 @@ html,body{font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;}
 .ct{display: block;position: absolute;width:24.21875%; height:10.964912%;left:57.96875%;top:41.578947%;}
 .gpp{display: block;position: absolute;width:24.21875%; height:10.964912%;left:12.96875%;top:38.3333%;}
 /*商户页面-辽宁*/
-.lns{width:100%; height:100%;position: absolute;top:0;left:0; background: url("../images/ln.png") no-repeat center;
+.game{position: absolute;background: url("../images/game.png") no-repeat;background-size:100% 100%;width:38.28125%;height:15.526316%;
+top:6.22807%;left:31.25%;}
+.lns{width:100%; height:100%;position: absolute;top:0;left:0; background: url("../images/ssBg.png") no-repeat center;
     background-size:100% 100%; }
 .lns img{width:100%;}
 .hll_ln{display: block;position: absolute;width:24.21875%;height:10.964912%;left:2.34375%;top:57.280702%;}
