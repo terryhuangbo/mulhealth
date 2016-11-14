@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta name="format-detection" content="telephone=no"/>
     <link rel="stylesheet" href="/css/style.css">
-    <title>嗨翻大东北</title>
+    <title>聚惠银联 嗨翻大东北</title>
     <style>
         body,html{width:100%; height:100%;}
     </style>
