@@ -12,7 +12,7 @@
     <script src="/js/main.js"></script>
     <script src="/js/tools.js"></script>
     <script src="/js/message.js"></script>
-    <title>聚惠银联</title>
+    <title>聚惠银联 嗨翻大东北</title>
 </head>
 <body>
 <section class="top">
@@ -53,11 +53,11 @@
     $(".qiandao").on('click', function(){
         $._ajax('/home/sign', {}, 'POST', 'JSON', function(json){
             if(json.code > 0){
-                Alert("+1", 2000, function(){
+                Alert("+1", 1000, function(){
                     window.location.href = '/home/index';
                 });
             }else{
-                Alert('今天已经签到，不能重复签到', 2000);
+                Alert('今天已经签到，不能重复签到', 1000);
                 $(".qiandao").off('click');
             }
         });

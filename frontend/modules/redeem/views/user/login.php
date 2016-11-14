@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta name="format-detection" content="telephone=no"/>
     <link rel="stylesheet" href="/css/login/style.css">
-    <title>验证手机号</title>
+    <title>聚惠银联 嗨翻大东北</title>
     <style>
         body, html {
             width: 100%;

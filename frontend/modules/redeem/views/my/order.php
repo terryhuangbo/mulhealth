@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="/js/jquery-1.11.1.min.js"></script>
     <script src="/js/main.js"></script>
-    <title>我的兑换记录</title>
+    <title>聚惠银联 嗨翻大东北</title>
 </head>
 <body>
 <section class="top">

@@ -12,7 +12,7 @@
     <script src="/js/jquery-1.11.1.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/tools.js"></script>
-    <title>积分商城-详情</title>
+    <title>聚惠银联 嗨翻大东北</title>
 </head>
 <body>
 <section class="top">

@@ -36,8 +36,6 @@ class PointBehavior extends Behavior
      */
     public $points_name = 'share';
 
-
-
     /**
      * @inheritdoc
      */
@@ -61,26 +59,30 @@ class PointBehavior extends Behavior
         if (!is_int($this->points ) || $this->points <= 0) {
             throw new Exception("the points must be greater than 0");
         }
-        //每种签到只能有一次
-        $sign = PointsRecord::find()
-            ->where(['uid' => $user->uid])
-            ->andWhere(['points_name' => $this->points_name])
-            ->andWhere(['>', 'create_at', strtotime('today')])
-            ->andWhere(['<', 'create_at', strtotime('today + 1 day')])
-            ->exists();
-        if($sign){
-            throw new Exception("今天已经签到过了");
+        //每天每人签到和分享只能有一次
+        if (in_array($this->points_name, [PointsRecord::POINTS_SHARE, PointsRecord::POINTS_SIGH])) {
+            $sign = PointsRecord::find()
+                ->where(['uid' => $user->uid])
+                ->andWhere(['points_name' => $this->points_name])
+                ->andWhere(['>', 'create_at', strtotime('today')])
+                ->andWhere(['<', 'create_at', strtotime('today + 1 day')])
+                ->exists();
+            if($sign){
+                throw new Exception("今天已经签到过了");
+            }
+        }else if($this->points_name === PointsRecord::POINTS_DETAIL){
+            //每天每人查看规则只能有三次
+            $total = (new Query())
+                ->from(PointsRecord::tableName())
+                ->where(['uid' => $user->uid])
+                ->andWhere(['points_name' => $this->points_name])
+                ->andWhere(['>', 'create_at', strtotime('today')])
+                ->andWhere(['<', 'create_at', strtotime('today + 1 day')])
+                ->count('*', PointsRecord::getDb());
+            if($total >= 3){
+                throw new Exception("您已经获得3个查看细则积分");
+            }
         }
-        //每人每天积分不能超过三分
-//        $total = (new Query())
-//            ->from(PointsRecord::tableName())
-//            ->where(['uid' => $user->uid])
-//            ->andWhere(['>', 'create_at', strtotime('today')])
-//            ->andWhere(['<', 'create_at', strtotime('today + 1 day')])
-//            ->sum('points', PointsRecord::getDb());
-//        if($total >= 3){
-//            throw new Exception("您已经获得3个积分");
-//        }
 
         $pmdl = new PointsRecord();
         $pmdl->attributes = [
@@ -94,8 +96,6 @@ class PointBehavior extends Behavior
             throw new Exception("the points record saved fail");
         }
     }
-
-
 
 
 }

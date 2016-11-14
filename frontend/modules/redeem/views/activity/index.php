@@ -37,11 +37,9 @@
             <p>Tips：每日积分获得上限为3积分</p>
             <p>活动期间，累计积分可兑换相应的礼品（送完为止）</p>
             <h2>二步走：记忆碎片</h2>
-            <p>活动时间：</p>
-            <p>2016年11月16日-2017年1月20日，每周三、日</p>
             <p>活动期间，各个赛区将分别进行对抗赛实时排名，用时最少的用户可获得20元话费充值包一份。</p>
             <p>同一微信ID每天可挑战一次</p>
-            <p>每周日进行排名清算,届时所有用户的比分清零</p>
+            <p>每周日进行排名清算，届时所有用户的比分清零</p>
             <h2>三步走：摇一摇</h2>
             <p>活动时间：2016年11月16日-2017年1月20日</p>
             <p>活动期间，每周三、日可进行摇红包活动，1000元红包摇不停！</p>
@@ -57,11 +55,11 @@
     $(".sign").on('click', function(){
         $._ajax('/home/sign', {}, 'POST', 'JSON', function(json){
             if(json.code > 0){
-                Alert("+1", 2000, function(){
+                Alert("+1", 1000, function(){
                     window.location.href = '/home/index';
                 });
             }else{
-                Alert("今天已经签到，不能重复签到", 2000, function(){
+                Alert("今天已经签到，不能重复签到", 1000, function(){
                     window.location.href = '/home/index';
                 });
                 $(".sign").off('click');
