@@ -40,10 +40,10 @@ class ActivityController extends BaseController
         $mdl = new Activity();
         $format = [
             'begin_end' => function($m){
-                return '开始-' . date('Y-m-d H:i:s', $m->begin_at) . '  截止-' . date('Y-m-d H:i:s', $m->begin_at);
+                return '开始-' . date('Y-m-d H:i:s', $m->begin_at) . '  截止-' . date('Y-m-d H:i:s', $m->end_at);
             },
             'begin_end1' => function($m){
-                return date('Y-m-d', $m->begin_at) . ' - ' . date('Y-m-d', $m->begin_at);
+                return date('Y-m-d', $m->begin_at) . ' - ' . date('Y-m-d', $m->end_at);
             },
 
         ];
@@ -68,10 +68,10 @@ class ActivityController extends BaseController
         $mdl = new Activity();
         $format = [
             'begin_end' => function($m){
-                return '开始-' . date('Y-m-d H:i:s', $m->begin_at) . '  截止-' . date('Y-m-d H:i:s', $m->begin_at);
+                return '开始-' . date('Y-m-d H:i:s', $m->begin_at) . '  截止-' . date('Y-m-d H:i:s', $m->end_at);
             },
             'begin_end1' => function($m){
-                return date('Y-m-d', $m->begin_at) . ' - ' . date('Y-m-d', $m->begin_at);
+                return date('Y-m-d', $m->begin_at) . ' - ' . date('Y-m-d', $m->end_at);
             },
 
         ];
@@ -95,10 +95,10 @@ class ActivityController extends BaseController
         $mdl = new Activity();
         $format = [
             'begin_end' => function($m){
-                return '开始-' . date('Y-m-d H:i:s', $m->begin_at) . '  截止-' . date('Y-m-d H:i:s', $m->begin_at);
+                return '开始-' . date('Y-m-d H:i:s', $m->begin_at) . '  截止-' . date('Y-m-d H:i:s', $m->end_at);
             },
             'begin_end1' => function($m){
-                return date('Y-m-d', $m->begin_at) . ' - ' . date('Y-m-d', $m->begin_at);
+                return date('Y-m-d', $m->begin_at) . ' - ' . date('Y-m-d', $m->end_at);
             },
         ];
         $format = array_merge($mdl->attributes(), $format);
