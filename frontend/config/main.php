@@ -10,7 +10,7 @@ return [
     'id' => 'mulhealth-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'defaultRoute' => '/redeem/activity/index',
+    'defaultRoute' => '/home/index/index',
     'controllerNamespace' => 'frontend\controllers',
     'layout' => 'header',
     'modules' => [

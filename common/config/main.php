@@ -23,14 +23,6 @@ return [
             'viewPath' => '@common/mail',
             'useFileTransport' => true,
         ],
-        'alias' => [
-            '@common' => dirname(__DIR__),
-            '@frontend' => dirname(dirname(__DIR__)) . '/frontend',
-            '@backend' => dirname(dirname(__DIR__)) . '/backend',
-            '@console' => dirname(dirname(__DIR__)) . '/console',
-            '@environment' => dirname(dirname(__DIR__)) . '/environment',
-            '@upload' => dirname(dirname(__DIR__)) . '/frontend/web/upload/',
-        ],
     ],
 ];
 

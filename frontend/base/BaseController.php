@@ -19,6 +19,7 @@ class BaseController extends Controller
 
     public function behaviors()
     {
+        return true;
         return [
             'access' => [
                 'class' => AccessControl::className(),
