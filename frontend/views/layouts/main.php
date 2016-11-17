@@ -1,20 +1,21 @@
 <?php
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use frontend\assets\AppAsset;
-use frontend\widgets\Alert;
-
-AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
-    <?php $this->beginBody() ?>
-
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-
-    <?php $this->endBody() ?>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width initial-scale=1.0 user-scalable=no"/>
+        <title>首页</title>
+        <link rel="stylesheet" href="/css/style.css"/>
+        <link rel="stylesheet" href="/css/swiper-3.4.0.min.css"/>
+        <script src="/js/jquery-3.1.1.min.js"></script>
+        <script src="/js/swiper-3.4.0.min.js"></script>
+        <script src="/js/tools.js"></script>
+    </head>
+<body>
+<?php echo $content ?>
+</body>
+</html>
+<?php $this->endPage() ?>

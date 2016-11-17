@@ -9,7 +9,6 @@ use common\lib\Tools;
 
 class BaseController extends Controller
 {
-    public $layout = 'layout';
     public $enableCsrfValidation = false;
     public $open_id = '';//微信公众号
     public $uid = '';//微信公众号

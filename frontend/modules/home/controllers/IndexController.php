@@ -14,7 +14,6 @@ use common\models\PointsRecord;
 class IndexController extends BaseController
 {
 
-    public $layout = 'layout';
     public $enableCsrfValidation = false;
 
     /**
@@ -23,8 +22,8 @@ class IndexController extends BaseController
      */
     public function actionIndex()
     {
-        echo 123;
-        
+        $_data = [];
+        return $this->render('index', $_data);
     }
 
 

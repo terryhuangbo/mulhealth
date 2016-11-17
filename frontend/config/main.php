@@ -12,7 +12,7 @@ return [
     'bootstrap' => ['log'],
     'defaultRoute' => '/home/index/index',
     'controllerNamespace' => 'frontend\controllers',
-    'layout' => 'header',
+    'layout' => '//main',
     'modules' => [
         //公共
         'common' => [
