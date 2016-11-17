@@ -7,19 +7,28 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-frontend',
+    'id' => 'mulhealth-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'defaultRoute' => '/redeem/activity/index',
     'controllerNamespace' => 'frontend\controllers',
+    'layout' => 'header',
     'modules' => [
-        //积分兑换
+        //公共
+        'common' => [
+            'class' => 'frontend\modules\common\Module',
+        ],
+        //用户
         'redeem' => [
             'class' => 'frontend\modules\redeem\Module',
         ],
-        //积分兑换
-        'common' => [
-            'class' => 'frontend\modules\common\Module',
+        //用户
+        'user' => [
+            'class' => 'frontend\modules\user\Module',
+        ],
+        //首页
+        'home' => [
+            'class' => 'frontend\modules\home\Module',
         ],
 
     ],
@@ -29,7 +38,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                "<controller:\w+>/<action:\w+>" => "redeem/<controller>/<action>",
+
             ],
         ],
         'user' => [
