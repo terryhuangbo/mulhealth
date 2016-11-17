@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width initial-scale=1.0 user-scalable=no"/>
+    <title>首页</title>
+    <link rel="stylesheet" href="../style/style.css"/>
+    <link rel="stylesheet" href="../style/swiper-3.4.0.min.css"/>
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../js/swiper-3.4.0.min.js"></script>
+</head>
+<body>
+<div class="index">
+    <div class="bannerTop"><a href="login.html"><img src="../images/anumous.png"/> </a></div>
+    <div class="banner">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="../images/banner1.png"/></div>
+                <div class="swiper-slide"><img src="../images/banner2.png"/></div>
+            </div>
+        </div>
+    </div>
+    <div class="slideText">
+        <marquee>最新动态-跑马灯</marquee>
+    </div>
+    <div class="nav">
+        <ul>
+            <li><a href="../about/index.html"><img class="fl" src="../images/index1.png"/></a></li>
+            <li><a href="../my/index.html"><img class="fr" src="../images/index2.png"/></a></li>
+            <li><a href="guest.html"><img class="fl" src="../images/index3.png"/></a></li>
+        </ul>
+    </div>
+</div>
+</body>
+<script>
+    var mySwiper = new Swiper('.swiper-container', {
+        autoplay: 5000,//可选选项，自动滑动
+        loop : true,
+    })
+</script>
+</html>

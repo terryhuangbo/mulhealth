@@ -1,0 +1,216 @@
+@import "reset.css";
+html,body{height:100%; width:100%;position: relative;}
+.top{ width:100%; background: #04d4be; padding:10px 0;}
+.top p{ width:50%; height:100%; text-indent: 10px; font-size:14px; color:#fff; display: inline-block;
+line-height: 25px;}
+.top .circle{ width:25px; height:25px;float: right; border-radius: 50%; overflow: hidden;margin-right: 10px;}
+.top .circle img{ width:25px; height:25px; }
+.bottom{height:50px;width:100%;position: fixed;bottom:0; border-top:1px solid #abf1e9; padding:5px 0;}
+.bottom nav{ width:100%;height:100%;}
+.bottom nav ul{ width:100%; height:100%;}
+.bottom nav ul li{ width:25%; height:100%; float: left;}
+.bottom nav ul li a{display: block; width:100%; height:100%;}
+.bottom nav ul li a .circle{width:30px; height:30px;display: block;margin:0 auto; border-radius: 50%;
+overflow: hidden; background: #b2b2b2;}
+.bottom nav ul li a .circle img{ width:15px;height:15px; display: block;margin:7px auto;}
+.bottom nav ul li a.active .circle{background:#04d4be; }
+.bottom nav ul li p{color:rgb(0,86,116);font-size:12px; text-align: center; letter-spacing: 2px;}
+.center{ display: block; position: absolute; top:45px; bottom: 60px; left:0 ;right:0;overflow-x:hidden;
+overflow-y: auto;}
+/*关于多源*/
+.center .aboutBg{width:100%; height:100%; background: url("../images/aboutBg.png") no-repeat;
+    background-size:100% 100%; }
+.center .aboutBg ul{ width:100%; height:90%;padding:10% 0 0 0;}
+.center .aboutBg ul li{ width:100%; height:25%; overflow: hidden;}
+.center .aboutBg ul li img{width:60%; }
+.center .aboutBg ul li:first-child{ text-indent: 5%;}
+.center .aboutBg ul li:nth-child(2){ text-indent: 13%;}
+.center .aboutBg ul li:nth-child(3){ text-indent: 30%;}
+.center .aboutBg ul li:last-child{ text-indent: 13%;}
+.center .intro{width:100%; height:100%;}
+.center .intro .title{width:100%;  padding:5px 0;}
+.center .intro .title img{ display: block; height:15px; margin:0 auto;}
+.center .intro .img{width:100%;  padding:5px 0;}
+.center .intro .img img{width:90%; display: block; margin:0 auto;}
+.center .intro .text{width:90%;padding:5px 0; margin:0 auto;}
+.center .intro .text p{ font-size:12px; line-height: 20px; text-indent: 2em;color:rgb(96,96,96);}
+.center .intro .movie{width:100%; padding:5px 0;}
+.center .intro .movie img{width:90%; display: block;margin:0 auto;}
+.center .team{ width:100%; height:100%; background: url("../images/teamBg.png") no-repeat;
+background-size:100% 100%; }
+.center .team .title{width:100%; padding:10px 0;}
+.center .team .title img{ display: block; height:15px; margin:0 auto;}
+.center .team .img{ width:100%; padding:10px 0;}
+.center .team .img img{width:50%; display: block; margin:0 auto; border:15px solid #fff;}
+.center .team .text{ width:80%; margin:10px auto;}
+.center .team .text p{ text-indent:2em;text-shadow: 0px 0px 3px #fff; font-size:12px; color:rgb(6,117,134);
+font-weight: bold;}
+.fl{float: left;}
+.fr{float: right;}
+/*产品介绍*/
+.productIntro{width:100%; height:100%;}
+.productIntro .list{width:100%; height:33.3333%;overflow: hidden; position: relative;}
+.productIntro .list .title{ border:1px solid #ccc; border-radius: 6px; margin:10px auto; width:95%;}
+.productIntro .list .title img{ width:30px; height:30px;  float: left; margin:10px;}
+.productIntro .list .title p{ line-height: 50px; font-size:14px; color:rgb(170,170,170); float: left;
+text-indent: 20px;}
+.productIntro .list .title a{ float: right; color:rgb(4,212,190); font-size:12px; line-height: 50px;
+text-decoration: underline;margin-right: 10px;}
+.productIntro .list .title:after{content:"";height:1px;display: block;clear: both;}
+.productIntro .list .content{width:100%;height:50px; position: absolute;bottom: 0;padding-bottom: 20px;}
+.productIntro .list .content p{ float: left;line-height: 50px; text-indent: 20px;color:rgb(96,96,96);}
+.productIntro .list .content img{ float: right; margin-right:5px; width:50px; height:50px;}
+.productItem{ width:100%; height:100%;}
+.productItem .filter{ width:100%; height:30px;}
+.productItem .filter > ul{ width:100%; height:30px;border-bottom: 1px solid #ccc;}
+.productItem .filter > ul > li{ width:50%; height:30px; float: left; line-height: 30px;position: relative;
+    text-align: center;}
+.productItem .filter > ul > li a{ display: block; width:100%; height:100%;border-right:1px solid #ccc;}
+.productItem .filter > ul > li a p{ font-size:12px;color:rgb(174,174,174);}
+.productItem .filter > ul > li a img{margin-left:15px;width:6px;}
+#time,#items{display: none;position: absolute;top:31px;width:80%;box-shadow: 2px 2px 15px #999;left:10%;
+border-radius: 6px;}
+#time ul,#items ul{background: #fff; z-index: 2;color:rgb(174,174,174);border-radius: 6px;}
+#time ul li,#items ul li{background: #fff; z-index: 2;width:90%;margin:0 auto; border-bottom:1px solid #ccc;}
+#time ul li:last-child,#items ul li:last-child{border:none;}
+.productItem .list{width:100%; padding:20px 0; border-bottom: 1px dotted #49e0d0}
+.productItem .list .title{ width:90%; height:30px;margin:0 auto;}
+.productItem .list .title p{  line-height: 30px; font-size:12px; color:rgb(170,170,170);}
+.productItem .list .content{width:90%;margin:10px auto;}
+.productItem .list .content img{ float: left;width:20%;}
+.productItem .list .content p{width:70% ;height:50px; overflow: hidden; line-height: 25px;font-size:13px;
+    padding:0 0 0 10%}
+.productItem .list .content a{ float: right; line-height: 30px; font-size:12px;color:rgb(4,212,190);}
+/*多源之家*/
+.home{width:100%; height:100%; position: relative;}
+.home .list{ width:100%; padding:10px 0; border-bottom: 1px solid #79e8dc;}
+.home .list .title{width:90%; height:30px;margin:10px auto; line-height: 30px; color:rgb(170,170,170);}
+.home .list .title p img{ width:30px; height:30px; border-radius: 50%;margin-right:10px;}
+.home .list .content{width:90%;margin:10px auto; text-indent: 2em; color:rgb(96,96,96); padding-bottom: 10px;
+    border-bottom: 1px dotted #e2e2e2;}
+.home .list .tail{width:90%;margin:0 auto;}
+.home .list .tail img{ float: right; width:20px;margin-right:10px;}
+.home .list .tail:after{content:"";width:1px; clear: both;display: block;}
+.home .release{position: fixed;bottom:60px; width:100%;height:40px; text-align: center;border-top: 1px solid #abf1e9;
+letter-spacing: 3px;}
+.home .release img{ width:20px;margin:10px 10px 10px 0; }
+.home .release a{ font-size:14px; color:rgb(251,138,138); background: #fff; display: block; width:100%; height:100%;
+text-decoration: none;}
+.upload{ width:100%; height:100%; }
+.upload textarea{resize: none; width:90%;height:120px; border:1px solid #d4d4d4; border-radius: 6px;
+    margin:10px auto; display: block; padding:5px;}
+.upload .btn{width:90%; margin:10px auto;}
+.upload .btn label{color:rgb(187,187,187); text-indent:10px; font-size:12px;}
+.upload .btn button{ border:none; padding:5px 20px; outline: none; border-radius: 6px; font-size:13px;
+    color:#fff; float: right;}
+.upload .btn button.cancel{background: #bbbbbb;margin-right: 10px;}
+.upload .btn button.commit{background: #04d4be;}
+.upload .uploadImg{ width:90%; margin:20px auto;}
+.upload .uploadImg img{ float: left; margin-right:10px; width:50px;}
+.upload .uploadImg .uploadFile{position: relative; width:50px; height:50px; float: left; display: block;}
+.upload .uploadImg input{opacity: 0; display: block; position: absolute;top:0;left:0;bottom: 0;width:50px;}
+.upload .uploadImg p{ font-size:12px; color:rgb(187,187,187); width:100%;line-height: 40px; }
+.my{width:100%; height:100%; }
+.my .tx{width:60%;padding:20px 15%;height:100px; margin:0 auto; border-bottom: 1px solid #79e8dc;position: relative;}
+.my .tx .img{ float: left; margin:10px 10px; border-radius: 50%; height:80px;
+    width:80px; position: relative;}
+.my .tx .img .txImg{border-radius: 50%; width:80px; height:80px;}
+.my .tx .img:after{clear:both;content: "";width:1px; display: block;}
+.my .tx img.sex{ width:20px;height:20px; position: absolute;right:0;top:0;}
+.my .tx .text{ float: right; height:50px;margin:25px 0;}
+.my .tx .text p{line-height: 25px; font-size:13px; color:rgb(96,96,96);}
+.my .menu{ width:90%;margin:10px auto;}
+.my .menu table{width:100%; height:200px;border-bottom: 1px dotted #ccc;}
+.my .menu table tr{position: relative;}
+.my .menu table tr td{border-top:1px dotted #ccc; font-size:14px; letter-spacing: 2px;}
+.my .menu table tr td img{ width:20px;margin-lefT:20px;}
+.my .menu table tr td a{ display: block;}
+.my .info{ width:80%; margin:20px auto;}
+.my .info table{width:100%; height:250px;}
+.my .info table tr td:first-child{ text-align: right; font-size:14px;}
+.my .info table tr td > input{width:80%; border-radius: 6px;padding:0 5%;float: right; border:1px solid #ccc;
+height:25px; font-size:13px;}
+.my .info table tr td label:first-child{margin-left:10%; margin-right:10px; font-size:14px;}
+.my .info .saveBtn{background: #04d4be;color:#fff; font-size:14px; padding:5px 30px; display: block;
+margin:10px auto; border:none; border-radius: 6px;}
+.myReport{width:100%; height:100%; float: left;}
+.myReport .title{height:30px; width:95%; margin:10px auto; border-bottom: 1px solid #ccc; }
+.myReport .title p{text-align: center; color:rgb(4,212,190);}
+.myReport .title ul{ width:100%; height:30px;}
+.myReport .title ul li{ width:50%; height:30px; float: left; text-align: center;}
+.myReport .title ul li a{ font-size:12px; color:rgb(96,96,96); display: block; width:100%; line-height: 25px; border-right: 1px solid #ccc;  }
+.myReport .title ul li a.active{color:rgb(4,212,190);}
+.myReport .content{ width:80%; margin:20px auto;}
+.myReport .content > img{width:100%; margin:20px auto; display: block;}
+.myReport .content a{color:rgb(42,128,183); font-size:12px; float: right;margin-right:5%;}
+.myReport .content .list{width:100%; height:100px;margin:0 auto;}
+.myReport .content .list .left{width:45%; float: left;height:100px; line-height: 100px; }
+.myReport .content .list .left p{text-align: center;text-indent: 10px; font-size:12px;}
+.myReport .content .list1 .left{background: url("../images/today.png") no-repeat center; background-size: 75px auto;color:rgb(42,128,183);}
+.myReport .content .list2 .left{background: url("../images/yesteday.png") no-repeat center; background-size: 75px auto;color:rgb(58,88,143);}
+.myReport .content .list3 .left{background: url("../images/last.png") no-repeat center; background-size: 75px auto;color:rgb(93,22,121);}
+.myReport .content .list4 .left{background: url("../images/lastTwo.png") no-repeat center; background-size: 75px auto;color:rgb(181,56,111);}
+.myReport .content .list .right{width:55%; float: right;height:70px;}
+.myReport .content .list .right p{ line-height: 30px; font-size:12px;}
+.myReport .content .list .right img{width:40px;}
+.more{width:90%; height:100%;margin:10px auto;}
+.more h2{ font-size:14px; line-height: 50px;}
+.more p{ font-size:12px;text-indent: 2em; line-height: 25px;}
+.more img{ width:100%; margin:10px auto; display: block;}
+.uploadReport{width:100%; height:100%;}
+.uploadReport a{display: block;width:150px; height:150px; margin:20% auto;}
+.uploadReport a img{width:150px;}
+.writeReport{width:100%; height:100%; float: left;}
+.writeReport .title{height:30px; border-bottom: 1px solid #79e8dc;width:90%; margin:10px auto; line-height: 30px;
+    font-size:12px; color:rgb(4,212,190);text-align: center;}
+.writeReport .content{width:90%; margin:20px auto;}
+.writeReport .content table{width:100%; font-size:13px;}
+.writeReport .content table tr td:first-child{text-align: right;}
+.writeReport .content table tr td input{border-radius: 6px; width:100%;height:25px; border:1px solid #ccc;}
+.writeReport .content table tr td{padding:5px 0;}
+.writeReport .content table tr td:last-child{text-indent: 5px;}
+.writeReport .content button{display: block; padding:5px 40px; margin:10px auto; background: #04d4be;color:#fff;
+font-size:13px; border:none; border-radius: 6px;}
+.modal{position: absolute;top:0;left:0;right:0;bottom:0; background: rgba(0,0,0,0.5);display: none; z-index:10;}
+.modal .content{width:70%; height:150px; margin:20% auto; background: #fff;}
+.modal .content a{ float: right; width:20px; height:20px; margin:10px;}
+.modal .content a img{ height:20px; width:20px; }
+.modal .content p{font-size:13px;color:rgb(96,96,96); text-align: center;padding-top:40px;line-height: 50px;}
+.modal .content button{ color:#fff; background: #04d4be; font-size:13px; border-radius: 6px; padding:5px 20px;
+border:none; display: block;margin:10px auto;}
+.changePwd{width:100%; height:100%; float: left;}
+.changePwd h2{ text-align: center; font-size:16px; line-height: 100px; color:rgb(45,98,141);}
+.changePwd table{width:90%; margin:10px auto;}
+.changePwd table input{height:25px; width:100%; border-radius: 6px; border:1px solid #ccc;text-indent: 5px;}
+.changePwd table tr td:first-child{text-align: right; }
+.changePwd table tr td{ padding:10px 20px; color:rgb(96,96,96); font-size:12px;}
+.changePwd button{ color:#fff; background: #04d4be; font-size:13px; border-radius: 6px; padding:5px 40px;
+    border:none; display: block;margin:10px auto;}
+.index{width:100%; height:100%; float: left;}
+.index .bannerTop{ width:100%; background: url("../images/topBanner.png") no-repeat; background-size:100% 100%;height:40px; }
+.index .bannerTop a{ float: right; width:20px; height:20px; display: block;margin:10px;}
+.index .bannerTop a img{ width:20px; height:20px;}
+.index .banner{ width:100%; height:180px; overflow: hidden;}
+.index .banner img{width:100%;height:180px;}
+.index .slideText {color:rgb(4,212,190);border-top:1px solid rgb(4,212,190);border-bottom:1px solid rgb(4,212,190);text-align: center;
+font-size:13px; line-height: 30px;margin:10px auto;}
+.index .nav{width:90%; margin:0 auto;}
+.index .nav ul{width:100%;}
+.index .nav ul li{width:100%;margin:10px 0;}
+.index .nav ul li a img{width:80%; margin:10px 0;}
+.login{width:100%; height:100%; background: url("../images/login.png") no-repeat center; background-size:100% 100%;}
+.login form{width:100%; height:200px; padding-top:280px;}
+.login form input{ width:70%; border:1px solid #04d4be;margin:20px auto;height:30px; text-align: center; border-radius: 6px;
+display: block; font-size:12px; letter-spacing: 5px; color:rgb(174,174,174);}
+.login form .submit{ background: #04d4be;color:#fff;}
+.login p{text-align: center;}
+.login p a{color:rgb(96,96,96); font-size:12px;}
+.login p span{ padding:0 20px;}
+.login p span:first-child{border-right: 1px solid rgb(96,96,96);}
+.navList{width:90%; margin:20px auto;}
+.navList ul{width:100%;margin:0 auto;}
+.navList ul li{ float: left;width:25%;margin:20px 0;}
+.navList ul li a{display: block; width:70px; height:70px;border-radius: 50%;text-align: center; font-size:12px; color:#fff; line-height: 70px;
+margin:0 auto;}
+.navList .three ul{width:80%;}
+.navList .three ul li{width:33.3333%;}

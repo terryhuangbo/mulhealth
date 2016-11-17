@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width initial-scale=1.0 user-scalable=no"/>
+    <title>关于多源-代表性专利</title>
+    <link rel="stylesheet" href="../style/style.css"/>
+    <link rel="stylesheet" href="../style/swiper-3.4.0.min.css"/>
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../js/swiper-3.4.0.min.js"></script>
+</head>
+<body>
+<section class="top">
+    <p>多源健康</p>
+    <div class="circle">
+        <img src="../images/tx.png"/>
+    </div>
+</section>
+<section class="center">
+    <div class="team">
+        <div class="title">
+            <img src="../images/patentTitle.png"/>
+        </div>
+        <div class="img">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="../images/teamImg1.png"> </div>
+                </div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div>
+        <div class="text">
+            <p>生物科技是一个耳熟能详的名词，它是由英文biotechnology翻译而来的。美国国家科技委员会将生物科技定义为
+                “生物科技包含一系统技术，它可利用生物体或细胞生产我们所需要的产物，这些技术包括基因重组，细胞融合和
+                一些生物制造程序等。”</p>
+        </div>
+    </div>
+</section>
+<section class="bottom">
+    <nav>
+        <ul>
+            <li>
+                <a href="/index.html" class="active">
+                    <div class="circle"><img src="../images/nav1.png"/></div>
+                    <p>关于多源</p>
+                </a>
+            </li>
+            <li>
+                <a href="../product/index.html">
+                    <div class="circle"><img src="../images/nav2.png"/></div>
+                    <p>产品介绍</p>
+                </a>
+            </li>
+            <li>
+                <a href="../home/index.html">
+                    <div class="circle"><img src="../images/nav3.png"/></div>
+                    <p>多源之家</p>
+                </a>
+            </li>
+            <li>
+                <a href="../my/index.html">
+                    <div class="circle"><img src="../images/nav4.png"/></div>
+                    <p>我的多源</p>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</section>
+</body>
+<script>
+    var mySwiper = new Swiper('.swiper-container', {
+        autoplay: 5000,//可选选项，自动滑动
+        prevButton:'.swiper-button-prev',
+        nextButton:'.swiper-button-next',
+        loop : true
+    })
+</script>
+</html>

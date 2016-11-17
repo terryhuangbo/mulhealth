@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width initial-scale=1.0 user-scalable=no"/>
+    <title>退出登录</title>
+    <link rel="stylesheet" href="../style/style.css"/>
+    <script src="../js/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+<section class="top">
+    <p>多源健康</p>
+    <div class="circle">
+        <img src="../images/tx.png"/>
+    </div>
+</section>
+<section class="center">
+    <div class="my">
+        <div class="head">
+            <div class="tx">
+                <div class="img">
+                    <img class="txImg" src="../images/tx.png"/>
+                    <img class="sex" src="../images/sex.png"/>
+                </div>
+                <div class="text">
+                    <p>多源生物管理员</p>
+                    <p>31岁</p>
+                </div>
+            </div>
+        </div>
+        <div class="info">
+            <table>
+                <tr>
+                    <td>昵称</td>
+                    <td><input type="text" maxlength="12"></td>
+                </tr>
+                <tr>
+                    <td>性别</td>
+                    <td><label><input type="radio" name="sex">男</label><label><input name="sex" type="radio">女</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>真实姓名</td>
+                    <td><input type="text"/></td>
+                </tr>
+                <tr>
+                    <td>身份证号</td>
+                    <td><input type="text"/></td>
+                </tr>
+                <tr>
+                    <td>联系方式</td>
+                    <td><input type="tel"/></td>
+                </tr>
+                <tr>
+                    <td>通讯地址</td>
+                    <td><input type="text"/></td>
+                </tr>
+            </table>
+            <button class="saveBtn">保存</button>
+        </div>
+    </div>
+
+</section>
+<section class="bottom">
+    <nav>
+        <ul>
+            <li>
+                <a href="../about/index.html">
+                    <div class="circle"><img src="../images/nav1.png"/></div>
+                    <p>关于多源</p>
+                </a>
+            </li>
+            <li>
+                <a href="../product/index.html">
+                    <div class="circle"><img src="../images/nav2.png"/></div>
+                    <p>产品介绍</p>
+                </a>
+            </li>
+            <li>
+                <a href="../home/index.html">
+                    <div class="circle"><img src="../images/nav3.png"/></div>
+                    <p>多源之家</p>
+                </a>
+            </li>
+            <li>
+                <a href="../my/index.html" class="active">
+                    <div class="circle"><img src="../images/nav4.png"/></div>
+                    <p>我的多源</p>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</section>
+<div class="modal" style="display: block;">
+    <div class="content">
+        <a class="closeModal"><img src="../images/close.png"/> </a>
+        <p>退出登录</p>
+        <button class="ok">确定</button>
+    </div>
+</div>
+</body>
+<script>
+    $(".closeModal,.ok").click(function () {
+        $(".modal").hide();
+    });
+</script>
+</html>
