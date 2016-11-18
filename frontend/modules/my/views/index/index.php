@@ -17,22 +17,22 @@
                 <tr>
                     <td><img src="/images/inco1.png"/> </td>
                     <td style="color:#fdb505;">我的信息</td>
-                    <td><a href="myInfo.html"> > </a>  </td>
+                    <td><a href="/my/profile/index"> > </a>  </td>
                 </tr>
                 <tr>
                     <td><img src="/images/inco2.png"/> </td>
                     <td style="color:#5bc3c3;">我的体检报告</td>
-                    <td><a href="uploadReport.html">></a>  </td>
+                    <td><a href="/my/report/index">></a>  </td>
                 </tr>
                 <tr>
                     <td><img src="/images/inco3.png"/> </td>
                     <td style="color:#0282c2;">我的细胞培养</td>
-                    <td><a href="myCell.html"> > </a></td>
+                    <td><a href="/my/cell/index"> > </a></td>
                 </tr>
                 <tr>
                     <td><img src="/images/inco4.png"/> </td>
                     <td style="color:#f88cbd;">修改登录密码</td>
-                    <td><a href="changePwd.html"> > </a></td>
+                    <td><a href="/my/index/alter-pwd"> > </a></td>
                 </tr>
             </table>
         </div>

@@ -66,6 +66,18 @@ class AboutController extends BaseController
         return $this->render('honor', $_data);
     }
 
+    /**
+     * 首页-登录
+     * @return type
+     */
+    public function actionGuest()
+    {
+        $_data = [];
+        return $this->render('guest', $_data);
+    }
+
+
+
 
 
 

@@ -71,7 +71,7 @@
             </div>
         </div>
         <div class="release">
-            <a href="release.html"><img src="/images/release.png"/>发帖 </a>
+            <a href="/comment/index/release"><img src="/images/release.png"/>发帖 </a>
         </div>
     </div>
 </section>

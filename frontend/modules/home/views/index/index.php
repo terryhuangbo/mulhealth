@@ -1,10 +1,10 @@
 <div class="index">
-    <div class="bannerTop"><a href="login.html"><img src="../images/anumous.png"/> </a></div>
+    <div class="bannerTop"><a href="/user/index/login"><img src="/images/anumous.png"/> </a></div>
     <div class="banner">
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="../images/banner1.png"/></div>
-                <div class="swiper-slide"><img src="../images/banner2.png"/></div>
+                <div class="swiper-slide"><img src="/images/banner1.png"/></div>
+                <div class="swiper-slide"><img src="/images/banner2.png"/></div>
             </div>
         </div>
     </div>
@@ -13,9 +13,9 @@
     </div>
     <div class="nav">
         <ul>
-            <li><a href="/company/about/index"><img class="fl" src="../images/index1.png"/></a></li>
-            <li><a href="../my/index.html"><img class="fr" src="../images/index2.png"/></a></li>
-            <li><a href="guest.html"><img class="fl" src="../images/index3.png"/></a></li>
+            <li><a href="/company/about/index"><img class="fl" src="/images/index1.png"/></a></li>
+            <li><a href="/my/index/index"><img class="fr" src="/images/index2.png"/></a></li>
+            <li><a href="/company/about/guest"><img class="fl" src="/images/index3.png"/></a></li>
         </ul>
     </div>
 </div>

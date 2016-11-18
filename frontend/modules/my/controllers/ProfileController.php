@@ -11,7 +11,7 @@ use common\models\Points;
 use common\models\PointsRecord;
 
 
-class IndexController extends BaseController
+class ProfileController extends BaseController
 {
 
     public $enableCsrfValidation = false;
@@ -24,16 +24,6 @@ class IndexController extends BaseController
     {
         $_data = [];
         return $this->render('index', $_data);
-    }
-
-    /**
-     * 首页-登录
-     * @return type
-     */
-    public function actionAlterPwd()
-    {
-        $_data = [];
-        return $this->render('pwd', $_data);
     }
 
 

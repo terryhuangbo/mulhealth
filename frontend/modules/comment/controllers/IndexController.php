@@ -26,6 +26,17 @@ class IndexController extends BaseController
         return $this->render('index', $_data);
     }
 
+    /**
+     * 首页-未登录
+     * @return type
+     */
+    public function actionRelease()
+    {
+        $_data = [];
+        return $this->render('release', $_data);
+    }
+
+
 
 
 }

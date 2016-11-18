@@ -13,7 +13,7 @@ use common\models\PointsRecord;
 
 class IndexController extends BaseController
 {
-
+    public $layout = '//home';
     public $enableCsrfValidation = false;
 
     /**
@@ -35,6 +35,43 @@ class IndexController extends BaseController
         $_data = [];
         return $this->render('index-login', $_data);
     }
+
+    /**
+     * 首页-登录
+     * @return type
+     */
+    public function actionLogin()
+    {
+        $_data = [];
+        return $this->render('login', $_data);
+    }
+
+    /**
+     * 首页-登录
+     * @return type
+     */
+    public function actionRegister()
+    {
+        $_data = [];
+        return $this->render('register', $_data);
+    }
+
+    /**
+     * 首页-登录
+     * @return type
+     */
+    public function actionForget()
+    {
+        $_data = [];
+        return $this->render('forget', $_data);
+    }
+
+
+
+
+
+
+
 
 
 
