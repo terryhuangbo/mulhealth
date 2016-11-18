@@ -22,15 +22,30 @@ return [
         'redeem' => [
             'class' => 'frontend\modules\redeem\Module',
         ],
-        //用户
-        'user' => [
-            'class' => 'frontend\modules\user\Module',
-        ],
         //首页
         'home' => [
             'class' => 'frontend\modules\home\Module',
         ],
-
+        //用户
+        'user' => [
+            'class' => 'frontend\modules\user\Module',
+        ],
+        //个人中心
+        'my' => [
+            'class' => 'frontend\modules\my\Module',
+        ],
+        //公司
+        'company' => [
+            'class' => 'frontend\modules\company\Module',
+        ],
+        //产品
+        'product' => [
+            'class' => 'frontend\modules\product\Module',
+        ],
+        //评论
+        'comment' => [
+            'class' => 'frontend\modules\comment\Module',
+        ],
     ],
     'components' => [
         'db' => require(__DIR__ . '/../../common/config/db.php'),

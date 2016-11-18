@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\modules\home\controllers;
+namespace frontend\modules\comment\controllers;
 
 use common\behavior\PointBehavior;
 use Yii;
