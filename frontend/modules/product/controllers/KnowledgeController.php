@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\modules\home\controllers;
+namespace frontend\modules\product\controllers;
 
 use common\behavior\PointBehavior;
 use Yii;
@@ -11,34 +11,20 @@ use common\models\Points;
 use common\models\PointsRecord;
 
 
-class IndexController extends BaseController
+class KnowledgeController extends BaseController
 {
 
-    public $layout = '//home';
     public $enableCsrfValidation = false;
 
     /**
      * 首页-未登录
      * @return type
      */
-    public function actionIndex()
+    public function actionItems()
     {
         $_data = [];
         return $this->render('index', $_data);
     }
-
-    /**
-     * 首页-登录
-     * @return type
-     */
-    public function actionIndexLogin()
-    {
-        $_data = [];
-        return $this->render('index-login', $_data);
-    }
-
-
-
 
 
 }

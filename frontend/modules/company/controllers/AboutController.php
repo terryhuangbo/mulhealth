@@ -30,11 +30,47 @@ class AboutController extends BaseController
      * 首页-登录
      * @return type
      */
-    public function actionIndexLogin()
+    public function actionIntroduce()
     {
         $_data = [];
-        return $this->render('index-login', $_data);
+        return $this->render('introduce', $_data);
     }
+
+    /**
+     * 首页-登录
+     * @return type
+     */
+    public function actionTeam()
+    {
+        $_data = [];
+        return $this->render('team', $_data);
+    }
+
+    /**
+     * 首页-登录
+     * @return type
+     */
+    public function actionPatent()
+    {
+        $_data = [];
+        return $this->render('patent', $_data);
+    }
+
+    /**
+     * 首页-登录
+     * @return type
+     */
+    public function actionHonor()
+    {
+        $_data = [];
+        return $this->render('honor', $_data);
+    }
+
+
+
+
+
+
 
 
 

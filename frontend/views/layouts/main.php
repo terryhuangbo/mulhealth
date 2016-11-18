@@ -16,7 +16,15 @@ $moduleId = $this->context->module->id;
         <script src="/js/tools.js"></script>
     </head>
 <body>
+<section class="top">
+    <p>多源健康</p>
+    <div class="circle">
+        <img src="/images/tx.png"/>
+    </div>
+</section>
+
 <?php echo $content; ?>
+
 <section class="bottom">
     <nav>
         <ul>

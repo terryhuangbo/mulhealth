@@ -1,9 +1,3 @@
-<section class="top">
-    <p>多源健康</p>
-    <div class="circle">
-        <img src="/images/tx.png"/>
-    </div>
-</section>
 <section class="center">
     <div class="my">
         <div class="head">
