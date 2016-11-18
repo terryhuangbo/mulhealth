@@ -1,27 +1,84 @@
-<div class="index">
-    <div class="bannerTop"><a href="login.html"><img src="../images/anumous.png"/> </a></div>
-    <div class="banner">
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="../images/banner1.png"/></div>
-                <div class="swiper-slide"><img src="../images/banner2.png"/></div>
+<section class="top">
+    <p>多源健康</p>
+    <div class="circle">
+        <img src="../images/tx.png"/>
+    </div>
+</section>
+<section class="center">
+    <div class="home">
+        <div class="list">
+            <div class="title">
+                <p class="fl"><img src="../images/tx.png" alt="头像" class="fl">游客</p>
+                <p class="fr">2012/12/12 12:00:00</p>
+            </div>
+            <div class="content">
+                <p>测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</p>
+            </div>
+            <div class="tail">
+                <a href=""><img src="../images/share.png"/></a>
+                <a href=""><img src="../images/chat.png"/></a>
+                <a href=""><img src="../images/like.png"/></a>
             </div>
         </div>
+        <div class="list">
+            <div class="title">
+                <p class="fl"><img src="../images/tx.png" alt="头像" class="fl">游客</p>
+                <p class="fr">2012/12/12 12:00:00</p>
+            </div>
+            <div class="content">
+                <p>测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</p>
+            </div>
+            <div class="tail">
+                <a href=""><img src="../images/share.png"/></a>
+                <a href=""><img src="../images/chat.png"/></a>
+                <a href=""><img src="../images/like.png"/></a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="title">
+                <p class="fl"><img src="../images/tx.png" alt="头像" class="fl">游客</p>
+                <p class="fr">2012/12/12 12:00:00</p>
+            </div>
+            <div class="content">
+                <p>测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</p>
+            </div>
+            <div class="tail">
+                <a href=""><img src="../images/share.png"/></a>
+                <a href=""><img src="../images/chat.png"/></a>
+                <a href=""><img src="../images/like.png"/></a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="title">
+                <p class="fl"><img src="../images/tx.png" alt="头像" class="fl">游客</p>
+                <p class="fr">2012/12/12 12:00:00</p>
+            </div>
+            <div class="content">
+                <p>测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</p>
+            </div>
+            <div class="tail">
+                <a href=""><img src="../images/share.png"/></a>
+                <a href=""><img src="../images/chat.png"/></a>
+                <a href=""><img src="../images/like.png"/></a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="title">
+                <p class="fl"><img src="../images/tx.png" alt="头像" class="fl">游客</p>
+                <p class="fr">2012/12/12 12:00:00</p>
+            </div>
+            <div class="content">
+                <p>测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</p>
+            </div>
+            <div class="tail">
+                <a href=""><img src="../images/share.png"/></a>
+                <a href=""><img src="../images/chat.png"/></a>
+                <a href=""><img src="../images/like.png"/></a>
+            </div>
+        </div>
+        <div class="release">
+            <a href="release.html"><img src="../images/release.png"/>发帖 </a>
+        </div>
     </div>
-    <div class="slideText">
-        <marquee>最新动态-跑马灯</marquee>
-    </div>
-    <div class="nav">
-        <ul>
-            <li><a href="../about/index.html"><img class="fl" src="../images/index1.png"/></a></li>
-            <li><a href="../my/index.html"><img class="fr" src="../images/index2.png"/></a></li>
-            <li><a href="guest.html"><img class="fl" src="../images/index3.png"/></a></li>
-        </ul>
-    </div>
-</div>
-<script>
-    var mySwiper = new Swiper('.swiper-container', {
-        autoplay: 5000,//可选选项，自动滑动
-        loop : true
-    })
-</script>
+</section>
+

@@ -1,27 +1,79 @@
-<div class="index">
-    <div class="bannerTop"><a href="login.html"><img src="../images/anumous.png"/> </a></div>
-    <div class="banner">
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="../images/banner1.png"/></div>
-                <div class="swiper-slide"><img src="../images/banner2.png"/></div>
+<section class="top">
+    <p>多源健康</p>
+    <div class="circle">
+        <img src="/images/tx.png"/>
+    </div>
+</section>
+<section class="center">
+    <div class="productIntro">
+        <div class="list">
+            <div class="title">
+                <img src="/images/intro1.png"/>
+                <p>产品项目</p>
+                <a href="item.html">更多>></a>
+            </div>
+            <div class="content">
+                <p>干细胞培养</p>
+                <img src="/images/cell.png" alt="干细胞培养">
+                <img src="/images/cell.png" alt="干细胞培养">
+                <img src="/images/cell.png" alt="干细胞培养">
+            </div>
+        </div>
+        <div class="list">
+            <div class="title">
+                <img src="/images/intro2.png"/>
+                <p>产品知识</p>
+                <a href="knowledge.html">更多>></a>
+            </div>
+            <div class="content">
+                <p>如何培养干细胞</p>
+                <img src="/images/how.png" alt="如何培养干细胞">
+                <img src="/images/how.png" alt="如何培养干细胞">
+                <img src="/images/how.png" alt="如何培养干细胞">
+            </div>
+        </div>
+        <div class="list">
+            <div class="title">
+                <img src="/images/intro3.png"/>
+                <p>经典案例</p>
+                <a href="case.html">更多>></a>
+            </div>
+            <div class="content">
+                <p>霍金干细胞培育功能</p>
+                <img src="/images/cell.png" alt="霍金干细胞培育功能">
+                <img src="/images/cell.png" alt="霍金干细胞培育功能">
+                <img src="/images/cell.png" alt="霍金干细胞培育功能">
             </div>
         </div>
     </div>
-    <div class="slideText">
-        <marquee>最新动态-跑马灯</marquee>
-    </div>
-    <div class="nav">
+</section>
+<section class="bottom">
+    <nav>
         <ul>
-            <li><a href="../about/index.html"><img class="fl" src="../images/index1.png"/></a></li>
-            <li><a href="../my/index.html"><img class="fr" src="../images/index2.png"/></a></li>
-            <li><a href="guest.html"><img class="fl" src="../images/index3.png"/></a></li>
+            <li>
+                <a href="../about/index.html">
+                    <div class="circle"><img src="/images/nav1.png"/></div>
+                    <p>关于多源</p>
+                </a>
+            </li>
+            <li>
+                <a href="/index.html" class="active">
+                    <div class="circle"><img src="/images/nav2.png"/></div>
+                    <p>产品介绍</p>
+                </a>
+            </li>
+            <li>
+                <a href="../home/index.html">
+                    <div class="circle"><img src="/images/nav3.png"/></div>
+                    <p>多源之家</p>
+                </a>
+            </li>
+            <li>
+                <a href="../my/index.html">
+                    <div class="circle"><img src="/images/nav4.png"/></div>
+                    <p>我的多源</p>
+                </a>
+            </li>
         </ul>
-    </div>
-</div>
-<script>
-    var mySwiper = new Swiper('.swiper-container', {
-        autoplay: 5000,//可选选项，自动滑动
-        loop : true
-    })
-</script>
+    </nav>
+</section>

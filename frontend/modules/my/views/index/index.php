@@ -1,27 +1,46 @@
-<div class="index">
-    <div class="bannerTop"><a href="login.html"><img src="../images/anumous.png"/> </a></div>
-    <div class="banner">
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="../images/banner1.png"/></div>
-                <div class="swiper-slide"><img src="../images/banner2.png"/></div>
+<section class="top">
+    <p>多源健康</p>
+    <div class="circle">
+        <img src="/images/tx.png"/>
+    </div>
+</section>
+<section class="center">
+    <div class="my">
+        <div class="head">
+            <div class="tx">
+                <div class="img">
+                    <img class="txImg" src="/images/tx.png"/>
+                    <img class="sex" src="/images/sex.png"/>
+                </div>
+                <div class="text">
+                    <p>多源生物管理员</p>
+                    <p>31岁</p>
+                </div>
             </div>
         </div>
+        <div class="menu">
+            <table>
+                <tr>
+                    <td><img src="/images/inco1.png"/> </td>
+                    <td style="color:#fdb505;">我的信息</td>
+                    <td><a href="myInfo.html"> > </a>  </td>
+                </tr>
+                <tr>
+                    <td><img src="/images/inco2.png"/> </td>
+                    <td style="color:#5bc3c3;">我的体检报告</td>
+                    <td><a href="uploadReport.html">></a>  </td>
+                </tr>
+                <tr>
+                    <td><img src="/images/inco3.png"/> </td>
+                    <td style="color:#0282c2;">我的细胞培养</td>
+                    <td><a href="myCell.html"> > </a></td>
+                </tr>
+                <tr>
+                    <td><img src="/images/inco4.png"/> </td>
+                    <td style="color:#f88cbd;">修改登录密码</td>
+                    <td><a href="changePwd.html"> > </a></td>
+                </tr>
+            </table>
+        </div>
     </div>
-    <div class="slideText">
-        <marquee>最新动态-跑马灯</marquee>
-    </div>
-    <div class="nav">
-        <ul>
-            <li><a href="../about/index.html"><img class="fl" src="../images/index1.png"/></a></li>
-            <li><a href="../my/index.html"><img class="fr" src="../images/index2.png"/></a></li>
-            <li><a href="guest.html"><img class="fl" src="../images/index3.png"/></a></li>
-        </ul>
-    </div>
-</div>
-<script>
-    var mySwiper = new Swiper('.swiper-container', {
-        autoplay: 5000,//可选选项，自动滑动
-        loop : true
-    })
-</script>
+</section>

@@ -16,6 +16,36 @@ use yii\helpers\Html;
     </head>
 <body>
 <?php echo $content ?>
+<section class="bottom">
+    <nav>
+        <ul>
+            <li>
+                <a href="/company/about/index" class="active">
+                    <div class="circle"><img src="/images/nav1.png"/></div>
+                    <p>关于多源</p>
+                </a>
+            </li>
+            <li>
+                <a href="/product/index/index">
+                    <div class="circle"><img src="/images/nav2.png"/></div>
+                    <p>产品介绍</p>
+                </a>
+            </li>
+            <li>
+                <a href="/comment/index/index">
+                    <div class="circle"><img src="/images/nav3.png"/></div>
+                    <p>多源之家</p>
+                </a>
+            </li>
+            <li>
+                <a href="/my/index/index">
+                    <div class="circle"><img src="/images/nav4.png"/></div>
+                    <p>我的多源</p>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</section>
 </body>
 </html>
 <?php $this->endPage() ?>

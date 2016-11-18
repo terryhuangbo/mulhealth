@@ -13,7 +13,7 @@
     </div>
     <div class="nav">
         <ul>
-            <li><a href="../about/index.html"><img class="fl" src="../images/index1.png"/></a></li>
+            <li><a href="/company/about/index"><img class="fl" src="../images/index1.png"/></a></li>
             <li><a href="../my/index.html"><img class="fr" src="../images/index2.png"/></a></li>
             <li><a href="guest.html"><img class="fl" src="../images/index3.png"/></a></li>
         </ul>

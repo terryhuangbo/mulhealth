@@ -14,6 +14,7 @@ use common\models\PointsRecord;
 class IndexController extends BaseController
 {
 
+    public $layout = '//home';
     public $enableCsrfValidation = false;
 
     /**
