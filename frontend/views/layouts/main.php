@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+$moduleId = $this->context->module->id;
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -15,30 +16,30 @@ use yii\helpers\Html;
         <script src="/js/tools.js"></script>
     </head>
 <body>
-<?php echo $content ?>
+<?php echo $content;lg($this->context); ?>
 <section class="bottom">
     <nav>
         <ul>
             <li>
-                <a href="/company/about/index" class="active">
+                <a href="/company/about/index" <?php if($moduleId === 'company'):?>class="active"<?php endif ?>>
                     <div class="circle"><img src="/images/nav1.png"/></div>
                     <p>关于多源</p>
                 </a>
             </li>
             <li>
-                <a href="/product/index/index">
+                <a href="/product/index/index" <?php if($moduleId === 'product'):?>class="active"<?php endif ?>>
                     <div class="circle"><img src="/images/nav2.png"/></div>
                     <p>产品介绍</p>
                 </a>
             </li>
             <li>
-                <a href="/comment/index/index">
+                <a href="/comment/index/index" <?php if($moduleId === 'comment'):?>class="active"<?php endif ?>>
                     <div class="circle"><img src="/images/nav3.png"/></div>
                     <p>多源之家</p>
                 </a>
             </li>
             <li>
-                <a href="/my/index/index">
+                <a href="/my/index/index" <?php if($moduleId === 'my'):?>class="active"<?php endif ?>>
                     <div class="circle"><img src="/images/nav4.png"/></div>
                     <p>我的多源</p>
                 </a>
