@@ -16,7 +16,7 @@ $moduleId = $this->context->module->id;
         <script src="/js/tools.js"></script>
     </head>
 <body>
-<?php echo $content;lg($this->context); ?>
+<?php echo $content; ?>
 <section class="bottom">
     <nav>
         <ul>
