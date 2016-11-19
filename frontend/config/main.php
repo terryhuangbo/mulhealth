@@ -53,7 +53,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'index-login' => 'home/index/index-login'
+                'index-login' => 'home/index/index-login',
+                'login' => 'user/index/login',
             ],
         ],
         'user' => [
