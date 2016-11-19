@@ -2,9 +2,12 @@
 
 namespace common\models;
 
+use common\lib\Filter;
+use common\lib\RegexValidator;
 use Yii;
 use common\behavior\TimeBehavior;
 use common\base\BaseModel;
+use yii\validators\FilterValidator;
 
 /**
  * This is the model class for table "{{%user}}".
@@ -13,6 +16,7 @@ use common\base\BaseModel;
  * @property string $username
  * @property string $password
  * @property string $authKey
+ * @property string $id_card
  * @property string $nick
  * @property string $name
  * @property string $avatar
@@ -26,6 +30,20 @@ use common\base\BaseModel;
  */
 class User extends BaseModel
 {
+    /**
+     * 性别
+     */
+    const MALE   = 1;//男
+    const FEMALE = 2;//女
+
+    /**
+     * 状态
+     */
+    const STATUS_ON  = 1;//启用
+    const STATUS_OFF = 2;//禁用
+
+
+
     /**
      * @inheritdoc
      */
@@ -42,13 +60,32 @@ class User extends BaseModel
         return [
             [['sex', 'status', 'update_at', 'create_at', 'login_at'], 'integer'],
             [['username', 'nick', 'name'], 'string', 'max' => 30],
+            //必填字段
+            [['id_card', 'password', 'name'], 'required'],
+            //id_card
+            [['id_card'], 'unique', 'message' => '用户已经被注册了'],
+            [['id_card'], RegexValidator::className(),'method' => 'identity', 'message' => '身份证号不合法'],
+            //password
             [['password'], 'string', 'max' => 32],
+            ['password', 'filter' => function($val){
+                return md5(sha1($val));//密码生成规则
+            }],
+            //name
+            ['name', 'string', 'max' => 30],
+            ['name', 'filter' => function($val){
+                return Filter::filters_title($val);//姓名过滤
+            }],
+            //sex
+            ['sex', 'in', 'range' => [self::MALE, self::FEMALE], 'message' => '性别错误'],
+            //authKey
             [['authKey'], 'string', 'max' => 50],
+            [['authKey'], 'unique', 'message' => 'authKey必须唯一'],
+            //avatar
             [['avatar'], 'string', 'max' => 250],
+            //mobile
             [['mobile'], 'string', 'max' => 11],
+            //address
             [['address'], 'string', 'max' => 300],
-            [['mobile'], 'unique'],
-            [['username'], 'unique']
         ];
     }
 
@@ -62,6 +99,7 @@ class User extends BaseModel
             'username' => '账号',
             'password' => '密码',
             'authKey' => 'authKey',
+            'id_card' => '身份证号',
             'nick' => '用户微信昵称',
             'name' => '用户真实姓名',
             'avatar' => '用户头像',
