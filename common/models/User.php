@@ -2,12 +2,12 @@
 
 namespace common\models;
 
+use Yii;
 use common\lib\Filter;
 use common\lib\RegexValidator;
-use Yii;
 use common\behavior\TimeBehavior;
 use common\base\BaseModel;
-use yii\validators\FilterValidator;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "{{%user}}".
@@ -28,7 +28,7 @@ use yii\validators\FilterValidator;
  * @property integer $create_at
  * @property string $login_at
  */
-class User extends BaseModel
+class User extends BaseModel implements IdentityInterface
 {
     /**
      * 性别
@@ -42,7 +42,11 @@ class User extends BaseModel
     const STATUS_ON  = 1;//启用
     const STATUS_OFF = 2;//禁用
 
-
+    /**
+     * 场景
+     */
+    const SCENARIO_LOGIN   = 'login';
+    const SCENARIO_REGISTER = 'register';
 
     /**
      * @inheritdoc
@@ -67,12 +71,12 @@ class User extends BaseModel
             [['id_card'], RegexValidator::className(),'method' => 'identity', 'message' => '身份证号不合法'],
             //password
             [['password'], 'string', 'max' => 32],
-            ['password', 'filter' => function($val){
+            ['password', 'filter',  'filter' => function($val){
                 return md5(sha1($val));//密码生成规则
             }],
             //name
             ['name', 'string', 'max' => 30],
-            ['name', 'filter' => function($val){
+            ['name', 'filter', 'filter' => function($val){
                 return Filter::filters_title($val);//姓名过滤
             }],
             //sex
@@ -129,6 +133,29 @@ class User extends BaseModel
     }
 
     /**
+     * 应用场景
+     * @return array
+     */
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        //注册
+        $scenarios[self::SCENARIO_REGISTER] = [
+            'name',
+            'id_card',
+            'password',
+        ];
+        //登录
+        $scenarios[self::SCENARIO_LOGIN] = [
+            'name',
+            'id_card',
+            'password',
+        ];
+
+        return $scenarios;
+    }
+
+    /**
      * @inheritdoc
      */
     public static function findIdentity($uid)
@@ -169,53 +196,33 @@ class User extends BaseModel
     }
 
     /**
-     * 获取手机号
-     **/
-    public function getMobile() {
-        return $this->mobile;
-    }
-
-    /**
      * @inheritdoc
      */
     public function beforeSave($insert) {
-        if(parent::beforeSave($insert)){
-            if($insert){ //插入操作
-            }
-            return true;
+        if(!parent::beforeSave($insert)){
+            return false;
         }
-        return false;
+
+        if($insert){ //插入操作
+            $this->authKey = $this->genAuthKey();
+        }
+
+        return true;
     }
 
     /**
-     * @inheritdoc
+     * 用户注册
      */
-    public function login($param)
+    public function register($param)
     {
-        if (empty($param['mobile'])) {
-            return ['code' => '-40301', 'msg' => '手机号码不能为空'];
+        $this->scenario = self::SCENARIO_REGISTER;
+        $this->load($param, '');
+        $ret = $this->save(true);
+        if ($ret['code'] < 0) {
+            return ['code' => '-40302', 'msg' => reset($this->getFirstErrors())];
         }
-        $mobile = $param['mobile'];
-        $user = static::findOne(['mobile' => $mobile]);
-
-        $reg = false;
-        if (empty($user)) {
-            $user = new static();
-            $user->mobile = $mobile;
-            $user->authKey = $this->genAuthKey();
-            if (!$user->validate()) {
-                return ['code' => '-40302', 'msg' => reset($user->getFirstErrors())];
-            }
-            $ret = $user->save();
-            if ($ret['code'] < 0) {
-                return ['code' => '-40303', 'msg' => $ret['code']];
-            }
-            $reg = true;
-        }
-        Yii::$app->user->login($user, 24*24*60);
-        $user->touch('login_at');//更新登录时间
-        return ['code' => '20000', 'msg' => $reg ? '注册成功' : '登录成功'];
-
+        Yii::$app->user->login($this, 1*24*60);
+        return ['code' => '20000', 'msg' => '注册成功'];
     }
 
     /**

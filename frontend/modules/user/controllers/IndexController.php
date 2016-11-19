@@ -2,19 +2,22 @@
 
 namespace frontend\modules\user\controllers;
 
-use common\behavior\PointBehavior;
 use Yii;
 use app\base\BaseController;
 use common\models\User;
-use common\models\Goods;
-use common\models\Points;
-use common\models\PointsRecord;
 
 
 class IndexController extends BaseController
 {
     public $layout = '//home';
     public $enableCsrfValidation = false;
+    public $_uncheck = [
+        'index',
+        'index-login',
+        'login',
+        'register',
+        'foget',
+    ];
 
     /**
      * 首页-未登录
@@ -32,6 +35,7 @@ class IndexController extends BaseController
      */
     public function actionIndexLogin()
     {
+
         $_data = [];
         return $this->render('index-login', $_data);
     }
@@ -42,8 +46,22 @@ class IndexController extends BaseController
      */
     public function actionLogin()
     {
-        $_data = [];
-        return $this->render('login', $_data);
+        if ($this->isGet())
+        {
+            return $this->render('login');
+        }
+        $id_card = Yii::$app->request->post('id_card');
+        $password = trim(Yii::$app->request->post('password'));
+        $user = User::findOne(['id_card' => $id_card, 'password' => md5(sha1($password))]);
+        if (!$user)
+        {
+            return $this->toJson(-40301, '账号或者密码不存在');
+        }
+        //登录用户
+        Yii::$app->user->login($user, 1*24*60);
+        //更新登录时间
+        $user->touch('login_at');
+        return $this->redirect(Yii::$app->homeUrl);
     }
 
     /**
@@ -52,8 +70,18 @@ class IndexController extends BaseController
      */
     public function actionRegister()
     {
-        $_data = [];
-        return $this->render('register', $_data);
+        if ($this->isGet())
+        {
+            return $this->render('register');
+        }
+        $user = new User();
+
+        $ret = $user->register(Yii::$app->request->post());
+        if ($ret['code'] < 0)
+        {
+            return $this->toJson($ret['code'], $ret['msg']);
+        }
+        return $this->redirect('/my/profile/index');
     }
 
     /**

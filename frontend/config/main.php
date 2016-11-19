@@ -55,12 +55,13 @@ return [
             'rules' => [
                 'index-login' => 'home/index/index-login',
                 'login' => 'user/index/login',
+                'register' => 'user/index/register',
             ],
         ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-            'loginUrl' => ['redeem/user/login'],
+            'loginUrl' => ['user/index/login'],
         ],
         'jssdk' => [
             'class' => 'app\components\Wechat\Jssdk',

@@ -10,8 +10,11 @@ use yii\helpers\Html;
         <title>首页</title>
         <link rel="stylesheet" href="/css/style.css"/>
         <link rel="stylesheet" href="/css/swiper-3.4.0.min.css"/>
-        <script src="/js/jquery-3.1.1.min.js"></script>
+        <link rel="stylesheet" href="/css/extra.css"/>
+        <script src="/js/jquery-1.11.3.min.js"></script>
         <script src="/js/swiper-3.4.0.min.js"></script>
+        <script src="/js/jquery.validate.js"></script>
+        <script src="/js/messages_zh.js"></script>
         <script src="/js/tools.js"></script>
     </head>
 <body>

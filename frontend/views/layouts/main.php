@@ -13,6 +13,8 @@ $moduleId = $this->context->module->id;
         <link rel="stylesheet" href="/css/swiper-3.4.0.min.css"/>
         <script src="/js/jquery-3.1.1.min.js"></script>
         <script src="/js/swiper-3.4.0.min.js"></script>
+        <script src="/js/jquery.validate.js"></script>
+        <script src="/js/messages_zh.js"></script>
         <script src="/js/tools.js"></script>
     </head>
 <body>

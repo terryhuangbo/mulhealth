@@ -18,7 +18,6 @@ class BaseController extends Controller
 
     public function behaviors()
     {
-        return true;
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -115,6 +114,7 @@ class BaseController extends Controller
             return 'unknown';
         }
     }
+
 
     /**
      * 返回格式化数据转json
