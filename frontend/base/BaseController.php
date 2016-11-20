@@ -48,24 +48,6 @@ class BaseController extends Controller
     }
 
     /**
-     * 获取微信公众号
-     * @return string
-     */
-    public function _get_openid()
-    {
-        return md5(time() + rand(1, 1000));
-    }
-
-    /**
-     * 跳回登录页面
-     * @return string
-     */
-    public function _to_login()
-    {
-        return $this->redirect('/redeem/user/reg');
-    }
-
-    /**
      * 判断是否是POST请求
      * @return string
      */
@@ -125,6 +107,13 @@ class BaseController extends Controller
      */
     public function toJson($code, $msg = '', $data = null) {
         @header('Content-Type:application/json;charset=utf-8');
+
+        if (is_array($code) && !empty($code))
+        {
+            $code['request_ip'] = Tools::getIP();
+            return json_encode($code);
+        }
+
         $r_data = [
             'code' => $code,
             'msg' => $msg,

@@ -59,7 +59,7 @@ return [
             ],
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'frontend\models\UserForm',
             'enableAutoLogin' => true,
             'loginUrl' => ['user/index/login'],
         ],

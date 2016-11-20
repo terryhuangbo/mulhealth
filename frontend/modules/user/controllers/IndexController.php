@@ -3,8 +3,8 @@
 namespace frontend\modules\user\controllers;
 
 use Yii;
+use frontend\models\UserForm;
 use app\base\BaseController;
-use common\models\User;
 
 
 class IndexController extends BaseController
@@ -16,7 +16,7 @@ class IndexController extends BaseController
         'index-login',
         'login',
         'register',
-        'foget',
+        'forget',
     ];
 
     /**
@@ -52,15 +52,13 @@ class IndexController extends BaseController
         }
         $id_card = Yii::$app->request->post('id_card');
         $password = trim(Yii::$app->request->post('password'));
-        $user = User::findOne(['id_card' => $id_card, 'password' => md5(sha1($password))]);
+        $user = UserForm::findOne(['id_card' => $id_card, 'password' => UserForm::genPwd($password)]);
         if (!$user)
         {
             return $this->toJson(-40301, '账号或者密码不存在');
         }
         //登录用户
-        Yii::$app->user->login($user, 1*24*60);
-        //更新登录时间
-        $user->touch('login_at');
+        $user->login();
         return $this->redirect(Yii::$app->homeUrl);
     }
 
@@ -74,12 +72,12 @@ class IndexController extends BaseController
         {
             return $this->render('register');
         }
-        $user = new User();
+        $user = new UserForm();
 
         $ret = $user->register(Yii::$app->request->post());
         if ($ret['code'] < 0)
         {
-            return $this->toJson($ret['code'], $ret['msg']);
+            return $this->toJson($ret);
         }
         return $this->redirect('/my/profile/index');
     }

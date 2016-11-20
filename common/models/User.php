@@ -28,7 +28,7 @@ use yii\web\IdentityInterface;
  * @property integer $create_at
  * @property string $login_at
  */
-class User extends BaseModel implements IdentityInterface
+class User extends BaseModel
 {
     /**
      * 性别
@@ -45,8 +45,9 @@ class User extends BaseModel implements IdentityInterface
     /**
      * 场景
      */
-    const SCENARIO_LOGIN   = 'login';
+    const SCENARIO_LOGIN    = 'login';
     const SCENARIO_REGISTER = 'register';
+    const SCENARIO_PERFECT  = 'register';//完善用户信息
 
     /**
      * @inheritdoc
@@ -71,9 +72,7 @@ class User extends BaseModel implements IdentityInterface
             [['id_card'], RegexValidator::className(),'method' => 'identity', 'message' => '身份证号不合法'],
             //password
             [['password'], 'string', 'max' => 32],
-            ['password', 'filter',  'filter' => function($val){
-                return md5(sha1($val));//密码生成规则
-            }],
+            ['password', 'filter',  'filter' => [$this, 'genPwd']],
             //name
             ['name', 'string', 'max' => 30],
             ['name', 'filter', 'filter' => function($val){
@@ -158,46 +157,6 @@ class User extends BaseModel implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public static function findIdentity($uid)
-    {
-        return static::findOne($uid);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getId()
-    {
-        return $this->uid;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAuthKey()
-    {
-        return $this->authKey;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function beforeSave($insert) {
         if(!parent::beforeSave($insert)){
             return false;
@@ -211,18 +170,12 @@ class User extends BaseModel implements IdentityInterface
     }
 
     /**
-     * 用户注册
+     * 生成加密密码
+     * @return string
      */
-    public function register($param)
-    {
-        $this->scenario = self::SCENARIO_REGISTER;
-        $this->load($param, '');
-        $ret = $this->save(true);
-        if ($ret['code'] < 0) {
-            return ['code' => '-40302', 'msg' => reset($this->getFirstErrors())];
-        }
-        Yii::$app->user->login($this, 1*24*60);
-        return ['code' => '20000', 'msg' => '注册成功'];
+    public static function genPwd($pwd) {
+        $salt = 'XYCY!@$@YNI';
+        return md5(sha1($pwd . $salt));
     }
 
     /**
