@@ -11,6 +11,7 @@ $moduleId = $this->context->module->id;
         <title>首页</title>
         <link rel="stylesheet" href="/css/style.css"/>
         <link rel="stylesheet" href="/css/swiper-3.4.0.min.css"/>
+        <link rel="stylesheet" href="/css/extra.css"/>
         <script src="/js/jquery-3.1.1.min.js"></script>
         <script src="/js/swiper-3.4.0.min.js"></script>
         <script src="/js/jquery.validate.js"></script>

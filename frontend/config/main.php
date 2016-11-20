@@ -58,6 +58,7 @@ return [
                 'register' => 'user/index/register',
                 'logout' => 'user/index/logout',
                 'reset' => 'user/index/reset',
+                'perfect' => 'my/profile/perfect',
             ],
         ],
         'user' => [

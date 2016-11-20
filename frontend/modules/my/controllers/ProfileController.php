@@ -26,6 +26,31 @@ class ProfileController extends BaseController
         return $this->render('index', $_data);
     }
 
+    /**
+     * 完善用户信息
+     * @return type
+     */
+    public function actionPerfect()
+    {
+        if ($this->isGet())
+        {
+            $_data = [
+                'user' => Yii::$app->user->identity->toArray()
+            ];
+            lg($_data);
+            return $this->render('perfect', $_data);
+        }
+        $user = Yii::$app->user->identity;
+        $ret = $user->perfect($this->req());
+        if ($ret['code'] < 0)
+        {
+            return $this->toJson($ret);
+        }
+        return $this->redirect(Yii::$app->homeUrl);
+    }
+
+
+
 
 
 }

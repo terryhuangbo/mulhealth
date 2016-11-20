@@ -14,7 +14,7 @@ use common\models\PointsRecord;
 class IndexController extends BaseController
 {
 
-    public $enableCsrfValidation = false;
+    public $enableCsrfValidation = true;
 
     /**
      * 首页-未登录
@@ -33,7 +33,20 @@ class IndexController extends BaseController
     public function actionAlterPwd()
     {
         $_data = [];
-        return $this->render('pwd', $_data);
+        if ($this->isGet())
+        {
+            return $this->render('pwd', $_data);
+        }
+
+        $password = trim($this->req('password'));
+        $password_confirm = trim($this->req('password_confirm'));
+        $userForm = Yii::$app->user->identity;
+        if (!$password === $password_confirm)
+        {
+            return $this->toJson(-40301, '密码和确认密码不相同');
+        }
+        $ret = $userForm->reset($this->req());
+        return $this->toJson($ret);
     }
 
 

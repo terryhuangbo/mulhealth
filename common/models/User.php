@@ -45,9 +45,7 @@ class User extends BaseModel
     /**
      * 场景
      */
-    const SCENARIO_LOGIN    = 'login';
-    const SCENARIO_REGISTER = 'register';
-    const SCENARIO_PERFECT  = 'register';//完善用户信息
+    const SCENARIO_PERFECT  = 'perfect';//完善用户信息
 
     /**
      * @inheritdoc
@@ -138,17 +136,14 @@ class User extends BaseModel
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        //注册
-        $scenarios[self::SCENARIO_REGISTER] = [
+        //完善
+        $scenarios[self::SCENARIO_PERFECT] = [
             'name',
+            'nick',
+            'sex',
             'id_card',
-            'password',
-        ];
-        //登录
-        $scenarios[self::SCENARIO_LOGIN] = [
-            'name',
-            'id_card',
-            'password',
+            'mobile',
+            'address',
         ];
 
         return $scenarios;
@@ -196,5 +191,26 @@ class User extends BaseModel
      **/
     public function getCart() {
         return $this->hasOne(Cart::className(), ['uid' => 'uid']);
+    }
+
+    /**
+     * 用户信息完善
+     * @param array $param
+     * @return array
+     */
+    public function perfect($param)
+    {
+        $this->scenario = self::SCENARIO_PERFECT;
+        $this->load($param, '');
+        if (!$this->validate())
+        {
+            return ['code' => '-40301', 'msg' => reset($this->getFirstErrors())];
+        }
+        $ret = $this->save();
+        if ($ret['code'] < 0)
+        {
+            return ['code' => '-50001', 'msg' => '保存失败'];
+        }
+        return ['code' => '20000', 'msg' => '用户信息完善成功'];
     }
 }

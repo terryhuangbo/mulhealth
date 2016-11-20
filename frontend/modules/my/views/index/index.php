@@ -17,7 +17,7 @@
                 <tr>
                     <td><img src="/images/inco1.png"/> </td>
                     <td style="color:#fdb505;">我的信息</td>
-                    <td><a href="/my/profile/index"> > </a>  </td>
+                    <td><a href="/my/profile/perfect"> > </a>  </td>
                 </tr>
                 <tr>
                     <td><img src="/images/inco2.png"/> </td>
