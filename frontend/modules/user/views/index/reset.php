@@ -1,17 +1,17 @@
 <div class="login">
-    <form id="register" onsubmit="return false;">
+    <form id="reset" onsubmit="return false;">
+        <input type="text" id="id_card" name="id_card" placeholder="请输入您的身份证号码">
         <input type="text" id="name" name="name" placeholder="请输入您的真实姓名">
-        <input type="text" id="id_card" name="id_card" placeholder="请输入您的身份证号码" required>
-        <input type="password" id="password" name="password" placeholder="请输入您的密码">
+        <input type="password" id="password" name="password" placeholder="请重置您的密码">
         <input type="password" id="password_confirm" name="password_confirm" placeholder="请确认您的密码">
         <input type="hidden" name="_csrf" value="<?php echo \Yii::$app->request->csrfToken ?>">
-        <input type="submit" class="submit" value="立即注册"/>
+        <input type="submit" class="submit" value="登录"/>
     </form>
 </div>
 <script>
     $().ready(function(){
-        $("#register")._clear_form(false);
-        $("#register").validate({
+        $("#reset")._clear_form(false);
+        $("#reset").validate({
             rules: {
                 name: {
                     required: true,
@@ -36,7 +36,7 @@
                     required: "请输入身份证号码"
                 },
                 password: {
-                    required: "请输入密码"
+                    required: "请输入重置密码"
                 },
                 password_confirm: {
                     required: "请输入确认密码",
@@ -48,7 +48,7 @@
             },
             errorElement: "p",
             submitHandler: function(form) {
-                $._ajax('/user/index/register', $(form).serialize(), 'POST', 'JSON', function(json){
+                $._ajax('/user/index/reset', $(form).serialize(), 'POST', 'JSON', function(json){
                     if(json.code < 0) {
                         $(".submit")._error(json.msg);
                     }

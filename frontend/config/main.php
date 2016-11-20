@@ -56,6 +56,8 @@ return [
                 'index-login' => 'home/index/index-login',
                 'login' => 'user/index/login',
                 'register' => 'user/index/register',
+                'logout' => 'user/index/logout',
+                'reset' => 'user/index/reset',
             ],
         ],
         'user' => [

@@ -92,6 +92,8 @@ class UserForm extends User implements IdentityInterface
 
     /**
      * 用户注册
+     * @param array $param
+     * @return array
      */
     public function register($param)
     {
@@ -115,10 +117,13 @@ class UserForm extends User implements IdentityInterface
 
     /**
      * 修改密码
+     * @param array $param
+     * @return array
      */
-    public function reset($newpwd)
+    public function reset($param)
     {
-        $this->password = self::genPwd($newpwd);
+        $this->scenario = self::SCENARIO_RESET;
+        $this->load($param, '');
         if (!$this->validate())
         {
             return ['code' => '-40301', 'msg' => reset($this->getFirstErrors())];

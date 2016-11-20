@@ -10,13 +10,13 @@ use app\base\BaseController;
 class IndexController extends BaseController
 {
     public $layout = '//home';
-    public $enableCsrfValidation = false;
+    public $enableCsrfValidation = true;
     public $_uncheck = [
         'index',
         'index-login',
         'login',
         'register',
-        'forget',
+        'reset',
     ];
 
     /**
@@ -86,19 +86,36 @@ class IndexController extends BaseController
      * 首页-登录
      * @return type
      */
-    public function actionForget()
+    public function actionReset()
     {
         $_data = [];
-        return $this->render('forget', $_data);
+        if ($this->isGet())
+        {
+            return $this->render('reset', $_data);
+        }
+        $id_card = trim($this->req('id_card'));
+        $name = trim($this->req('name'));
+        $userForm = UserForm::findOne(['id_card' => $id_card, 'name' => $name]);
+        if (!$userForm)
+        {
+            return $this->toJson(-40301, '用户不存在');
+        }
+        $ret = $userForm->reset($this->req());
+        if ($ret['code'] < 0)
+        {
+            return $this->toJson($ret);
+        }
+        return $this->redirect(Yii::$app->homeUrl);
     }
 
-
-
-
-
-
-
-
-
+    /**
+     * 登出
+     * @return type
+     */
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+        return $this->redirect(Yii::$app->homeUrl);
+    }
 
 }

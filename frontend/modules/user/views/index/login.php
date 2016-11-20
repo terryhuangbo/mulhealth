@@ -2,6 +2,7 @@
     <form id="login" onsubmit="return false;">
         <input type="text" id="id_card" name="id_card" placeholder="请输入您的用户名">
         <input type="password" id="password" name="password" placeholder="请输入您的密码">
+        <input type="hidden" name="_csrf" value="<?php echo \Yii::$app->request->csrfToken ?>">
         <input type="submit" class="submit" value="登录"/>
     </form>
     <p>
