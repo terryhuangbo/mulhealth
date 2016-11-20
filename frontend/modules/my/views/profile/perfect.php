@@ -96,7 +96,7 @@
             submitHandler: function(form) {
                 $._ajax('/my/profile/perfect', $(form).serialize(), 'POST', 'JSON', function(json){
                     if(json.code < 0) {
-                        $(".submit")._error(json.msg);
+                        $(".saveBtn")._error(json.msg);
                     }
                 });
             }
