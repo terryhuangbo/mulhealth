@@ -24,14 +24,14 @@ class FileController extends BaseController
      * @return array
      */
     public function actionUpload() {
-        $objtype = trim($this->req('objtype', 'pictures', true));
+        $objtype = trim($this->_request('objtype', 'pictures', true));
         $up_mdl = new Upload();
 
         $ret = $up_mdl->upload(yiiParams('img_save_dir'), $objtype);
         if ($ret['code'] > 0) {
-            return $this->toJson(20000, $ret['msg'], $ret['data']);
+            $this->_json(20000, $ret['msg'], $ret['data']);
         } else {
-            return $this->toJson(-20000, $ret['msg']);
+            $this->_json(-20000, $ret['msg']);
         }
     }
 
@@ -40,21 +40,21 @@ class FileController extends BaseController
      * @return array
      */
     public function actionDelete() {
-        $file_path = $this->req('filepath');
+        $file_path = $this->_request('filepath');
         if(empty($file_path)){
-            return $this->toJson(-20001, '文件路径不能为空');
+            $this->_json(-20001, '文件路径不能为空');
         }
         $file_dir = $_SERVER['DOCUMENT_ROOT'] . $file_path;
         $file_dir = str_replace('/', '\\', $file_dir);
         if(!file_exists($file_dir)){
-            return $this->toJson(20001, '文件不存在');
+            $this->_json(20001, '文件不存在');
         }
         //删除文件
         $result = @unlink($file_dir);
         if($result == false){
-            return $this->toJson(-20002, '文件删除失败！');
+            $this->_json(-20002, '文件删除失败！');
         }
-        return $this->toJson(20000, '删除成功！');
+        $this->_json(20000, '删除成功！');
     }
 
 }

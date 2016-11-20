@@ -9,6 +9,7 @@ use common\lib\Tools;
 
 class BaseController extends Controller
 {
+    public $layout = 'layout';
     public $enableCsrfValidation = false;
     public $open_id = '';//微信公众号
     public $uid = '';//微信公众号
@@ -45,6 +46,24 @@ class BaseController extends Controller
                 ],
             ],
         ];
+    }
+
+    /**
+     * 获取微信公众号
+     * @return string
+     */
+    public function _get_openid()
+    {
+        return md5(time() + rand(1, 1000));
+    }
+
+    /**
+     * 跳回登录页面
+     * @return string
+     */
+    public function _to_login()
+    {
+        return $this->redirect('/redeem/user/reg');
     }
 
     /**
@@ -97,6 +116,18 @@ class BaseController extends Controller
         }
     }
 
+    /**
+     * 转json
+     * @param array $data
+     * @return string
+     */
+    public function _to_json($data)
+    {
+        if (!empty($data)) {
+            return json_encode($data);
+        }
+        return json_encode([]);
+    }
 
     /**
      * 返回格式化数据转json
@@ -105,20 +136,14 @@ class BaseController extends Controller
      * @param bool $data
      * @return string
      */
-    public function toJson($code, $msg = '', $data = null) {
+    public function _json($code, $msg = '', $data = null)
+    {
         @header('Content-Type:application/json;charset=utf-8');
-
-        if (is_array($code) && !empty($code))
-        {
-            $code['request_ip'] = Tools::getIP();
-            return json_encode($code);
-        }
-
         $r_data = [
             'code' => $code,
             'msg' => $msg,
             'data' => $data,
-            'request_ip' => Tools::getIP(),
+            'request_ip' => Yii::$app->request->userIP,
         ];
 
         if (empty($code) && $code != 0) {
@@ -134,16 +159,15 @@ class BaseController extends Controller
         }
 
         $_callback_fun_name = '';
-        $jsonp  = $this->req('jsonp');
-        if (!empty($jsonp)) {
-            $_callback_fun_name = $this->req('jsonp');
+        if (!empty($this->_request('jsonp'))) {
+            $_callback_fun_name = $this->_request('jsonp');
         }
 
         if (!empty($_callback_fun_name)) {
-            exit($_callback_fun_name . '(' . $this->toJson($r_data) . ');');
+            exit($_callback_fun_name . '(' . $this->_to_json($r_data) . ');');
         }
 
-        return json_encode($r_data);
+        exit($this->_to_json($r_data));
     }
 
     /**
@@ -152,15 +176,50 @@ class BaseController extends Controller
      * @param bool|array|string $default 当请求的参数不存在时的默认值
      * @return string
      */
-    public function req($key = '', $default = false) {
+    public function _request($key = '', $default = false)
+    {
         $request = array_merge(Yii::$app->request->get(), Yii::$app->request->post());
-        if(empty($key)){
+        if (empty($key)) {
             return $request;
         }
-        if(!isset($request[$key])){
+        if (!isset($request[$key])) {
             return $default;
         }
         return $request[$key];
+    }
+
+    /**
+     * 获取Request-Post参数
+     * @param string $key
+     * @param bool|array|string $default 当请求的参数不存在时的默认值
+     * @return string
+     */
+    public function _post($key = '', $default = false)
+    {
+        $request = Yii::$app->request->post();
+        if (empty($key)) {
+            return $request;
+        }
+        if (!isset($request[$key])) {
+            return $default;
+        }
+        return $request[$key];
+    }
+
+    /**
+     * 获取值
+     * @param $data mixed 要判断是否存在的值
+     * @param $default mixed 当$data不存在时默认值
+     * @param $empty bool true-同时验证$data还不能为空, 默认不验证
+     * @return mixed mix
+     **/
+    public function _value($data, $default = '', $empty = false)
+    {
+        if ($empty) {
+            return !empty($data) ? $data : $default;
+        } else {
+            return isset($data) ? $data : $default;
+        }
     }
 
 }

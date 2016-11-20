@@ -19,7 +19,7 @@ class Role extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%role}}';
+        return 'vso_point_role';
     }
 
     /**

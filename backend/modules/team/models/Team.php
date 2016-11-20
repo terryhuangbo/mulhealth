@@ -12,7 +12,7 @@ class Team extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%admin}}';
+        return 'vso_point_admin';
     }
 
     /**
@@ -50,7 +50,7 @@ class Team extends ActiveRecord
      */
     public function ckuser($user)
     {
-        $count = static::find()->where(["username" => $user])->count();
+        $count = Static::find()->where(["username" => $user])->count();
         if ($count)
         {
             return true;

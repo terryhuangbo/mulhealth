@@ -5,15 +5,26 @@ namespace backend\modules\user\controllers;
 use Yii;
 use yii\helpers\ArrayHelper;
 use app\base\BaseController;
+use common\api\VsoApi;
 use common\models\User;
+use common\models\Auth;
+use app\modules\team\models\Team;
 
-/**
- * 后台用户和账号相关操作
- * @author Bo Huang <Terry1987101@163.com>
- * @since 2016-10-13
-**/
 class UserController extends BaseController
 {
+
+    public $layout = 'layout';
+    public $enableCsrfValidation = false;
+    public $checker_id = '';
+
+    /**
+     * 放置需要初始化的信息
+     */
+    public function init()
+    {
+        //后台登录人员ID
+        $this->checker_id = Yii::$app->user->identity->uid;
+    }
 
     /**
      * 路由权限控制
@@ -34,6 +45,7 @@ class UserController extends BaseController
 
     /**
      * 用户列表
+     * @return type
      */
     public function actionListView()
     {
@@ -50,43 +62,39 @@ class UserController extends BaseController
         }
         $mdl = new User();
         $query = $mdl::find();
-        $search = $this->req('search');
-        $page = $this->req('page', 0);
-        $pageSize = $this->req('pageSize', 10);
+        $search = $this->_request('search');
+        $page = $this->_request('page', 0);
+        $pageSize = $this->_request('pageSize', 10);
         $offset = $page * $pageSize;
         if ($search) {
-            //用户账号
-            if (isset($search['username']))
+            if (isset($search['uptimeStart'])) //时间范围
             {
-                $query = $query->andWhere(['username' => $search['username']]);
+                $query = $query->andWhere(['>', 'create_at', strtotime($search['uptimeStart'])]);
             }
-            //QQ
-            if (isset($search['qq']))
+            if (isset($search['uptimeEnd'])) //时间范围
             {
-                $query = $query->andWhere(['qq' => $search['qq']]);
+                $query = $query->andWhere(['<', 'create_at', strtotime($search['uptimeEnd'])]);
             }
-            //注册时间
-            if (isset($search['regtimeStart'])) 
+            if (isset($search['user_type'])) //用户类型
             {
-                $query = $query->andWhere(['>', 'reg_time', strtotime($search['regtimeStart'])]);
+                $query = $query->andWhere(['user_type' => $search['user_type']]);
             }
-            if (isset($search['regtimeEnd'])) 
+            if (isset($search['user_status'])) //用户状态
             {
-                $query = $query->andWhere(['<', 'reg_time', strtotime($search['regtimeEnd'])]);
+                $query = $query->andWhere(['user_status' => $search['user_status']]);
             }
-            //最近登录
-            if (isset($search['logtimeStart'])) 
+            if (isset($search['mobile'])) //手机号码
             {
-                $query = $query->andWhere(['>', 'login_time', strtotime($search['logtimeStart'])]);
+                $query = $query->andWhere(['mobile' => $search['mobile']]);
             }
-            if (isset($search['logtimeEnd'])) 
+            if (isset($search['name'])) //用户名称
             {
-                $query = $query->andWhere(['<', 'login_time', strtotime($search['logtimeEnd'])]);
+                 $query = $query->andWhere(['like', 'name', $search['name']]);
             }
         }
 
         $_order_by = 'uid DESC';
-        $count = $query->count();
+        $query_count = clone($query);
         $userArr = $query
             ->offset($offset)
             ->limit($pageSize)
@@ -95,51 +103,184 @@ class UserController extends BaseController
         $userList = ArrayHelper::toArray($userArr, [
             'common\models\User' => [
                 'uid',
-                'username',
-                'qq',
+                'nick',
+                'name',
+                'mobile',
+                'avatar',
+                'email',
                 'points',
-                'reg_time' => function ($m) {
-                    return date('Y-m-d h:i:s', $m->reg_time);
+                'user_status' => function ($m) {
+                    return User::_get_user_status($m->user_status);
                 },
-                'login_time' => function ($m) {
-                    return date('Y-m-d h:i:s', $m->login_time);
+                'status' => 'user_status',
+
+                'update_at' => function ($m) {
+                    return date('Y-m-d h:i:s', $m->update_at);
                 },
-                'update_time' => function ($m) {
-                    return date('Y-m-d h:i:s', $m->update_time);
+                'create_at' => function ($m) {
+                    return date('Y-m-d h:i:s', $m->create_at);
                 },
+                'login_at' => function ($m) {
+                    return date('Y-m-d h:i:s', $m->login_at);
+                },
+
             ],
         ]);
+        $totalCount = $query_count->count();
+
         $_data = [
             'userList' => $userList,
-            'totalCount' => $count
+            'totalCount' => $totalCount
         ];
-        return json_encode($_data);
+        exit(json_encode($_data));
     }
 
     /**
-     * 加载用户详情
+     * 改变用户状态
+     * @return array
      */
-    function actionInfo()
+    function actionAjaxChangeStatus()
     {
-        $uid = intval($this->req('uid'));
+        $uid = intval($this->_request('uid'));
+        $status = intval($this->_request('status'));
 
         $mdl = new User();
         //检验参数是否合法
         if (empty($uid)) {
-            $this->toJson(-20001, '用户编号id不能为空');
+            $this->_json(-20001, '用户编号id不能为空');
+        }
+        if (!in_array($status, [$mdl::IS_DELETE, $mdl::NO_DELETE])) {
+            $this->_json(-20002, '用户状态错误');
         }
 
         //检验用户是否存在
-        $user = $mdl->getOne(['uid' => $uid]);
+        $user = $mdl->_get_info(['uid' => $uid]);
         if (!$user) {
-            $this->toJson(-20003, '用户信息不存在');
+            $this->_json(-20003, '用户信息不存在');
         }
-        $user['reg_time'] = date('Y-m-d h:i:s', $user['reg_time']);
-        $user['login_time'] = date('Y-m-d h:i:s', $user['login_time']);
+
+        if ($status == $mdl::NO_DELETE) {
+            $rst = $mdl->_save([
+                'uid' => $uid,
+                'user_status' => $mdl::NO_DELETE,
+                'update_at' => time(),
+            ]);
+            if (!$rst) {
+                $this->_json(-20004, '用户信息保存失败');
+            }
+        } else {
+            $rst = $mdl->_save([
+                'uid' => $uid,
+                'user_status' => $mdl::IS_DELETE,
+                'update_at' => time(),
+            ]);
+            if (!$rst) {
+                $this->_json(-20005, '用户信息保存失败');
+            }
+        }
+
+        $this->_json(20000, '保存成功！');
+    }
+
+    /**
+     * 加载用户详情
+     * @return array
+     */
+    function actionInfo()
+    {
+        $uid = intval($this->_request('uid'));
+
+        $mdl = new User();
+        //检验参数是否合法
+        if (empty($uid)) {
+            $this->_json(-20001, '用户编号id不能为空');
+        }
+
+        //检验用户是否存在
+        $user = $mdl->_get_info(['uid' => $uid]);
+        if (!$user) {
+            $this->_json(-20003, '用户信息不存在');
+        }
+        $user['user_status'] = User::_get_user_status($user['user_status']);
+        $user['user_type'] = User::_get_user_type($user['user_type']);
+        $user['update_at'] = date('Y-m-d h:i:s', $user['update_at']);
+        $user['create_at'] = date('Y-m-d h:i:s', $user['create_at']);
         $_data = [
             'user' => $user
         ];
         return $this->render('info', $_data);
     }
+
+    /**
+     * 编辑用户信息
+     * @return array
+     */
+    function actionUpdate()
+    {
+        $uid = intval($this->_request('uid'));
+
+        $mdl = new User();
+        //检验参数是否合法
+        if (empty($uid)) {
+            $this->_json(-20001, '用户编号id不能为空');
+        }
+
+        //检验用户是否存在
+        $user = $mdl->_get_info(['uid' => $uid]);
+        if (!$user) {
+            $this->_json(-20003, '用户信息不存在');
+        }
+
+        $_data = [
+            'user' => $user
+        ];
+        return $this->render('edit', $_data);
+    }
+
+    /**
+     * 编辑用户信息
+     * @return array
+     */
+    function actionAjaxSave()
+    {
+        $uid = intval($this->_request('uid'));
+        $email = trim($this->_request('email'));
+        $mobile = trim($this->_request('mobile'));
+
+        $mdl = new User();
+        //检验参数是否合法
+        if (empty($uid)) {
+            $this->_json(-20001, '用户编号id不能为空');
+        }
+        if (empty($email)) {
+            $this->_json(-20002, '电子邮箱不能为空');
+        }
+        if (empty($mobile)) {
+            $this->_json(-20003, '用户手机号码不能为空');
+        }
+
+        //检验用户是否存在
+        $user = $mdl->_get_info(['uid' => $uid]);
+        if (!$user) {
+            $this->_json(-20004, '用户信息不存在');
+        }
+
+        $rst = $mdl->_save([
+            'uid' => $uid,
+            'email' => $email,
+            'mobile' => $mobile,
+            'update_at' => time(),
+        ]);
+        if (!$rst) {
+            $this->_json(-20005, '用户信息保存失败');
+        }
+
+        $this->_json(20000, '用户信息保存成功！');
+    }
+
+
+
+
+
 
 }

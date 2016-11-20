@@ -1,6 +1,5 @@
 <?php
 use yii\helpers\Html;
-use common\models\Goods;
 ?>
 <!doctype html>
 <html>
@@ -35,26 +34,23 @@ use common\models\Goods;
 
                 <div class="row">
                     <div class="control-group span12">
-                        <label class="control-label">商品名称：</label>
+                        <label class="control-label">商品：</label>
                         <div class="controls" data-type="city">
-                            <input type="text" class="control-text" name="name" id="name">
-                        </div>
-                    </div>
-                    <div class="control-group span10">
-                        <label class="control-label">商品状态：</label>
-                        <div class="controls" >
-                            <select name="status" id="status">
+                            <select name="filtertype" id="filtertype">
                                 <option value="">请选择</option>
-                                <?php foreach (Goods::getGoodsStatus() as $key => $name): ?>
-                                    <option value="<?= $key ?>"><?= $name ?></option>
-                                <?php endforeach ?>
+                                <option value="1">商品注册ID</option>
+                                <option value="2">商品名称</option>
                             </select>
                         </div>
+                        <div class="controls">
+                            <input type="text" class="control-text" name="filtercontent" id="name">
+                        </div>
                     </div>
+
                 </div>
                 <div class="row">
-                    <div class="control-group span14">
-                        <label class="control-label">发布时间：</label>
+                    <div class="control-group span20">
+                        <label class="control-label">创建时间：</label>
                         <div class="controls">
                             <input type="text" class="calendar calendar-time" name="uptimeStart"><span> - </span><input name="uptimeEnd" type="text" class="calendar calendar-time">
                         </div>
@@ -87,7 +83,7 @@ use common\models\Goods;
             <div class="control-group style="">
             <label class="control-label"></label>
             <div class="controls">
-                <span><b>提示：</b>输入字数不能超过12个字</span>
+                <span><b>提示：</b>输入字数不能超过<?php echo yiiParams('checkdeny_reason_limit') ?>个字</span>
             </div>
         </div>
     </form>
@@ -132,33 +128,31 @@ use common\models\Goods;
                 idField: 'id', //自定义选项 id 字段
                 selectedEvent: 'click',
                 columns: [
-                    {title: '序号', dataIndex: 'gid', width: 80, elCls : 'center'},
-                    {title: '商品编号', dataIndex: 'goods_bn', width: 120, elCls : 'center'},
-                    {title: '商品名称', dataIndex: 'name', width: 90, elCls : 'center'},
+                    {title: '商品序号', dataIndex: 'gid', width: 80, elCls : 'center'},
+                    {title: '商品编号', dataIndex: 'goods_id', width: 150, elCls : 'center'},
+                    {title: '商品名称', dataIndex: 'name', width: 90, elCls : 'center',},
                     {
-                        title: '缩略图',
+                        title: '商品图片',
                         width: 140,
                         elCls : 'center',
                         renderer: function (v, obj) {
                             return "<img class='user_avatar' src='"+ obj.thumb +"'>";
                         }
                     },
-                    {title: '商品价格', dataIndex: 'price', width: 80, elCls : 'center'},
-                    {title: '剩余数量', dataIndex: 'num', width: 80, elCls : 'center'},
+                    {title: '兑换积分', dataIndex: 'redeem_pionts', width: 80, elCls : 'center'},
                     {title: '商品状态', dataIndex: 'status_name', width: 80, elCls : 'center'},
-                    {title: '创建时间', dataIndex: 'create_time', width: 150, elCls : 'center'},
-                    {title: '更新时间', dataIndex: 'update_time', width: 150, elCls : 'center'},
+                    {title: '创建时间', dataIndex: 'create_at', width: 150, elCls : 'center'},
                     {
                         title: '操作',
                         width: 300,
                         renderer: function (v, obj) {
-                            if(obj.status == 1){
-                                return "<a class='button button-success page-action' title='编辑商品' href='/goods/goods/update/?gid="+ obj.gid +"' data-href='/goods/goods/update/?gid="+ obj.gid +"' >编辑</a>" +
-                                " <a class='button button-primary' onclick='offShelf(" + obj.gid + ")'>禁用</a>"+
+                            if(obj.goods_status == 1){
+                                return "<a class='button button-primary page-action' title='编辑商品' href='/goods/goods/update/?gid="+ obj.gid +"' data-href='/goods/goods/update/?gid="+ obj.gid +"' >编辑</a>" +
+                                " <a class='button button-primary' onclick='offShelf(" + obj.gid + ")'>下架</a>"+
                                 " <a class='button button-danger' onclick='del(" + obj.gid + ")'>删除</a>";
-                            }else if(obj.status == 2){
-                                return "<a class='button button-success page-action' title='编辑商品信息' data-href='/goods/goods/update/?gid="+ obj.gid +"' >编辑</a>" +
-                                " <a class='button button-primary' onclick='upShelf(" + obj.gid + ")'>启用</a>"+
+                            }else if(obj.goods_status == 2){
+                                return "<a class='button button-primary page-action' title='编辑商品信息' data-href='/goods/goods/update/?gid="+ obj.gid +"' >编辑</a>" +
+                                " <a class='button button-primary' onclick='upShelf(" + obj.gid + ")'>上架</a>"+
                                 " <a class='button button-danger' onclick='del(" + obj.gid + ")'>删除</a>";
                             }
                         }

@@ -18,7 +18,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function tableName()
     {
-        return 'tb_admin';
+        return 'vso_point_admin';
     }
 
     /**
@@ -48,11 +48,38 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Finds user by username
+     *
+     * @param  string $username
+     * @return static|null
+     */
+    public static function findByUsername($username)
+    {
+        foreach (self::$users as $user)
+        {
+            if (strcasecmp($user['username'], $username) === 0)
+            {
+                return new static($user);
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @inheritdoc
      */
     public function getId()
     {
         return $this->uid;
+    }
+
+    /**
+     * @username
+     */
+    public function getUsername()
+    {
+        return $this->username;
     }
 
     /**
@@ -81,7 +108,4 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->password === $password;
     }
-
-
-
 }

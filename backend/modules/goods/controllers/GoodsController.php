@@ -5,16 +5,25 @@ namespace backend\modules\goods\controllers;
 use Yii;
 use yii\helpers\ArrayHelper;
 use app\base\BaseController;
-use common\lib\Tools;
 use common\models\Goods;
+use common\models\City;
+use app\modules\team\models\Team;
 
-/**
- * 商品相关操作
- * @author Bo Huang <Terry1987101@163.com>
- * @since 2016-10-13
- **/
 class GoodsController extends BaseController
 {
+
+    public $layout = 'layout';
+    public $enableCsrfValidation = false;
+    public $checker_id = '';
+
+    /**
+     * 放置需要初始化的信息
+     */
+    public function init()
+    {
+        //后台登录人员ID
+        $this->checker_id = Yii::$app->user->identity->uid;
+    }
 
     /**
      * 路由权限控制
@@ -48,68 +57,90 @@ class GoodsController extends BaseController
      */
     public function actionList()
     {
+
         if ($this->isGet()) {
             return $this->render('list');
         }
         $mdl = new Goods();
         $query = $mdl::find();
-        $search = $this->req('search');
-        $page = $this->req('page', 0);
-        $pageSize = $this->req('pageSize', 10);
+        $search = $this->_request('search');
+        $page = $this->_request('page', 0);
+        $pageSize = $this->_request('pageSize', 10);
         $offset = $page * $pageSize;
-        $query->where(['status' => [Goods::STATUS_UPSHELF, Goods::STATUS_OFFSHELF]]);
+        $memTb = $mdl::tableName();
+        $teamTb = Team::tableName();
         if ($search) {
             if (isset($search['uptimeStart'])) //时间范围
             {
-                $query = $query->andWhere(['>', 'create_time', strtotime($search['uptimeStart'])]);
+                $query = $query->andWhere(['>', $memTb . '.created_at', strtotime($search['uptimeStart'])]);
             }
             if (isset($search['uptimeEnd'])) //时间范围
             {
-                $query = $query->andWhere(['<', 'create_time', strtotime($search['uptimeEnd'])]);
+                $query = $query->andWhere(['<', $memTb . '.created_at', strtotime($search['uptimeEnd'])]);
             }
-            if (!empty($search['name'])) {
-                $query = $query->andWhere(['like', 'name', trim($search['name'])]);
-            }
-            if (isset($search['status'])) //筛选条件
+            if (isset($search['grouptype'])) //时间范围
             {
-                $query->andWhere(['status' => (int) $search['status']]);
+                $query = $query->andWhere(['group_id' => $search['grouptype']]);
+            }
+            if (isset($search['filtertype']) && !empty($search['filtercontent'])) {
+                if ($search['filtertype'] == 2)//按照商品名称筛选
+                {
+                    $query = $query->andWhere(['like', $memTb . '.name', trim($search['filtercontent'])]);
+                } elseif ($search['filtertype'] == 1)//按照商品ID筛选
+                {
+                    $query = $query->andWhere([$memTb . '.username' => trim($search['filtercontent'])]);
+                }
+            }
+            if (isset($search['inputer']) && !empty($search['inputer'])) {
+                $query = $query->andWhere(['like', $teamTb . '.nickname', trim($search['filtercontent'])]);
+            }
+            if (isset($search['inputercompany'])) //筛选条件
+            {
+                $query = $query->andWhere([$teamTb . '.company_id' => $search['inputercompany']]);
+            }
+            if (isset($search['checkstatus'])) //筛选条件
+            {
+                $query->andWhere([$memTb . '.check_status' => $search['checkstatus']]);
             }
         }
         //只能是上架，或者下架的产品
+        $query->andWhere(['in', 'goods_status', [$mdl::STATUS_UPSHELF, $mdl::STATUS_OFFSHELF]]);
         $_order_by = 'gid DESC';
-        $count = $query->count();
-        $goodsArr = $query
+        $query_count = clone($query);
+        $userArr = $query
             ->offset($offset)
             ->limit($pageSize)
             ->orderby($_order_by)
             ->all();
-        $goodsList = ArrayHelper::toArray($goodsArr, [
+        $count = $query_count->count();
+        $goodsList = ArrayHelper::toArray($userArr, [
             'common\models\Goods' => [
                 'gid',
-                'goods_bn',
+                'goods_id',
                 'name',
-                'price',
-                'status',
-                'num',
-                'thumb' => function($m){
-                    return $m->images;
-                },
+                'thumb',
+                'description',
+                'redeem_pionts',
+                'goods_status',
                 'status_name' => function ($m) {
-                    return Goods::getGoodsStatus($m->status);
+                    return Goods::_get_goods_status($m->goods_status);
                 },
-                'create_time' => function ($m) {
-                    return date('Y-m-d h:i:s', $m->create_time);
+                'inputer' => function ($m) {
+                    return '录入人';
                 },
-                'update_time' => function ($m) {
-                    return date('Y-m-d h:i:s', $m->update_time);
+                'checker' => function ($m) {
+                    return '审核人';
+                },
+                'create_at' => function ($m) {
+                    return date('Y-m-d h:i:s', $m->create_at);
                 },
             ],
         ]);
         $_data = [
             'goodsList' => $goodsList,
-            'totalCount' => $count,
+            'totalCount' => $count
         ];
-        return json_encode($_data);
+        exit(json_encode($_data));
     }
 
     /**
@@ -121,14 +152,13 @@ class GoodsController extends BaseController
         if(!$this->isAjax()){
             return $this->render('add');
         }
-        $goods = $this->req('goods', []);
+        $goods = $this->_request('goods', []);
         if(isset($goods['gid'])){
             unset($goods['gid']);
         }
         $mdl = new Goods();
-        $goods['images'] = getValue($goods, 'thumb', '');
-        $res = $mdl->saveGoods($goods);
-        return $this->toJson($res['code'], $res['msg']);
+        $res = $mdl->_save_goods($goods);
+        $this->_json($res['code'], $res['msg']);
     }
 
     /**
@@ -137,20 +167,21 @@ class GoodsController extends BaseController
      */
     function actionUpdate()
     {
-        $gid = intval($this->req('gid'));
-        $goods_info = $this->req('goods', []);
+        $gid = intval($this->_request('gid'));
+        $goods_info = $this->_request('goods', []);
 
+        $mdl = new Goods();
         //检验参数是否合法
         if (empty($gid)) {
-            return $this->toJson(-20001, '商品序号gid不能为空');
+            $this->_json(-20001, '商品序号gid不能为空');
         }
 
         //检验商品是否存在
-        $mdl = new Goods();
-        $goods = $mdl->getOne(['gid' => $gid]);
+        $goods = $mdl->_get_info(['gid' => $gid]);
         if (!$goods) {
-            return $this->toJson(-20002, '商品信息不存在');
+            $this->_json(-20002, '商品信息不存在');
         }
+
         //加载
         if(!$this->isAjax()){
             $_data = [
@@ -158,11 +189,11 @@ class GoodsController extends BaseController
             ];
             return $this->render('update', $_data);
         }
+
         //保存
         $goods_info['gid'] = $gid;
-        $goods_info['images'] = getValue($goods_info, 'thumb', '');
-        $ret = $mdl->saveGoods($goods_info);
-        return $this->toJson($ret['code'], $ret['msg']);
+        $res = $mdl->_save_goods($goods_info);
+        $this->_json($res['code'], $res['msg']);
     }
 
     /**
@@ -171,15 +202,39 @@ class GoodsController extends BaseController
      */
     function actionAjaxChangeStatus()
     {
-        $gid = intval($this->req('gid', 0));
-        $goods_status = $this->req('goods_status', 0);
+        $gid = intval($this->_request('gid'));
+        $goods_status = $this->_request('goods_status');
+
         $mdl = new Goods();
-        $update_info = [
+        //检验参数是否合法
+        if (empty($gid)) {
+            $this->_json(-20001, '商品序号gid不能为空');
+        }
+        if(!in_array($goods_status, [$mdl::STATUS_OFFSHELF, $mdl::STATUS_UPSHELF, $mdl::STATUS_DELETE])){
+            $this->_json(-20002, '商品状态不正确');
+        }
+
+        //检验商品是否存在
+        $goods = $mdl->_get_info(['gid' => $gid]);
+        if (!$goods) {
+            $this->_json(-20003, '商品信息不存在');
+        }
+
+        $res = $mdl->_save([
             'gid' => $gid,
-            'status' => $goods_status,
-        ];
-        $ret = $mdl->saveGoods($update_info);
-        return $this->toJson($ret['code'], $ret['msg']);
+            'goods_status' => $goods_status,
+        ]);
+        if(!$res){
+            $this->_json(-20003, '商品状态修改失败');
+        }
+        $this->_json(20000, '保存成功');
     }
+
+
+
+
+
+
+
 
 }

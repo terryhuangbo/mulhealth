@@ -41,24 +41,9 @@ use common\models\Order;
                         </div>
                     </div>
                     <div class="control-group span8">
-                        <label class="control-label">商品编号：</label>
-                        <div class="controls">
-                            <input type="text" class="control-text" name="goods_bn">
-                        </div>
-                    </div>
-                    <div class="control-group span8">
-                        <label class="control-label">QQ：</label>
-                        <div class="controls">
-                            <input type="text" class="control-text" name="qq">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="control-group span8">
                         <label class="control-label">订单编号：</label>
                         <div class="controls">
-                            <input type="text" class="control-text" name="order_bn">
+                            <input type="text" class="control-text" name="order_id">
                         </div>
                     </div>
                     <div class="control-group span8">
@@ -66,13 +51,16 @@ use common\models\Order;
                         <div class="controls" >
                             <select name="order_status" id="checkstatus">
                                 <option value="">请选择</option>
-                                <?php foreach (Order::getOrderStatus() as $key => $name): ?>
+                                <?php foreach (Order::_get_status_list() as $key => $name): ?>
                                     <option value="<?php echo $key ?>"><?php echo  $name ?></option>
                                 <?php endforeach ?>
                             </select>
                         </div>
                     </div>
-                    <div class="control-group span16">
+                </div>
+
+                <div class="row">
+                    <div class="control-group span18">
                         <label class="control-label">下单时间：</label>
                         <div class="controls">
                             <input type="text" class="calendar calendar-time" name="uptimeStart"><span> - </span><input name="uptimeEnd" type="text" class="calendar calendar-time">
@@ -133,35 +121,32 @@ use common\models\Order;
                 selectedEvent: 'click',
                 columns: [
                     {title: '序号', dataIndex: 'oid', width: 80, elCls : 'center'},
+                    {title: '订单编号', dataIndex: 'order_id', width: 170, elCls : 'center'},
+//                    {title: '商品编号', dataIndex: 'goods_id', width: 150, elCls : 'center'},
+                    {title: '商品名称', dataIndex: 'goods_name', width: 90, elCls : 'center'},
+                    {title: '所需积分数', dataIndex: 'points_cost', width: 90, elCls : 'center'},
                     {
-                        title: '订单编号',
-                        dataIndex: 'order_bn',
-                        width: 200,
+                        title: '商品图片',
+                        width: 140,
                         elCls : 'center',
                         renderer: function (v, obj) {
-                            return "<a class='' href='#' onclick='showOrderInfo(" + obj.oid + ")'>" + obj.order_bn + "</a>";
+                            return "<img class='user_avatar' src='"+ obj.goods_thumb +"'>";
                         }
                     },
-                    {title: '商品编号', dataIndex: 'goods_bn', width: 120, elCls : 'center'},
-                    {title: '商品名称', dataIndex: 'goods_name', width: 90, elCls : 'center'},
-                    {title: '商品数量', dataIndex: 'num', width: 90, elCls : 'center'},
-                    {title: 'QQ', dataIndex: 'qq', width: 50, elCls : 'center'},
-                    {title: '订单金额', dataIndex: 'amount', width: 90, elCls : 'center'},
+                    {title: '买家手机', dataIndex: 'buyer_phone', width: 110, elCls : 'center'},
+                    {title: '收货人姓名', dataIndex: 'receiver_name', width: 80, elCls : 'center'},
+                    {title: '收货人手机', dataIndex: 'receiver_mobile', width: 80, elCls : 'center'},
+                    {title: '收货人省份', dataIndex: 'receiver_province', width: 80, elCls : 'center'},
                     {title: '订单状态', dataIndex: 'status_name', width: 80, elCls : 'center'},
-                    {title: '创建时间', dataIndex: 'create_time', width: 150, elCls : 'center'},
+                    {title: '创建时间', dataIndex: 'create_at', width: 150, elCls : 'center'},
 
-                    {
-                        title: '操作',
-                        width: 300,
-                        renderer: function (v, obj) {
-                            if(obj.status == <?php echo Order::STATUS_YES ?>){
-                                return "<a class='button button-success' onclick='showOrderInfo(" + obj.oid + ")'>查看</a>" +
-                                "<a class='button button-danger' onclick='refund(" + obj.oid + ")'>退款</a>";
-                            }else {
-                                return "<a class='button button-success' onclick='showOrderInfo(" + obj.oid + ")'>查看</a>";
-                            }
-                        }
-                    }
+//                    {
+//                        title: '操作',
+//                        width: 300,
+//                        renderer: function (v, obj) {
+//                            return "<a class='button button-primary' onclick='updateOrder(" + obj.oid + ")'>查看</a>";
+//                        }
+//                    }
                 ],
                 loadMask: true, //加载数据时显示屏蔽层
                 store: store,
@@ -216,18 +201,19 @@ function getOrderGridSearchConditions() {
 /**
  * 显示订单详情
  */
-function showOrderInfo(oid) {
-    var width = 500;
-    var height = 500;
+function showCheckInfo(oid) {
+    var width = 700;
+    var height = 450;
     var Overlay = BUI.Overlay;
     var buttons = [
         {
             text:'确认',
             elCls : 'button button-primary',
             handler : function(){
+                window.location.href = '/auth/auth/list';
                 this.close();
             }
-        }
+        },
     ];
     dialog = new Overlay.Dialog({
         title: '订单信息',
@@ -235,10 +221,10 @@ function showOrderInfo(oid) {
         height: height,
         closeAction: 'destroy',
         loader: {
-            url: "/order/order/info",
+            url: "/auth/auth/info",
             autoLoad: true, //不自动加载
             params: {oid: oid},//附加的参数
-            lazyLoad: false //不延迟加载
+            lazyLoad: false, //不延迟加载
         },
         buttons: buttons,
         mask: false
@@ -247,8 +233,9 @@ function showOrderInfo(oid) {
     dialog.get('loader').load({oid: oid});
 }
 
+
 /**
- * 更改订单详情
+ * 更改用户详情
  */
 function updateOrder(oid) {
     var width = 400;
@@ -273,26 +260,6 @@ function updateOrder(oid) {
     dialog.get('loader').load({oid: oid});
 }
 
-/**
- *更改状态
- */
-function refund(oid, status) {
-    BUI.Message.Confirm('您确定要退款？', function(){
-        var param = param || {};
-        param.oid = oid;
-        param.status = <?php echo Order::STATUS_REFUND ?>;
-        $._ajax('<?php echo yiiUrl('order/order/ajax-save') ?>', {order: param}, 'POST','JSON', function(json){
-            if(json.code > 0){
-                BUI.Message.Alert(json.msg, function(){
-                    window.location.href = '<?php echo yiiUrl('order/order/list') ?>';
-                }, 'success');
-            }else{
-                BUI.Message.Alert(json.msg, 'error');
-                this.close();
-            }
-        });
-    }, 'question');
-}
 
 /**
  *删除
@@ -313,6 +280,63 @@ function del(oid) {
         });
     }, 'question');
 }
+
+
+/**
+ * 查看用户物流
+ */
+function checkLogestic(oid) {
+    var width = 400;
+    var height = 250;
+    var Overlay = BUI.Overlay;
+    var buttons = [];
+    dialog = new Overlay.Dialog({
+        title: '请填写物流信息',
+        width: width,
+        height: height,
+        closeAction: 'destroy',
+        loader: {
+            url: "/order/order/logistic",
+            autoLoad: true, //不自动加载
+            params: {oid: oid},//附加的参数
+            lazyLoad: false, //不延迟加载
+        },
+        buttons: buttons,
+        mask: false
+    });
+    dialog.show();
+    dialog.get('loader').load({oid: oid});
+}
+
+/**
+ * 查看用户物流
+ */
+function checkLogDetail(oid) {
+    var width = 600;
+    var height = 400;
+    var Overlay = BUI.Overlay;
+    var buttons = [];
+    dialog = new Overlay.Dialog({
+        title: '物流详情',
+        width: width,
+        height: height,
+        closeAction: 'destroy',
+        loader: {
+            url: "/order/order/logestic-detail",
+            autoLoad: true, //不自动加载
+            params: {oid: oid},//附加的参数
+            lazyLoad: false, //不延迟加载
+        },
+        success:function () {
+            this.close();
+        },
+        mask: false
+    });
+    dialog.show();
+    dialog.get('loader').load({oid: oid});
+}
+
+
 
 </script>
 

@@ -36,17 +36,21 @@ return [
         'order' => [
             'class' => 'backend\modules\order\Module',
         ],
-        // 卡密
-        'card' => [
-            'class' => 'backend\modules\card\Module',
+        // 信用
+        'activity' => [
+            'class' => 'backend\modules\activity\Module',
         ],
-        // 财务
-        'pay' => [
-            'class' => 'backend\modules\pay\Module',
+        // 认证
+        'auth' => [
+            'class' => 'backend\modules\auth\Module',
         ],
-        // 配置
-        'config' => [
-            'class' => 'backend\modules\config\Module',
+        // 行业
+        'industry' => [
+            'class' => 'backend\modules\industry\Module',
+        ],
+        // 会员
+        'vip' => [
+            'class' => 'backend\modules\vip\Module',
         ],
     ],
     'components' => [

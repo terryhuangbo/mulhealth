@@ -7,7 +7,7 @@ use yii\captcha\Captcha;
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>VSO通用后台登录</title>
+    <title>通用后台登录</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <script src="http://static.vsochina.com/libs/respond/1.4.2/respond.min.js"></script>
     <?= Html::cssFile('@web/css/bootstrap.css') ?>
