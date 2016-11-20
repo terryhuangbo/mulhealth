@@ -182,7 +182,7 @@ class IndexController extends Controller
             'top' => ['用户管理' => 'home'],
             '用户管理' => [
                 ['用户列表' => 'user/user/list'],
-            ],
+            ]
         ];
         $menu[] = [
             'top' => ['商品管理' => 'home'],
@@ -198,13 +198,31 @@ class IndexController extends Controller
             ],
         ];
         $menu[] = [
-            'top' => ['活动管理' => 'home'],
-            '活动管理' => [
-                ['活动列表' => 'activity/activity/list'],
-                ['添加活动' => 'activity/activity/add'],
+            'top' => ['卡密管理' => 'home'],
+            '卡密配置' => [
+                ['卡密列表' => 'card/card/list'],
+                ['添加卡密' => 'card/card/add'],
+            ],
+            '卡组配置' => [
+                ['卡组列表' => 'card/card-group/list'],
+                ['添加卡组' => 'card/card-group/add'],
             ],
         ];
-
+        $menu[] = [
+            'top' => ['财务管理' => 'home'],
+            '财务管理' => [
+                ['财务列表' => 'pay/pay/list'],
+            ]
+        ];
+        $menu[] = [
+            'top' => ['系统配置' => 'home'],
+            '网站配置' => [
+                ['配置列表' => 'config/config/web'],
+            ],
+            '内容配置' => [
+                ['配置列表' => 'config/config/content'],
+            ],
+        ];
 
         return $menu;
     }

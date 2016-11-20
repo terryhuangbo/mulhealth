@@ -1,0 +1,9 @@
+.error{
+    color: red;
+    margin: -10px auto;
+}
+.msg-error{
+	color: red;
+	float: right;
+	
+}

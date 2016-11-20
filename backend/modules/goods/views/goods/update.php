@@ -70,7 +70,7 @@ use yii\helpers\Html;
 <body>
 <div class="demo-content">
     <form id="Goods_Form" action="" class="form-horizontal" onsubmit="return false;" >
-        <h2>添加商品</h2>
+        <h2>编辑商品</h2>
         <input name="gid" type="hidden" value="<?php echo $goods['gid'] ?>">
         <div class="control-group">
             <label class="control-label"><s>*</s>商品名称：</label>
@@ -80,9 +80,16 @@ use yii\helpers\Html;
         </div>
 
         <div class="control-group">
-            <label class="control-label"><s>*</s>兑换积分：</label>
+            <label class="control-label"><s>*</s>商品价格：</label>
             <div class="controls">
-                <input name="goods[redeem_pionts]" type="text" class="input-medium" data-rules="{number:true}" value="<?php echo $goods['redeem_pionts'] ?>">
+                <input name="goods[price]" type="text" class="input-medium" data-rules="{number:true}" value="<?php echo $goods['price'] ?>">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label"><s>*</s>商品数量：</label>
+            <div class="controls">
+                <input name="goods[num]" type="text" class="input-medium" data-rules="{min:1, required : true}" value="<?php echo $goods['num'] ?>">
             </div>
         </div>
         
@@ -95,12 +102,12 @@ use yii\helpers\Html;
         <div class="row" >
             <div class="span16 layout-outer-content">
                 <div id="thumbpic-content" class="layout-content" aria-disabled="false" aria-pressed="false" >
-                    <?php if(!empty($goods['thumb'])): ?>
+                    <?php if(!empty($goods['images'])): ?>
                         <div id="" class=" pull-left img-content-li">
-                            <a href="javaScript:;"><span class="label label-important img-delete" file-path="<?php echo $goods['thumb'] ?>">删除</span></a>
+                            <a href="javaScript:;"><span class="label label-important img-delete" file-path="<?php echo $goods['images'] ?>">删除</span></a>
                             <div aria-disabled="false"  class="" aria-pressed="false">
-                                <img  src="<?php echo $goods['thumb'] ?>" />
-                                <input type="hidden" name="goods[thumb]" value="<?php echo $goods['thumb'] ?>">
+                                <img  src="<?php echo $goods['images'] ?>" />
+                                <input type="hidden" name="goods[thumb]" value="<?php echo $goods['images'] ?>">
                                 <p></p>
                             </div>
                         </div>
@@ -109,13 +116,6 @@ use yii\helpers\Html;
             </div>
         </div>
 
-        <div class="control-group" id="description_content">
-            <label class="control-label">商品描述：</label>
-            <div class="controls  control-row-auto">
-                <!--                <textarea name="goods[description]" id="" class="control-row3 input-large" data-rules="{required : true}"></textarea>-->
-                <script type="text/plain" id="editor_content" name="goods[description]"></script>
-            </div>
-        </div>
         <div class="row actions-bar">
             <div class="form-actions span13 offset3">
                 <button type="submit" class="button button-primary" id="save-goods">保存</button>
@@ -162,10 +162,10 @@ use yii\helpers\Html;
             var editor = UE.getEditor('editor_content', {
                 "initialFrameWidth": "700",
                 "initialFrameHeight": "360",
-                "lang": "zh-cn",
+                "lang": "zh-cn"
             });
             editor.ready(function(){
-                editor.setContent('<?php echo $goods['description'] ?>');
+                editor.setContent('<?php echo '' ?>');
             });
         })
 
@@ -194,7 +194,7 @@ use yii\helpers\Html;
                 },
                 //传递的参数
                 formData: {
-                    objtype: 'goods',
+                    objtype: 'goods'
                 }
             });
             // 当有文件添加进来之前
@@ -223,9 +223,7 @@ use yii\helpers\Html;
                         '</div>'+
                         '</div>';
                     $('#thumbpic-content').html(div);
-                    uploaderlist.addButton({
-                        id: '#thumblistpic'
-                    });
+
                     $('.img-delete').off('click').on('click', function(){
                         var dom = $(this);
                         var filePath = dom.attr('file-path');
@@ -247,79 +245,6 @@ use yii\helpers\Html;
 
             });
 
-
-            /*上传商品图*/
-            var uploaderlist = WebUploader.create({
-                // 选完文件后，是否自动上传。
-                auto: true,
-                //文件名称
-                fileVal: 'attachment',
-                // swf文件路径
-                swf: '/plugins/webuploader/Uploader.swf',
-                // 文件接收服务端。
-                server: "/common/file/upload",
-                // 选择文件的按钮。可选。
-                pick: '#thumblistpic',
-                //文件数量
-                fileNumLimit: 5,
-                //文件大小 byte
-                fileSizeLimit: 5 * 1024 * 1024,
-                // 只允许选择图片文件。
-                accept: {
-                    title: 'Images',
-                    extensions: 'gif,jpg,jpeg,bmp,png',
-                    mimeTypes: 'image/*'
-                },
-                //传递的参数
-                formData: {
-                    objtype: 'goods'
-                }
-            });
-            // 当有文件添加进来之前
-            uploaderlist.on('beforeFileQueued', function (handler) {
-
-            });
-            // 当有文件添加进来的时候-执行队列
-            uploaderlist.on( 'fileQueued', function( file ) {
-
-            });
-            //文件数量，格式等出错
-            uploaderlist.on('error', function (handler) {
-                _file_upload_notice(handler);
-            });
-            // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-            uploaderlist.on('uploadSuccess', function (file, response) {
-                if(response.code > 0){
-                    var data = response.data;
-                    var div =
-                        '<div id="'+ file.id +'" class=" pull-left img-content-li">'+
-                        '<a href="javaScript:;"><span class="label label-important img-delete" file-path="'+ data.filePath +'">删除</span></a>'+
-                        '<div aria-disabled="false"  class="" aria-pressed="false">'+
-                        '<img  src="'+ data.filePath +'" />'+
-                        '<input type="hidden" name="goods[thumb_list]" value="'+ data.filePath +'">'+
-                        '<p>'+ file.name +'</p>'+
-                        '</div>'+
-                        '</div>';
-                    $('#thumblistpic-content').append(div);
-                    $('.img-delete').off('click').on('click', function(){
-                        var dom = $(this);
-                        var filePath = dom.attr('file-path');
-                        deleteFile(filePath, function(json){
-                            if(json.code > 0){
-                                dom.closest('div').remove();
-                            }else{
-                                BUI.Message.Alert('删除失败！');
-                            }
-                        });
-                    });
-                }else{
-                    BUI.Message.Alert('上传失败！');
-                }
-            });
-            // 文件上传失败，显示上传出错。
-            uploaderlist.on('uploadError', function (file) {
-
-            });
         });
 
         var _file_upload_notice = function (handler) {
