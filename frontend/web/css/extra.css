@@ -4,5 +4,6 @@
 }
 .msg-error{
 	color: red;
-    margin: -10px auto;
+	float: right;
+	
 }

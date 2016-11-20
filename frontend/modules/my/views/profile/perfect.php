@@ -7,7 +7,7 @@
                     <img class="sex" src="/images/sex.png"/>
                 </div>
                 <div class="text">
-                    <p>多源生物管理员</p>
+                    <p><?php echo $user['name'] ?></p>
                     <p>31岁</p>
                 </div>
             </div>
@@ -17,9 +17,10 @@
                 <table>
                     <tr>
                         <td>昵称</td>
-                        <td><input type="text" id="nick" name="nick" maxlength="12" value="<?php echo $user['nick'] ?>"></td>
+                        <td>
+                            <input type="text" id="nick" name="nick" maxlength="12" value="<?php echo $user['nick'] ?>">
+                        </td>
                     </tr>
-
                     <tr>
                         <td>性别</td>
                         <td><label><input type="radio" id="sex" name="sex" value="1" <?php if($user['sex'] === 1){echo "checked='checked'";}?>>男</label>
@@ -63,6 +64,9 @@
                 nick: {
                     required: true
                 },
+                sex: {
+                    required: true
+                },
                 mobile: {
                     required: true
                 },
@@ -81,6 +85,9 @@
                 nick: {
                     required: "请输入昵称"
                 },
+                sex: {
+                    required: "请选择性别"
+                },
                 mobile: {
                     required: "请输入联系方式"
                 },
@@ -90,9 +97,9 @@
 
             },
             errorPlacement: function(error, el) {
-                $(el).after(error);
+                $(el).closest('td').after(error);
             },
-            errorElement: "p",
+            errorElement: "td",
             submitHandler: function(form) {
                 $._ajax('/my/profile/perfect', $(form).serialize(), 'POST', 'JSON', function(json){
                     if(json.code < 0) {
