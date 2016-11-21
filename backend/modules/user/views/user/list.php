@@ -15,6 +15,13 @@ use common\models\User;
     <script src="/js/page-min.js" type="text/javascript"></script>
     <script src="/js/common.js" type="text/javascript"></script>
     <script src="/js/tools.js" type="text/javascript"></script>
+    <style>
+        .user_avatar {
+            height: auto;
+            width: 80px;
+            margin: 10px auto;
+        }
+    </style>
     <script>
         _BASE_LIST_URL =  "<?php echo yiiUrl('user/user/list?ajax=1') ?>";
     </script>
@@ -127,9 +134,21 @@ use common\models\User;
                 columns: [
                     {title: '编号', dataIndex: 'uid', width: 80, elCls : 'center'},
                     {title: '用户账号', dataIndex: 'username', width: 90, elCls : 'center'},
-                    {title: 'QQ', dataIndex: 'qq', width: 90},
-                    {title: '账户余额', dataIndex: 'points', width: 80, elCls : 'center'},
-                    {title: '注册时间', dataIndex: 'reg_time', width: 150, elCls : 'center'},
+                    {title: '真实姓名', dataIndex: 'name', width: 80, elCls : 'center'},
+                    {title: '昵称', dataIndex: 'nick', width: 80, elCls : 'center'},
+                    {title: '性别', dataIndex: 'sex', width: 50, elCls : 'center'},
+                    {
+                        title: '头像',
+                        width: 120,
+                        elCls : 'center',
+                        renderer: function (v, obj) {
+                            return "<img class='user_avatar' src='"+ obj.avatar +"'>";
+                        }
+                    },
+                    {title: '身份证', dataIndex: 'id_card', width: 145, elCls : 'center'},
+                    {title: '手机号码', dataIndex: 'mobile', width: 110, elCls : 'center'},
+                    {title: '地址', dataIndex: 'address', width: 120, elCls : 'center'},
+                    {title: '注册时间', dataIndex: 'create_time', width: 150, elCls : 'center'},
                     {title: '最近登录', dataIndex: 'login_time', width: 150, elCls : 'center'},
                     {
                         title: '操作',
@@ -197,7 +216,7 @@ function getUserGridSearchConditions() {
  */
 function showUserInfo(uid) {
     var width = 400;
-    var height = 350;
+    var height = 400;
     var Overlay = BUI.Overlay;
     var buttons = [
         {

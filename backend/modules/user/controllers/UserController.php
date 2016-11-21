@@ -60,11 +60,6 @@ class UserController extends BaseController
             {
                 $query = $query->andWhere(['username' => $search['username']]);
             }
-            //QQ
-            if (isset($search['qq']))
-            {
-                $query = $query->andWhere(['qq' => $search['qq']]);
-            }
             //注册时间
             if (isset($search['regtimeStart'])) 
             {
@@ -96,16 +91,23 @@ class UserController extends BaseController
             'common\models\User' => [
                 'uid',
                 'username',
-                'qq',
-                'points',
-                'reg_time' => function ($m) {
-                    return date('Y-m-d h:i:s', $m->reg_time);
+                'id_card',
+                'nick',
+                'name',
+                'avatar',
+                'mobile',
+                'address',
+                'sex' => function($m){
+                    return $m->sex === User::MALE ? '男' : '女';
+                },
+                'create_time' => function ($m) {
+                    return date('Y-m-d h:i:s', $m->create_at);
                 },
                 'login_time' => function ($m) {
-                    return date('Y-m-d h:i:s', $m->login_time);
+                    return date('Y-m-d h:i:s', $m->login_at);
                 },
                 'update_time' => function ($m) {
-                    return date('Y-m-d h:i:s', $m->update_time);
+                    return date('Y-m-d h:i:s', $m->update_at);
                 },
             ],
         ]);
@@ -126,7 +128,7 @@ class UserController extends BaseController
         $mdl = new User();
         //检验参数是否合法
         if (empty($uid)) {
-            $this->toJson(-20001, '用户编号id不能为空');
+            return $this->toJson(-20001, '用户编号id不能为空');
         }
 
         //检验用户是否存在
@@ -134,8 +136,9 @@ class UserController extends BaseController
         if (!$user) {
             $this->toJson(-20003, '用户信息不存在');
         }
-        $user['reg_time'] = date('Y-m-d h:i:s', $user['reg_time']);
-        $user['login_time'] = date('Y-m-d h:i:s', $user['login_time']);
+        $user['create_time'] = date('Y-m-d h:i:s', $user['create_at']);
+        $user['login_time'] = date('Y-m-d h:i:s', $user['login_at']);
+        $user['sex'] = $user['sex'] == User::MALE ? '男' : '女';
         $_data = [
             'user' => $user
         ];
