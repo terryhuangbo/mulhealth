@@ -38,12 +38,17 @@ class IndexController extends BaseController
             return $this->render('pwd', $_data);
         }
 
+        $oldpassword = trim($this->req('oldpassword'));
         $password = trim($this->req('password'));
         $password_confirm = trim($this->req('password_confirm'));
         $userForm = Yii::$app->user->identity;
-        if (!$password === $password_confirm)
+        if ($password !== $password_confirm)
         {
             return $this->toJson(-40301, '密码和确认密码不相同');
+        }
+        if (!$userForm->validatePassWord($oldpassword))
+        {
+            return $this->toJson(-40302, '您输入的旧密码不正确');
         }
         $ret = $userForm->reset($this->req());
         return $this->toJson($ret);

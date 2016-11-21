@@ -14,8 +14,6 @@ use common\models\PointsRecord;
 class ProfileController extends BaseController
 {
 
-    public $enableCsrfValidation = false;
-
     /**
      * 首页-未登录
      * @return type
@@ -37,7 +35,6 @@ class ProfileController extends BaseController
             $_data = [
                 'user' => Yii::$app->user->identity->toArray()
             ];
-            lg($_data);
             return $this->render('perfect', $_data);
         }
         $user = Yii::$app->user->identity;
@@ -46,7 +43,7 @@ class ProfileController extends BaseController
         {
             return $this->toJson($ret);
         }
-        return $this->redirect(Yii::$app->homeUrl);
+        return $this->refresh();
     }
 
 

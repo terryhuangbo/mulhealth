@@ -10,7 +10,6 @@ use app\base\BaseController;
 class IndexController extends BaseController
 {
     public $layout = '//home';
-    public $enableCsrfValidation = true;
     public $_uncheck = [
         'index',
         'index-login',

@@ -229,7 +229,7 @@
             type: reqtype,
             dataType: rettype,
             success: function (d) {
-                if (d.data.redirectUrl) {//如果返回值有redirectUrl字段，那么实现跳转
+                if (d.data && d.data.redirectUrl) {//如果返回值有redirectUrl字段，那么实现跳转
                     window.location.href = d.data.redirectUrl;
                     return
                 }

@@ -27,6 +27,7 @@
                             <label><input type="radio" name="sex"  value="2" <?php if($user['sex'] === 2 ){echo "checked='checked'";}?>>女</label>
                         </td>
                     </tr>
+
                     <tr>
                         <td>真实姓名</td>
                         <td><input type="text" id="name" name="name" value="<?php echo $user['name'] ?>" /></td>
@@ -97,9 +98,10 @@
 
             },
             errorPlacement: function(error, el) {
-                $(el).closest('td').after(error);
+                $(el).after(error);
             },
-            errorElement: "td",
+            errorElement: "em",
+            errorClass: "msg-error",
             submitHandler: function(form) {
                 $._ajax('/my/profile/perfect', $(form).serialize(), 'POST', 'JSON', function(json){
                     if(json.code < 0) {

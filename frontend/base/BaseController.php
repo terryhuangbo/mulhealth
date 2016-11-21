@@ -9,7 +9,7 @@ use common\lib\Tools;
 
 class BaseController extends Controller
 {
-    public $enableCsrfValidation = false;
+    public $enableCsrfValidation = true;
     public $open_id = '';//微信公众号
     public $uid = '';//微信公众号
     public $user = '';//用户信息

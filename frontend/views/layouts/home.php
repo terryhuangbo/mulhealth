@@ -1,6 +1,3 @@
-<?php
-use yii\helpers\Html;
-?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="en">

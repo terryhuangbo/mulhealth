@@ -8,6 +8,8 @@
                     <td>原始密码</td>
                     <td><input name="oldpassword" id="oldpassword" type="password"></td>
                 </tr>
+
+
                 <tr>
                     <td>新密码</td>
                     <td><input name="password" id="password" type="password"></td>
@@ -28,15 +30,6 @@
         </div>
     </div>
 </section>
-<script>
-//    $(".commit").click(function () {
-//        $(".modal").show();
-//    });
-    $(".close,.ok").click(function () {
-        $(".modal").hide();
-
-    });
-</script>
 <script>
     $().ready(function(){
         $("#reset")._clear_form(false);
@@ -68,16 +61,22 @@
             errorPlacement: function(error, el) {
                 $(el).after(error);
             },
-            errorElement: "p",
+            errorElement: "em",
+            errorClass: "msg-error-pwd",
             submitHandler: function(form) {
                 $._ajax('/my/index/alter-pwd', $(form).serialize(), 'POST', 'JSON', function(json){
                     if(json.code < 0) {
-                        $(".submit")._error(json.msg);
+                        $(".commit")._error(json.msg);
                     }else{
                         $(".modal").show();
                     }
                 });
             }
         });
+    });
+
+    $(".ok, .closeModal").click(function () {
+        $(".modal").hide();
+        window.location.reload();
     });
 </script>

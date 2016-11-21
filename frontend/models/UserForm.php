@@ -82,6 +82,14 @@ class UserForm extends User implements IdentityInterface
     }
 
     /**
+     * 验证密码
+     */
+    public function validatePassWord($pwd)
+    {
+        return $this->password === $this->genPwd($pwd);
+    }
+
+    /**
      * 用户登录
      */
     public function login()
