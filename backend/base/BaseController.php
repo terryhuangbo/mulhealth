@@ -131,7 +131,13 @@ class BaseController extends Controller
      * @return string
      */
     public function toJson($code, $msg = '', $data = null) {
-        @header('Content-Type:application/json;charset=utf-8');
+        Yii::$app->response->getHeaders()->set('Content-Type', 'application/json;charset=utf-8');
+
+        if (is_array($code) && !empty($code))
+        {
+            $code['request_ip'] = Tools::getIP();
+            return json_encode($code);
+        }
         $r_data = [
             'code' => $code,
             'msg' => $msg,
@@ -179,6 +185,21 @@ class BaseController extends Controller
             return $default;
         }
         return $request[$key];
+    }
+
+    /**
+     * 跳转到链接
+     * @param string $url
+     * @param int $statusCode 状态码，可以是301,302,304,307,308等；默认为302
+     * @return string
+     */
+    public function redirect($url, $statusCode = 302) {
+        if (Yii::$app->getRequest()->getIsAjax())
+        {
+            return $this->toJson(30201, '', ['redirectUrl' => $url]);
+        }else{
+            return parent::redirect($url, $statusCode);
+        }
     }
 
 }
