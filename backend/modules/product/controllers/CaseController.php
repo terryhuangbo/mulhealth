@@ -6,10 +6,10 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use app\base\BaseController;
 use common\lib\Tools;
-use common\models\Goods;
+use common\models\Cases;
 
 /**
- * 商品相关操作
+ * 产品案例相关操作
  * @author Bo Huang <Terry1987101@163.com>
  * @since 2016-10-13
  **/
@@ -35,7 +35,7 @@ class CaseController extends BaseController
     }
 
     /**
-     * 商品列表
+     * 产品案例列表
      * @return type
      */
     public function actionListView()
@@ -44,20 +44,20 @@ class CaseController extends BaseController
     }
 
     /**
-     * 商品数据
+     * 产品案例数据
      */
     public function actionList()
     {
         if ($this->isGet()) {
             return $this->render('list');
         }
-        $mdl = new Goods();
+        $mdl = new Cases();
         $query = $mdl::find();
         $search = $this->req('search');
         $page = $this->req('page', 0);
         $pageSize = $this->req('pageSize', 10);
         $offset = $page * $pageSize;
-        $query->where(['status' => [Goods::STATUS_UPSHELF, Goods::STATUS_OFFSHELF]]);
+        $query->where(['status' => [Cases::STATUS_ON, Cases::STATUS_ON]]);
         if ($search) {
             if (isset($search['uptimeStart'])) //时间范围
             {
@@ -76,44 +76,43 @@ class CaseController extends BaseController
             }
         }
         //只能是上架，或者下架的产品
-        $_order_by = 'gid DESC';
+        $_order_by = 'id DESC';
         $count = $query->count();
-        $goodsArr = $query
+        $casesArr = $query
             ->offset($offset)
             ->limit($pageSize)
             ->orderby($_order_by)
             ->all();
-        $goodsList = ArrayHelper::toArray($goodsArr, [
-            'common\models\Goods' => [
-                'gid',
-                'goods_bn',
-                'name',
-                'price',
+        $casesList = ArrayHelper::toArray($casesArr, [
+            'common\models\Cases' => [
+                'id',
+                'title',
+                'pic',
+                'tags',
                 'status',
-                'num',
-                'thumb' => function($m){
-                    return $m->images;
+                'pic' => function($m){
+                    return $m->pic;
                 },
                 'status_name' => function ($m) {
-                    return Goods::getGoodsStatus($m->status);
+                    return Cases::getStatuses($m->status);
                 },
                 'create_time' => function ($m) {
-                    return date('Y-m-d h:i:s', $m->create_time);
+                    return date('Y-m-d h:i:s', $m->create_at);
                 },
                 'update_time' => function ($m) {
-                    return date('Y-m-d h:i:s', $m->update_time);
+                    return date('Y-m-d h:i:s', $m->update_at);
                 },
             ],
         ]);
         $_data = [
-            'goodsList' => $goodsList,
+            'caseList' => $casesList,
             'totalCount' => $count,
         ];
         return json_encode($_data);
     }
 
     /**
-     * 添加商品
+     * 添加产品案例
      * @return array
      */
     function actionAdd()
@@ -121,64 +120,62 @@ class CaseController extends BaseController
         if(!$this->isAjax()){
             return $this->render('add');
         }
-        $goods = $this->req('goods', []);
-        if(isset($goods['gid'])){
-            unset($goods['gid']);
+        $mdl = new Cases();
+        $mdl->load($this->req(), '');
+        if (!$mdl->validate()) {
+            return $this->toJson(-40301, reset($mdl->getFirstErrors()));
         }
-        $mdl = new Goods();
-        $goods['images'] = getValue($goods, 'thumb', '');
-        $res = $mdl->saveGoods($goods);
-        return $this->toJson($res['code'], $res['msg']);
+        return $this->toJson($mdl->save());
     }
 
     /**
-     * 添加商品
+     * 添加产品案例
      * @return array
      */
     function actionUpdate()
     {
-        $gid = intval($this->req('gid'));
-        $goods_info = $this->req('goods', []);
+        $id = intval($this->req('id'));
+        $cases_info = $this->req('cases', []);
 
         //检验参数是否合法
-        if (empty($gid)) {
-            return $this->toJson(-20001, '商品序号gid不能为空');
+        if (empty($id)) {
+            return $this->toJson(-20001, '产品案例序号id不能为空');
         }
 
-        //检验商品是否存在
-        $mdl = new Goods();
-        $goods = $mdl->getOne(['gid' => $gid]);
-        if (!$goods) {
-            return $this->toJson(-20002, '商品信息不存在');
+        //检验产品案例是否存在
+        $mdl = new Cases();
+        $cases = $mdl->getOne(['id' => $id]);
+        if (!$cases) {
+            return $this->toJson(-20002, '产品案例信息不存在');
         }
         //加载
         if(!$this->isAjax()){
             $_data = [
-                'goods' => $goods
+                'cases' => $cases
             ];
             return $this->render('update', $_data);
         }
         //保存
-        $goods_info['gid'] = $gid;
-        $goods_info['images'] = getValue($goods_info, 'thumb', '');
-        $ret = $mdl->saveGoods($goods_info);
+        $cases_info['id'] = $id;
+        $cases_info['images'] = getValue($cases_info, 'thumb', '');
+        $ret = $mdl->saveCases($cases_info);
         return $this->toJson($ret['code'], $ret['msg']);
     }
 
     /**
-     * 改变商品状态
+     * 改变产品案例状态
      * @return array
      */
     function actionAjaxChangeStatus()
     {
-        $gid = intval($this->req('gid', 0));
-        $goods_status = $this->req('goods_status', 0);
-        $mdl = new Goods();
+        $id = intval($this->req('id', 0));
+        $cases_status = $this->req('cases_status', 0);
+        $mdl = new Cases();
         $update_info = [
-            'gid' => $gid,
-            'status' => $goods_status,
+            'id' => $id,
+            'status' => $cases_status,
         ];
-        $ret = $mdl->saveGoods($update_info);
+        $ret = $mdl->saveCases($update_info);
         return $this->toJson($ret['code'], $ret['msg']);
     }
 

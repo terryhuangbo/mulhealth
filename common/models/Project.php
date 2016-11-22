@@ -20,6 +20,12 @@ use common\base\BaseModel;
 class Project extends BaseModel
 {
     /**
+     * 状态
+     */
+    const STATUS_ON  = 1;//启用
+    const STATUS_OFF = 2;//禁用
+
+    /**
      * @inheritdoc
      */
     public static function tableName()

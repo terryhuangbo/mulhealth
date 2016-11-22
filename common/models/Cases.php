@@ -20,6 +20,12 @@ use common\base\BaseModel;
 class Cases extends BaseModel
 {
     /**
+     * 状态
+     */
+    const STATUS_ON  = 1;//启用
+    const STATUS_OFF = 2;//禁用
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -57,5 +63,18 @@ class Cases extends BaseModel
             'create_at' => '创建时间',
             'update_at' => '更新时间',
         ];
+    }
+
+    /**
+     * 状态
+     * @param $status int
+     * @return array|boolean
+     */
+    public static function getStatuses($status = null){
+        $statusArr = [
+            self::STATUS_ON   => '启用',
+            self::STATUS_OFF  => '禁用',
+        ];
+        return is_null($status) ? $statusArr : (isset($statusArr[$status]) ? $statusArr[$status] : '');
     }
 }

@@ -1,15 +1,13 @@
-<?php
-use yii\helpers\Html;
-?>
 <!doctype html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>添加商品</title>
+    <title>添加案例</title>
 
     <link href="/css/dpl.css" rel="stylesheet">
     <link href="/css/bui.css" rel="stylesheet">
     <link href="/css/page-min.css" rel="stylesheet">
+    <link href="/css/extra.css" rel="stylesheet">
     <script src="/js/jquery.js" type="text/javascript"></script>
     <script src="/js/bui-min.js" type="text/javascript"></script>
     <script src="/js/common.js" type="text/javascript"></script>
@@ -17,51 +15,6 @@ use yii\helpers\Html;
     <script src="/plugins/webuploader/webuploader.js" type="text/javascript"></script>
     <script type="text/javascript" charset="utf-8" src="/plugins/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="/plugins/ueditor/ueditor.all.js"></script>
-    <style>
-        .user_avatar {
-            width: 120px;
-            height: 80px;
-            margin: 10px auto;
-        }
-        .demo-content{
-            margin: 40px 60px;
-        }
-
-        .webuploader-element-invisible{
-            display: none;
-        }
-
-        .layout-outer-content{
-            padding: 15px;
-            margin: 10px 0px 40px 130px;
-            width: 300px;
-            background-color: #f6f6fb;
-            border: 1px solid #c3c3d6;
-        }
-        .layout-content{
-            width: 300px;
-            margin: 10px 120px;
-        }
-        .img-content-li{
-            width: 200px;
-            height: 150px;
-            margin-left: -50px;
-        }
-        .img-content-li img{
-            width: 120px;
-            height:90px;
-        }
-        .img-content-li p{
-            padding: 2px 0px;
-        }
-
-        .img-delete{
-            position: relative;
-            top:17px;
-            left: 91px;
-        }
-
-    </style>
     <script>
         _BASE_LIST_URL =  "<?php echo yiiUrl('auth/auth/list') ?>";
     </script>
@@ -70,30 +23,23 @@ use yii\helpers\Html;
 <body>
 <div class="demo-content">
     <form id="Goods_Form" action="" class="form-horizontal" onsubmit="return false;" >
-        <h2>添加商品</h2>
+        <h2>添加案例</h2>
         <div class="control-group">
-            <label class="control-label"><s>*</s>商品名称：</label>
+            <label class="control-label"><s>*</s>案例名称：</label>
             <div class="controls">
-                <input name="goods[name]" type="text" class="input-medium" data-rules="{required : true}">
+                <input name="title" type="text" class="input-medium" data-rules="{required : true}">
             </div>
         </div>
 
         <div class="control-group">
-            <label class="control-label"><s>*</s>商品价格：</label>
+            <label class="control-label"><s>*</s>案例标签：</label>
             <div class="controls">
-                <input name="goods[price]" type="text" class="input-medium" data-rules="{number:true, required : true}">
+                <input name="tags" type="text" class="input-medium" data-rules="{number:true, required : true}">
             </div>
         </div>
 
-<!--        <div class="control-group">-->
-<!--            <label class="control-label"><s>*</s>商品数量：</label>-->
-<!--            <div class="controls">-->
-<!--                <input name="goods[num]" type="text" class="input-medium" data-rules="{min:1, required : true}">-->
-<!--            </div>-->
-<!--        </div>-->
-
         <div class="control-group">
-            <label class="control-label"><s>*</s>商品图片：</label>
+            <label class="control-label"><s>*</s>案例图片：</label>
             <div id="thumbpic" class="controls">
                 <span class="button button-primary">上传图片</span>
             </div>
@@ -106,10 +52,18 @@ use yii\helpers\Html;
             </div>
         </div>
 
+        <div class="control-group" id="description_content">
+            <label class="control-label">案例详情：</label>
+            <div class="controls  control-row-auto">
+                <!--                <textarea name="detail" id="" class="control-row3 input-large" data-rules="{required : true}"></textarea>-->
+                <script type="text/plain" id="editor_content" name="detail"></script>
+            </div>
+        </div>
+
         <div class="row actions-bar">
             <div class="form-actions span13 offset3">
-                <button type="submit" class="button button-primary" id="save-goods">保存</button>
-                <button type="reset" class="button" id="cancel-goods">返回</button>
+                <button type="submit" class="button button-primary" id="save-case">保存</button>
+                <button type="reset" class="button" id="cancel-case">返回</button>
             </div>
         </div>
     </form>
@@ -121,15 +75,14 @@ use yii\helpers\Html;
                 srcNode : '#Goods_Form'
             });
             form.render();
-
             //保存
-            $("#save-goods").on('click', function(){
+            $("#save-case").on('click', function(){
                 if(form.isValid()){
                     var param = $._get_form_json("#Goods_Form");
-                    $._ajax('/goods/goods/add', param, 'POST', 'JSON', function(json){
+                    $._ajax('/product/case/add', param, 'POST', 'JSON', function(json){
                         if(json.code > 0){
                             BUI.Message.Alert(json.msg, function(){
-                                window.location.href = '/goods/goods/list';
+                                window.location.href = '/case/case/list';
                             }, 'success');
 
                         }else{
@@ -140,8 +93,8 @@ use yii\helpers\Html;
                 }
             });
             //返回
-            $("#cancel-goods").on('click', function(){
-                window.location.href = '/goods/goods/list';
+            $("#cancel-case").on('click', function(){
+                window.location.href = '/case/case/list';
             });
         });
     </script>
@@ -152,9 +105,9 @@ use yii\helpers\Html;
             var editor = UE.getEditor('editor_content', {
                 "initialFrameWidth": "700",
                 "initialFrameHeight": "360",
-                "lang": "zh-cn",
+                "lang": "zh-cn"
             });
-        })
+        });
 
         $(function () {
             /*上传缩略图*/
@@ -181,7 +134,7 @@ use yii\helpers\Html;
                 },
                 //传递的参数
                 formData: {
-                    objtype: 'goods',
+                    objtype: 'case',
                 }
             });
             // 当有文件添加进来之前
@@ -205,7 +158,7 @@ use yii\helpers\Html;
                         '<a href="javaScript:;"><span class="label label-important img-delete" file-path="'+ data.filePath +'">删除</span></a>'+
                         '<div aria-disabled="false"  class="" aria-pressed="false">'+
                         '<img  src="'+ data.filePath +'" />'+
-                        '<input type="hidden" name="goods[thumb]" value="'+ data.filePath +'">'+
+                        '<input type="hidden" name="pic" value="'+ data.filePath +'">'+
                         '<p>'+ file.name +'</p>'+
                         '</div>'+
                         '</div>';
