@@ -123,7 +123,7 @@
                 // 选择文件的按钮。可选。
                 pick: '#thumbpic',
                 //文件数量
-                fileNumLimit: 1,
+//                fileNumLimit: 1,
                 //文件大小 byte
                 fileSizeLimit: 5 * 1024 * 1024,
                 // 只允许选择图片文件。
@@ -134,7 +134,7 @@
                 },
                 //传递的参数
                 formData: {
-                    objtype: 'case',
+                    objtype: 'case'
                 }
             });
             // 当有文件添加进来之前
@@ -157,8 +157,8 @@
                         '<div id="'+ file.id +'" class=" pull-left img-content-li">'+
                         '<a href="javaScript:;"><span class="label label-important img-delete" file-path="'+ data.filePath +'">删除</span></a>'+
                         '<div aria-disabled="false"  class="" aria-pressed="false">'+
-                        '<img  src="'+ data.filePath +'" />'+
-                        '<input type="hidden" name="pic" value="'+ data.filePath +'">'+
+                        '<img  src="'+ data.url +'" />'+
+                        '<input type="hidden" name="pic" value="'+ data.url +'">'+
                         '<p>'+ file.name +'</p>'+
                         '</div>'+
                         '</div>';

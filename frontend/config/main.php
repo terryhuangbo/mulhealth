@@ -12,6 +12,7 @@ return [
     'bootstrap' => ['log'],
     'defaultRoute' => '/home/index/index',
     'controllerNamespace' => 'frontend\controllers',
+    'controllerMap' => [],
     'layout' => '//main',
     'modules' => [
         //公共
@@ -53,6 +54,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'file-upload' => 'common/file/upload',
+                'file-delete' => 'common/file/delete',
                 'index-login' => 'home/index/index-login',
                 'login' => 'user/index/login',
                 'register' => 'user/index/register',
