@@ -185,11 +185,20 @@ class IndexController extends Controller
             ]
         ];
         $menu[] = [
-            'top' => ['商品管理' => 'home'],
-            '商品管理' => [
-                ['商品列表' => 'goods/goods/list'],
-                ['添加商品' => 'goods/goods/add'],
+            'top' => ['产品配置' => 'home'],
+            '产品项目' => [
+                ['项目列表' => 'product/project/list'],
+                ['添加项目' => 'product/project/add'],
             ],
+            '经典案例' => [
+                ['案例列表' => 'product/case/list'],
+                ['添加案例' => 'product/case/add'],
+            ],
+            '产品知识' => [
+                ['产品知识列表' => 'product/knowledge/list'],
+                ['添加产品知识' => 'product/knowledge/add'],
+            ],
+
         ];
         $menu[] = [
             'top' => ['订单管理' => 'home'],

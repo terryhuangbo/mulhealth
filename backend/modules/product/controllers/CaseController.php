@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\goods\controllers;
+namespace backend\modules\product\controllers;
 
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -13,7 +13,7 @@ use common\models\Goods;
  * @author Bo Huang <Terry1987101@163.com>
  * @since 2016-10-13
  **/
-class GoodsController extends BaseController
+class CaseController extends BaseController
 {
 
     /**

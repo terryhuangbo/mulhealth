@@ -24,9 +24,9 @@ return [
         'user' => [
             'class' => 'backend\modules\user\Module',
         ],
-        // 积分
-        'points' => [
-            'class' => 'backend\modules\points\Module',
+        // 产品
+        'product' => [
+            'class' => 'backend\modules\product\Module',
         ],
         // 商品
         'goods' => [
