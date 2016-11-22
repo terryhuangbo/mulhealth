@@ -57,7 +57,7 @@ class CaseController extends BaseController
         $page = $this->req('page', 0);
         $pageSize = $this->req('pageSize', 10);
         $offset = $page * $pageSize;
-        $query->where(['status' => [Cases::STATUS_ON, Cases::STATUS_ON]]);
+        $query->where(['status' => [Cases::STATUS_ON, Cases::STATUS_OFF]]);
         if ($search) {
             if (isset($search['uptimeStart'])) //时间范围
             {
@@ -135,31 +135,46 @@ class CaseController extends BaseController
     function actionUpdate()
     {
         $id = intval($this->req('id'));
-        $cases_info = $this->req('cases', []);
+        $cases_info = $this->req();
 
+        $case = Cases::findOne($id);
         //检验参数是否合法
-        if (empty($id)) {
-            return $this->toJson(-20001, '产品案例序号id不能为空');
-        }
-
-        //检验产品案例是否存在
-        $mdl = new Cases();
-        $cases = Cases::findOne($id);
-        if (!$cases) {
-            return $this->toJson(-20002, '产品案例信息不存在');
+        if (empty($case)) {
+            return $this->toJson(-20001, '产品案例信息不存在');
         }
         //加载
         if(!$this->isAjax()){
             $_data = [
-                'cases' => $cases
+                'case' => $case
             ];
             return $this->render('update', $_data);
         }
         //保存
-        $cases_info['id'] = $id;
-        $cases_info['images'] = getValue($cases_info, 'thumb', '');
-        $ret = $mdl->saveCases($cases_info);
-        return $this->toJson($ret['code'], $ret['msg']);
+        $case->load($cases_info, '');
+        if (!$case->validate()) {
+            return $this->toJson(-40301, reset($case->getFirstErrors()));
+        }
+        return $this->toJson($case->save());
+    }
+
+    /**
+     * 加载案例详情
+     */
+    function actionInfo()
+    {
+        $id = intval($this->req('id'));
+
+        $case = Cases::findOne($id);
+        //检验参数是否合法
+        if (!$case) {
+            $this->toJson(-20003, '用户信息不存在');
+        }
+        $case['update_at'] = date('Y-m-d h:i:s', $case['update_at']);
+        $case['create_at'] = date('Y-m-d h:i:s', $case['create_at']);
+        $_data = [
+            'case' => $case
+        ];
+        return $this->render('info', $_data);
     }
 
     /**
@@ -169,14 +184,18 @@ class CaseController extends BaseController
     function actionAjaxChangeStatus()
     {
         $id = intval($this->req('id', 0));
-        $cases_status = $this->req('cases_status', 0);
-        $mdl = new Cases();
-        $update_info = [
-            'id' => $id,
-            'status' => $cases_status,
-        ];
-        $ret = $mdl->saveCases($update_info);
-        return $this->toJson($ret['code'], $ret['msg']);
+        $cases_status = intval($this->req('case_status', 0));
+        $mdl = Cases::findOne($id);
+        if (!$mdl)
+        {
+            return $this->toJson(-40301, '案例不存在');
+        }
+        $mdl->status = $cases_status;
+        if (!$mdl->validate())
+        {
+            return $this->toJson(-40301, reset($mdl->getFirstErrors()));
+        }
+        return $this->toJson($mdl->save());
     }
 
 }

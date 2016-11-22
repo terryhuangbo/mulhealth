@@ -44,7 +44,12 @@ class Cases extends BaseModel
             [['status', 'create_at', 'update_at'], 'integer'],
             [['title'], 'string', 'max' => 60],
             [['pic'], 'string', 'max' => 250],
-            [['tags'], 'string', 'max' => 150]
+            [['tags'], 'string', 'max' => 150],
+            //status
+            ['status', 'in', 'range' => [self::STATUS_ON, self::STATUS_OFF], 'message' => '案例状态错误'],
+            //title
+            ['title', 'required', 'message' => '标题不能为空'],
+
         ];
     }
 

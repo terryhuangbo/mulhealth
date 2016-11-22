@@ -152,13 +152,13 @@ use common\models\Cases;
                         width: 300,
                         renderer: function (v, obj) {
                             if(obj.status == 1){
-                                return "<a class='button button-success page-action' title='编辑产品案例' href='/product/case/update/?id="+ obj.id +"' data-href='/product/case/update/?id="+ obj.id +"' >编辑</a>" +
-                                " <a class='button button-primary' onclick='offShelf(" + obj.id + ")'>禁用</a>"+
-                                " <a class='button button-danger' onclick='del(" + obj.id + ")'>删除</a>";
+                                return "<a class='button ' onclick='showInfo(" + obj.id + ")'>查看</a>" +
+                                "<a class='button button-success page-action' title='编辑产品案例' href='/product/case/update/?id="+ obj.id +"' data-href='/product/case/update/?id="+ obj.id +"' >编辑</a>" +
+                                " <a class='button button-danger' onclick='offShelf(" + obj.id + ")'>禁用</a>";
                             }else if(obj.status == 2){
-                                return "<a class='button button-success page-action' title='编辑产品案例信息' data-href='/product/case/update/?id="+ obj.id +"' >编辑</a>" +
-                                " <a class='button button-primary' onclick='upShelf(" + obj.id + ")'>启用</a>"+
-                                " <a class='button button-danger' onclick='del(" + obj.id + ")'>删除</a>";
+                                return "<a class='button ' onclick='showInfo(" + obj.id + ")'>查看</a>" +
+                                "<a class='button button-success page-action' title='编辑产品案例信息' data-href='/product/case/update/?id="+ obj.id +"' >编辑</a>" +
+                                " <a class='button button-primary' onclick='upShelf(" + obj.id + ")'>启用</a>";
                             }
                         }
                     }
@@ -216,8 +216,8 @@ function getCasesGridSearchConditions() {
 /**
  * 显示产品案例详情
  */
-function showCheckInfo(id) {
-    var width = 700;
+function showInfo(id) {
+    var width = 500;
     var height = 450;
     var Overlay = BUI.Overlay;
     var buttons = [
@@ -225,7 +225,7 @@ function showCheckInfo(id) {
             text:'确认',
             elCls : 'button button-primary',
             handler : function(){
-                window.location.href = '/auth/auth/list';
+                window.location.href = '/product/case/list';
                 this.close();
             }
         },
@@ -236,10 +236,10 @@ function showCheckInfo(id) {
         height: height,
         closeAction: 'destroy',
         loader: {
-            url: "/auth/auth/info",
+            url: "/product/case/info",
             autoLoad: true, //不自动加载
             params: {id: id},//附加的参数
-            lazyLoad: false, //不延迟加载
+            lazyLoad: false //不延迟加载
         },
         buttons: buttons,
         mask: false

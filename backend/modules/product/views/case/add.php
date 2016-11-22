@@ -82,7 +82,7 @@
                     $._ajax('/product/case/add', param, 'POST', 'JSON', function(json){
                         if(json.code > 0){
                             BUI.Message.Alert(json.msg, function(){
-                                window.location.href = '/case/case/list';
+                                window.location.href = '/product/case/list';
                             }, 'success');
 
                         }else{
@@ -94,7 +94,7 @@
             });
             //返回
             $("#cancel-case").on('click', function(){
-                window.location.href = '/case/case/list';
+                window.location.href = '/product/case/list';
             });
         });
     </script>
