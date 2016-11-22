@@ -144,7 +144,7 @@ class CaseController extends BaseController
 
         //检验产品案例是否存在
         $mdl = new Cases();
-        $cases = $mdl->getOne(['id' => $id]);
+        $cases = Cases::findOne($id);
         if (!$cases) {
             return $this->toJson(-20002, '产品案例信息不存在');
         }

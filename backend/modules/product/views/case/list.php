@@ -152,11 +152,11 @@ use common\models\Cases;
                         width: 300,
                         renderer: function (v, obj) {
                             if(obj.status == 1){
-                                return "<a class='button button-success page-action' title='编辑产品案例' href='/case/case/update/?id="+ obj.id +"' data-href='/case/case/update/?id="+ obj.id +"' >编辑</a>" +
+                                return "<a class='button button-success page-action' title='编辑产品案例' href='/product/case/update/?id="+ obj.id +"' data-href='/product/case/update/?id="+ obj.id +"' >编辑</a>" +
                                 " <a class='button button-primary' onclick='offShelf(" + obj.id + ")'>禁用</a>"+
                                 " <a class='button button-danger' onclick='del(" + obj.id + ")'>删除</a>";
                             }else if(obj.status == 2){
-                                return "<a class='button button-success page-action' title='编辑产品案例信息' data-href='/case/case/update/?id="+ obj.id +"' >编辑</a>" +
+                                return "<a class='button button-success page-action' title='编辑产品案例信息' data-href='/product/case/update/?id="+ obj.id +"' >编辑</a>" +
                                 " <a class='button button-primary' onclick='upShelf(" + obj.id + ")'>启用</a>"+
                                 " <a class='button button-danger' onclick='del(" + obj.id + ")'>删除</a>";
                             }
@@ -256,7 +256,7 @@ function upShelf(id) {
     ajax_change_status(id, 1, function(json){
         if(json.code > 0){
             BUI.Message.Alert(json.msg, function(){
-                window.location.href = '/case/case/list';
+                window.location.href = '/product/case/list';
             }, 'success');
         }else{
             BUI.Message.Alert(json.msg, 'error');
@@ -271,7 +271,7 @@ function offShelf(id) {
     ajax_change_status(id, 2, function(json){
         if(json.code > 0){
             BUI.Message.Alert(json.msg, function(){
-                window.location.href = '/case/case/list';
+                window.location.href = '/product/case/list';
             }, 'success');
         }else{
             BUI.Message.Alert(json.msg, 'error');
@@ -287,7 +287,7 @@ function del(id) {
         ajax_change_status(id, 3, function(json){
             if(json.code > 0){
                 BUI.Message.Alert(json.msg, function(){
-                    window.location.href = '/case/case/list';
+                    window.location.href = '/product/case/list';
                 }, 'success');
             }else{
                 BUI.Message.Alert(json.msg, 'error');
@@ -303,7 +303,7 @@ function ajax_change_status(id, status, callback){
     var param = param || {};
     param.id = id;
     param.case_status = status;
-    $._ajax('<?php echo yiiUrl('case/case/ajax-change-status') ?>', param, 'POST','JSON', function(json){
+    $._ajax('<?php echo yiiUrl('product/case/ajax-change-status') ?>', param, 'POST','JSON', function(json){
         if(typeof callback == 'function'){
             callback(json);
         }
