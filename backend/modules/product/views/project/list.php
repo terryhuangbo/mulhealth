@@ -1,12 +1,12 @@
 <?php
 use yii\helpers\Html;
-use common\models\Goods;
+use common\models\Cases;
 ?>
 <!doctype html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>商品列表</title>
+    <title>产品项目列表</title>
     <link href="/css/dpl.css" rel="stylesheet">
     <link href="/css/bui.css" rel="stylesheet">
     <link href="/css/page-min.css" rel="stylesheet">
@@ -23,7 +23,7 @@ use common\models\Goods;
         }
     </style>
     <script>
-        _BASE_LIST_URL =  "<?php echo yiiUrl('goods/goods/list') ?>";
+        _BASE_LIST_URL =  "<?php echo yiiUrl('product/project/list') ?>";
     </script>
 </head>
 
@@ -35,17 +35,17 @@ use common\models\Goods;
 
                 <div class="row">
                     <div class="control-group span12">
-                        <label class="control-label">商品名称：</label>
+                        <label class="control-label">项目名称：</label>
                         <div class="controls" data-type="city">
                             <input type="text" class="control-text" name="name" id="name">
                         </div>
                     </div>
                     <div class="control-group span10">
-                        <label class="control-label">商品状态：</label>
+                        <label class="control-label">项目状态：</label>
                         <div class="controls" >
                             <select name="status" id="status">
                                 <option value="">请选择</option>
-                                <?php foreach (Goods::getGoodsStatus() as $key => $name): ?>
+                                <?php foreach (Cases::getStatuses() as $key => $name): ?>
                                     <option value="<?= $key ?>"><?= $name ?></option>
                                 <?php endforeach ?>
                             </select>
@@ -61,7 +61,7 @@ use common\models\Goods;
                     </div>
                     <div class="row">
                         <div class="control-group span10">
-                            <button type="button" id="btnSearch" class="button button-primary"  onclick="searchGoods()">查询</button>
+                            <button type="button" id="btnSearch" class="button button-primary"  onclick="searchCases()">查询</button>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@ use common\models\Goods;
         </div>
         <div class="bui-grid-tbar">
         </div>
-        <div id="goods_grid">
+        <div id="project_grid">
         </div>
     </div>
 </div>
@@ -123,29 +123,27 @@ use common\models\Goods;
                 autoLoad: true, //自动加载数据
                 params: {
                 },
-                root: 'goodsList',//数据返回字段,支持深成次属性root : 'data.records',
+                root: 'projectList',//数据返回字段,支持深成次属性root : 'data.records',
                 totalProperty: 'totalCount',//总计字段
                 pageSize: 10// 配置分页数目,
             });
             var grid = new Grid.Grid({
-                render: '#goods_grid',
+                render: '#project_grid',
                 idField: 'id', //自定义选项 id 字段
                 selectedEvent: 'click',
                 columns: [
-                    {title: '序号', dataIndex: 'gid', width: 80, elCls : 'center'},
-                    {title: '商品编号', dataIndex: 'goods_bn', width: 120, elCls : 'center'},
-                    {title: '商品名称', dataIndex: 'name', width: 90, elCls : 'center'},
+                    {title: '序号', dataIndex: 'id', width: 80, elCls : 'center'},
+                    {title: '项目名称', dataIndex: 'title', width: 90, elCls : 'center'},
                     {
-                        title: '缩略图',
+                        title: '图片',
                         width: 140,
                         elCls : 'center',
                         renderer: function (v, obj) {
-                            return "<img class='user_avatar' src='"+ obj.thumb +"'>";
+                            return "<img class='user_avatar' src='"+ obj.pic +"'>";
                         }
                     },
-                    {title: '商品价格', dataIndex: 'price', width: 80, elCls : 'center'},
-                    {title: '剩余数量', dataIndex: 'num', width: 80, elCls : 'center'},
-                    {title: '商品状态', dataIndex: 'status_name', width: 80, elCls : 'center'},
+                    {title: '项目标签', dataIndex: 'tags', width: 80, elCls : 'center'},
+                    {title: '项目状态', dataIndex: 'status_name', width: 80, elCls : 'center'},
                     {title: '创建时间', dataIndex: 'create_time', width: 150, elCls : 'center'},
                     {title: '更新时间', dataIndex: 'update_time', width: 150, elCls : 'center'},
                     {
@@ -153,13 +151,13 @@ use common\models\Goods;
                         width: 300,
                         renderer: function (v, obj) {
                             if(obj.status == 1){
-                                return "<a class='button button-success page-action' title='编辑商品' href='/goods/goods/update/?gid="+ obj.gid +"' data-href='/goods/goods/update/?gid="+ obj.gid +"' >编辑</a>" +
-                                " <a class='button button-primary' onclick='offShelf(" + obj.gid + ")'>禁用</a>"+
-                                " <a class='button button-danger' onclick='del(" + obj.gid + ")'>删除</a>";
+                                return "<a class='button button-info' onclick='showInfo(" + obj.id + ")'>查看</a>" +
+                                    "<a class='button button-success page-action' title='编辑产品项目' href='/product/project/update/?id="+ obj.id +"' data-href='/product/project/update/?id="+ obj.id +"' >编辑</a>" +
+                                    " <a class='button button-danger' onclick='offShelf(" + obj.id + ")'>禁用</a>";
                             }else if(obj.status == 2){
-                                return "<a class='button button-success page-action' title='编辑商品信息' data-href='/goods/goods/update/?gid="+ obj.gid +"' >编辑</a>" +
-                                " <a class='button button-primary' onclick='upShelf(" + obj.gid + ")'>启用</a>"+
-                                " <a class='button button-danger' onclick='del(" + obj.gid + ")'>删除</a>";
+                                return "<a class='button button-info' onclick='showInfo(" + obj.id + ")'>查看</a>" +
+                                    "<a class='button button-success page-action' title='编辑产品项目信息' data-href='/product/project/update/?id="+ obj.id +"' >编辑</a>" +
+                                    " <a class='button button-primary' onclick='upShelf(" + obj.id + ")'>启用</a>";
                             }
                         }
                     }
@@ -174,7 +172,7 @@ use common\models\Goods;
                 plugins: Grid.Plugins.CheckSelection,// 插件形式引入多选表格
             });
             grid.render();
-            $("#goods_grid").data("BGrid", grid);
+            $("#project_grid").data("BGrid", grid);
 
         });
 
@@ -182,135 +180,135 @@ use common\models\Goods;
 </script>
 
 <script>
-/**
- * 搜索商品,刷新列表
- */
-function searchGoods() {
-    var search = {};
-    var fields = $("#authsearch").serializeArray();//获取表单信息
-    jQuery.each(fields, function (i, field) {
-        if (field.value != "") {
-            search[field.name] = field.value;
-        }
-    });
-    var store = $("#goods_grid").data("BGrid").get('store');
-    var lastParams = store.get("lastParams");
-    lastParams.search = search;
-    store.load(lastParams);//刷新
-}
-/**
- * 获取过滤项
- */
-function getGoodsGridSearchConditions() {
-    var search = {};
-    var upusername = $("#upusername").val();
-    if (upusername != "") {
-        search.upusername = upusername;
-    }
-    var username = $("#username").val();
-    if (username != "") {
-        search.username = username;
-    }
-    return search;
-}
-
-/**
- * 显示商品详情
- */
-function showCheckInfo(gid) {
-    var width = 700;
-    var height = 450;
-    var Overlay = BUI.Overlay;
-    var buttons = [
-        {
-            text:'确认',
-            elCls : 'button button-primary',
-            handler : function(){
-                window.location.href = '/auth/auth/list';
-                this.close();
+    /**
+     * 搜索产品项目,刷新列表
+     */
+    function searchCases() {
+        var search = {};
+        var fields = $("#authsearch").serializeArray();//获取表单信息
+        jQuery.each(fields, function (i, field) {
+            if (field.value != "") {
+                search[field.name] = field.value;
             }
-        },
-    ];
-    dialog = new Overlay.Dialog({
-        title: '商品信息',
-        width: width,
-        height: height,
-        closeAction: 'destroy',
-        loader: {
-            url: "/auth/auth/info",
-            autoLoad: true, //不自动加载
-            params: {gid: gid},//附加的参数
-            lazyLoad: false, //不延迟加载
-        },
-        buttons: buttons,
-        mask: false
-    });
-    dialog.show();
-    dialog.get('loader').load({gid: gid});
-}
-
-
-/**
- * 上架
- */
-function upShelf(gid) {
-    ajax_change_status(gid, 1, function(json){
-        if(json.code > 0){
-            BUI.Message.Alert(json.msg, function(){
-                window.location.href = '/goods/goods/list';
-            }, 'success');
-        }else{
-            BUI.Message.Alert(json.msg, 'error');
+        });
+        var store = $("#project_grid").data("BGrid").get('store');
+        var lastParams = store.get("lastParams");
+        lastParams.search = search;
+        store.load(lastParams);//刷新
+    }
+    /**
+     * 获取过滤项
+     */
+    function getCasesGridSearchConditions() {
+        var search = {};
+        var upusername = $("#upusername").val();
+        if (upusername != "") {
+            search.upusername = upusername;
         }
-    });
-}
-
-/**
- * 下架
- */
-function offShelf(gid) {
-    ajax_change_status(gid, 2, function(json){
-        if(json.code > 0){
-            BUI.Message.Alert(json.msg, function(){
-                window.location.href = '/goods/goods/list';
-            }, 'success');
-        }else{
-            BUI.Message.Alert(json.msg, 'error');
+        var username = $("#username").val();
+        if (username != "") {
+            search.username = username;
         }
-    });
-}
+        return search;
+    }
 
-/**
- *删除
- */
-function del(gid) {
-    BUI.Message.Confirm('您确定要删除？', function(){
-        ajax_change_status(gid, 3, function(json){
+    /**
+     * 显示产品项目详情
+     */
+    function showInfo(id) {
+        var width = 500;
+        var height = 450;
+        var Overlay = BUI.Overlay;
+        var buttons = [
+            {
+                text:'确认',
+                elCls : 'button button-primary',
+                handler : function(){
+                    window.location.href = '/product/project/list';
+                    this.close();
+                }
+            },
+        ];
+        dialog = new Overlay.Dialog({
+            title: '产品项目信息',
+            width: width,
+            height: height,
+            closeAction: 'destroy',
+            loader: {
+                url: "/product/project/info",
+                autoLoad: true, //不自动加载
+                params: {id: id},//附加的参数
+                lazyLoad: false //不延迟加载
+            },
+            buttons: buttons,
+            mask: false
+        });
+        dialog.show();
+        dialog.get('loader').load({id: id});
+    }
+
+
+    /**
+     * 上架
+     */
+    function upShelf(id) {
+        ajax_change_status(id, 1, function(json){
             if(json.code > 0){
                 BUI.Message.Alert(json.msg, function(){
-                    window.location.href = '/goods/goods/list';
+                    window.location.href = '/product/project/list';
                 }, 'success');
             }else{
                 BUI.Message.Alert(json.msg, 'error');
             }
         });
-    }, 'question');
-}
+    }
 
-/**
- *改变商品状态
- */
-function ajax_change_status(gid, status, callback){
-    var param = param || {};
-    param.gid = gid;
-    param.goods_status = status;
-    $._ajax('<?php echo yiiUrl('goods/goods/ajax-change-status') ?>', param, 'POST','JSON', function(json){
-        if(typeof callback == 'function'){
-            callback(json);
-        }
-    });
+    /**
+     * 下架
+     */
+    function offShelf(id) {
+        ajax_change_status(id, 2, function(json){
+            if(json.code > 0){
+                BUI.Message.Alert(json.msg, function(){
+                    window.location.href = '/product/project/list';
+                }, 'success');
+            }else{
+                BUI.Message.Alert(json.msg, 'error');
+            }
+        });
+    }
 
-}
+    /**
+     *删除
+     */
+    function del(id) {
+        BUI.Message.Confirm('您确定要删除？', function(){
+            ajax_change_status(id, 3, function(json){
+                if(json.code > 0){
+                    BUI.Message.Alert(json.msg, function(){
+                        window.location.href = '/product/project/list';
+                    }, 'success');
+                }else{
+                    BUI.Message.Alert(json.msg, 'error');
+                }
+            });
+        }, 'question');
+    }
+
+    /**
+     *改变产品项目状态
+     */
+    function ajax_change_status(id, status, callback){
+        var param = param || {};
+        param.id = id;
+        param.project_status = status;
+        $._ajax('<?php echo yiiUrl('product/project/ajax-change-status') ?>', param, 'POST','JSON', function(json){
+            if(typeof callback == 'function'){
+                callback(json);
+            }
+        });
+
+    }
 
 </script>
 

@@ -5,7 +5,7 @@ use yii\helpers\Html;
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>编辑商品信息</title>
+    <title>编辑知识</title>
 
     <link href="/css/dpl.css" rel="stylesheet">
     <link href="/css/bui.css" rel="stylesheet">
@@ -70,31 +70,24 @@ use yii\helpers\Html;
 <body>
 <div class="demo-content">
     <form id="Goods_Form" action="" class="form-horizontal" onsubmit="return false;" >
-        <h2>编辑商品</h2>
-        <input name="gid" type="hidden" value="<?php echo $goods['gid'] ?>">
+        <h2>添加知识</h2>
+        <input name="id" type="hidden" value="<?php echo $knowledge['id'] ?>">
         <div class="control-group">
-            <label class="control-label"><s>*</s>商品名称：</label>
+            <label class="control-label"><s>*</s>知识名称：</label>
             <div class="controls">
-                <input name="goods[name]" type="text" class="input-medium" data-rules="{required : true}" value="<?php echo $goods['name'] ?>">
+                <input name="title" type="text" class="input-medium" data-rules="{required : true}" value="<?php echo $knowledge['title'] ?>">
             </div>
         </div>
 
         <div class="control-group">
-            <label class="control-label"><s>*</s>商品价格：</label>
+            <label class="control-label"><s>*</s>知识标签：</label>
             <div class="controls">
-                <input name="goods[price]" type="text" class="input-medium" data-rules="{number:true}" value="<?php echo $goods['price'] ?>">
+                <input name="tags" type="text" class="input-medium" data-rules="{number:true, required : true}" value="<?php echo $knowledge['tags'] ?>">
             </div>
         </div>
 
         <div class="control-group">
-            <label class="control-label"><s>*</s>商品数量：</label>
-            <div class="controls">
-                <input name="goods[num]" type="text" class="input-medium" data-rules="{min:1, required : true}" value="<?php echo $goods['num'] ?>">
-            </div>
-        </div>
-        
-        <div class="control-group">
-            <label class="control-label"><s>*</s>商品缩略图：</label>
+            <label class="control-label"><s>*</s>知识缩略图：</label>
             <div id="thumbpic" class="controls">
                 <span class="button button-primary">上传图片</span>
             </div>
@@ -102,12 +95,12 @@ use yii\helpers\Html;
         <div class="row" >
             <div class="span16 layout-outer-content">
                 <div id="thumbpic-content" class="layout-content" aria-disabled="false" aria-pressed="false" >
-                    <?php if(!empty($goods['images'])): ?>
+                    <?php if(!empty($knowledge['pic'])): ?>
                         <div id="" class=" pull-left img-content-li">
-                            <a href="javaScript:;"><span class="label label-important img-delete" file-path="<?php echo $goods['images'] ?>">删除</span></a>
+                            <a href="javaScript:;"><span class="label label-important img-delete" file-path="<?php echo $knowledge['pic'] ?>">删除</span></a>
                             <div aria-disabled="false"  class="" aria-pressed="false">
-                                <img  src="<?php echo $goods['images'] ?>" />
-                                <input type="hidden" name="goods[thumb]" value="<?php echo $goods['images'] ?>">
+                                <img  src="<?php echo $knowledge['pic'] ?>" />
+                                <input type="hidden" name="pic" value="<?php echo $knowledge['pic'] ?>">
                                 <p></p>
                             </div>
                         </div>
@@ -116,10 +109,17 @@ use yii\helpers\Html;
             </div>
         </div>
 
+        <div class="control-group" id="description_content">
+            <label class="control-label">知识描述：</label>
+            <div class="controls  control-row-auto">
+                <!--                <textarea name="case[description]" id="" class="control-row3 input-large" data-rules="{required : true}"></textarea>-->
+                <script type="text/plain" id="editor_content" name="detail"></script>
+            </div>
+        </div>
         <div class="row actions-bar">
             <div class="form-actions span13 offset3">
-                <button type="submit" class="button button-primary" id="save-goods">保存</button>
-                <button type="reset" class="button" id="cancel-goods">返回</button>
+                <button type="submit" class="button button-primary" id="save-case">保存</button>
+                <button type="reset" class="button" id="cancel-case">返回</button>
             </div>
         </div>
     </form>
@@ -133,13 +133,13 @@ use yii\helpers\Html;
             form.render();
 
             //保存
-            $("#save-goods").on('click', function(){
+            $("#save-case").on('click', function(){
                 if(form.isValid()){
-                    var param = $._get_form_json("#Goods_Form");
-                    $._ajax('/goods/goods/update', param, 'POST', 'JSON', function(json){
+                    var param = $._get_form_json;
+                    $._ajax('/product/knowledge/update', $("#Goods_Form").serialize(), 'POST', 'JSON', function(json){
                         if(json.code > 0){
                             BUI.Message.Alert(json.msg, function(){
-                                window.location.href = '/goods/goods/list';
+                                window.location.href = '/product/knowledge/list';
                             }, 'success');
 
                         }else{
@@ -150,8 +150,8 @@ use yii\helpers\Html;
                 }
             });
             //返回
-            $("#cancel-goods").on('click', function(){
-                window.location.href = '/goods/goods/list';
+            $("#cancel-case").on('click', function(){
+                window.location.href = '/product/knowledge/list';
             });
         });
     </script>
@@ -165,7 +165,7 @@ use yii\helpers\Html;
                 "lang": "zh-cn"
             });
             editor.ready(function(){
-                editor.setContent('<?php echo '' ?>');
+                editor.setContent('<?php echo $knowledge['detail'] ?>');
             });
         })
 
@@ -194,7 +194,7 @@ use yii\helpers\Html;
                 },
                 //传递的参数
                 formData: {
-                    objtype: 'goods'
+                    objtype: 'case',
                 }
             });
             // 当有文件添加进来之前
@@ -217,13 +217,15 @@ use yii\helpers\Html;
                         '<div id="'+ file.id +'" class=" pull-left img-content-li">'+
                         '<a href="javaScript:;"><span class="label label-important img-delete" file-path="'+ data.filePath +'">删除</span></a>'+
                         '<div aria-disabled="false"  class="" aria-pressed="false">'+
-                        '<img  src="'+ data.filePath +'" />'+
-                        '<input type="hidden" name="goods[thumb]" value="'+ data.filePath +'">'+
+                        '<img  src="'+ data.url +'" />'+
+                        '<input type="hidden" name="pic" value="'+ data.url +'">'+
                         '<p>'+ file.name +'</p>'+
                         '</div>'+
                         '</div>';
                     $('#thumbpic-content').html(div);
-
+                    uploaderlist.addButton({
+                        id: '#thumblistpic'
+                    });
                     $('.img-delete').off('click').on('click', function(){
                         var dom = $(this);
                         var filePath = dom.attr('file-path');
@@ -245,6 +247,79 @@ use yii\helpers\Html;
 
             });
 
+
+            /*上传知识图*/
+            var uploaderlist = WebUploader.create({
+                // 选完文件后，是否自动上传。
+                auto: true,
+                //文件名称
+                fileVal: 'attachment',
+                // swf文件路径
+                swf: '/plugins/webuploader/Uploader.swf',
+                // 文件接收服务端。
+                server: "/common/file/upload",
+                // 选择文件的按钮。可选。
+                pick: '#thumblistpic',
+                //文件数量
+                fileNumLimit: 5,
+                //文件大小 byte
+                fileSizeLimit: 5 * 1024 * 1024,
+                // 只允许选择图片文件。
+                accept: {
+                    title: 'Images',
+                    extensions: 'gif,jpg,jpeg,bmp,png',
+                    mimeTypes: 'image/*'
+                },
+                //传递的参数
+                formData: {
+                    objtype: 'case'
+                }
+            });
+            // 当有文件添加进来之前
+            uploaderlist.on('beforeFileQueued', function (handler) {
+
+            });
+            // 当有文件添加进来的时候-执行队列
+            uploaderlist.on( 'fileQueued', function( file ) {
+
+            });
+            //文件数量，格式等出错
+            uploaderlist.on('error', function (handler) {
+                _file_upload_notice(handler);
+            });
+            // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+            uploaderlist.on('uploadSuccess', function (file, response) {
+                if(response.code > 0){
+                    var data = response.data;
+                    var div =
+                        '<div id="'+ file.id +'" class=" pull-left img-content-li">'+
+                        '<a href="javaScript:;"><span class="label label-important img-delete" file-path="'+ data.filePath +'">删除</span></a>'+
+                        '<div aria-disabled="false"  class="" aria-pressed="false">'+
+                        '<img  src="'+ data.filePath +'" />'+
+                        '<input type="hidden" name="case[thumb_list]" value="'+ data.filePath +'">'+
+                        '<p>'+ file.name +'</p>'+
+                        '</div>'+
+                        '</div>';
+                    $('#thumblistpic-content').append(div);
+                    $('.img-delete').off('click').on('click', function(){
+                        var dom = $(this);
+                        var filePath = dom.attr('file-path');
+                        deleteFile(filePath, function(json){
+                            if(json.code > 0){
+                                dom.closest('div').remove();
+                            }else{
+                                BUI.Message.Alert('删除失败！');
+                            }
+                        });
+                    });
+                }else{
+                    BUI.Message.Alert('上传失败！');
+                }
+            });
+            // 文件上传失败，显示上传出错。
+            uploaderlist.on('uploadError', function (file) {
+
+            });
         });
 
         var _file_upload_notice = function (handler) {

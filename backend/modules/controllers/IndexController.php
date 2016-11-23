@@ -195,8 +195,8 @@ class IndexController extends Controller
                 ['添加案例' => 'product/case/add'],
             ],
             '产品知识' => [
-                ['产品知识列表' => 'product/knowledge/list'],
-                ['添加产品知识' => 'product/knowledge/add'],
+                ['知识列表' => 'product/knowledge/list'],
+                ['添加知识' => 'product/knowledge/add'],
             ],
 
         ];

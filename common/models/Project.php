@@ -64,4 +64,17 @@ class Project extends BaseModel
             'update_at' => '更新时间',
         ];
     }
+
+    /**
+     * 状态
+     * @param $status int
+     * @return array|boolean
+     */
+    public static function getStatuses($status = null){
+        $statusArr = [
+            self::STATUS_ON   => '启用',
+            self::STATUS_OFF  => '禁用',
+        ];
+        return is_null($status) ? $statusArr : (isset($statusArr[$status]) ? $statusArr[$status] : '');
+    }
 }

@@ -5,7 +5,6 @@ namespace backend\modules\product\controllers;
 use Yii;
 use yii\helpers\ArrayHelper;
 use app\base\BaseController;
-use common\lib\Tools;
 use common\models\Cases;
 
 /**

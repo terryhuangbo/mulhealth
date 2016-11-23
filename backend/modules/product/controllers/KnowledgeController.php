@@ -5,11 +5,10 @@ namespace backend\modules\product\controllers;
 use Yii;
 use yii\helpers\ArrayHelper;
 use app\base\BaseController;
-use common\lib\Tools;
-use common\models\Goods;
+use common\models\Knowledge;
 
 /**
- * 商品相关操作
+ * 产品项目相关操作
  * @author Bo Huang <Terry1987101@163.com>
  * @since 2016-10-13
  **/
@@ -35,7 +34,7 @@ class KnowledgeController extends BaseController
     }
 
     /**
-     * 商品列表
+     * 产品项目列表
      * @return type
      */
     public function actionListView()
@@ -44,20 +43,20 @@ class KnowledgeController extends BaseController
     }
 
     /**
-     * 商品数据
+     * 产品项目数据
      */
     public function actionList()
     {
         if ($this->isGet()) {
             return $this->render('list');
         }
-        $mdl = new Goods();
+        $mdl = new Knowledge();
         $query = $mdl::find();
         $search = $this->req('search');
         $page = $this->req('page', 0);
         $pageSize = $this->req('pageSize', 10);
         $offset = $page * $pageSize;
-        $query->where(['status' => [Goods::STATUS_UPSHELF, Goods::STATUS_OFFSHELF]]);
+        $query->where(['status' => [Knowledge::STATUS_ON, Knowledge::STATUS_OFF]]);
         if ($search) {
             if (isset($search['uptimeStart'])) //时间范围
             {
@@ -76,44 +75,43 @@ class KnowledgeController extends BaseController
             }
         }
         //只能是上架，或者下架的产品
-        $_order_by = 'gid DESC';
+        $_order_by = 'id DESC';
         $count = $query->count();
-        $goodsArr = $query
+        $knowledgeArr = $query
             ->offset($offset)
             ->limit($pageSize)
             ->orderby($_order_by)
             ->all();
-        $goodsList = ArrayHelper::toArray($goodsArr, [
-            'common\models\Goods' => [
-                'gid',
-                'goods_bn',
-                'name',
-                'price',
+        $knowledgeList = ArrayHelper::toArray($knowledgeArr, [
+            'common\models\Knowledge' => [
+                'id',
+                'title',
+                'pic',
+                'tags',
                 'status',
-                'num',
-                'thumb' => function($m){
-                    return $m->images;
+                'pic' => function($m){
+                    return $m->pic;
                 },
                 'status_name' => function ($m) {
-                    return Goods::getGoodsStatus($m->status);
+                    return Knowledge::getStatuses($m->status);
                 },
                 'create_time' => function ($m) {
-                    return date('Y-m-d h:i:s', $m->create_time);
+                    return date('Y-m-d h:i:s', $m->create_at);
                 },
                 'update_time' => function ($m) {
-                    return date('Y-m-d h:i:s', $m->update_time);
+                    return date('Y-m-d h:i:s', $m->update_at);
                 },
             ],
         ]);
         $_data = [
-            'goodsList' => $goodsList,
+            'knowledgeList' => $knowledgeList,
             'totalCount' => $count,
         ];
         return json_encode($_data);
     }
 
     /**
-     * 添加商品
+     * 添加产品项目
      * @return array
      */
     function actionAdd()
@@ -121,65 +119,82 @@ class KnowledgeController extends BaseController
         if(!$this->isAjax()){
             return $this->render('add');
         }
-        $goods = $this->req('goods', []);
-        if(isset($goods['gid'])){
-            unset($goods['gid']);
+        $mdl = new Knowledge();
+        $mdl->load($this->req(), '');
+        if (!$mdl->validate()) {
+            return $this->toJson(-40301, reset($mdl->getFirstErrors()));
         }
-        $mdl = new Goods();
-        $goods['images'] = getValue($goods, 'thumb', '');
-        $res = $mdl->saveGoods($goods);
-        return $this->toJson($res['code'], $res['msg']);
+        return $this->toJson($mdl->save());
     }
 
     /**
-     * 添加商品
+     * 添加产品项目
      * @return array
      */
     function actionUpdate()
     {
-        $gid = intval($this->req('gid'));
-        $goods_info = $this->req('goods', []);
+        $id = intval($this->req('id'));
+        $knowledge_info = $this->req();
 
+        $knowledge = Knowledge::findOne($id);
         //检验参数是否合法
-        if (empty($gid)) {
-            return $this->toJson(-20001, '商品序号gid不能为空');
-        }
-
-        //检验商品是否存在
-        $mdl = new Goods();
-        $goods = $mdl->getOne(['gid' => $gid]);
-        if (!$goods) {
-            return $this->toJson(-20002, '商品信息不存在');
+        if (empty($knowledge)) {
+            return $this->toJson(-20001, '产品项目信息不存在');
         }
         //加载
         if(!$this->isAjax()){
             $_data = [
-                'goods' => $goods
+                'knowledge' => $knowledge
             ];
             return $this->render('update', $_data);
         }
         //保存
-        $goods_info['gid'] = $gid;
-        $goods_info['images'] = getValue($goods_info, 'thumb', '');
-        $ret = $mdl->saveGoods($goods_info);
-        return $this->toJson($ret['code'], $ret['msg']);
+        $knowledge->load($knowledge_info, '');
+        if (!$knowledge->validate()) {
+            return $this->toJson(-40301, reset($knowledge->getFirstErrors()));
+        }
+        return $this->toJson($knowledge->save());
     }
 
     /**
-     * 改变商品状态
+     * 加载项目详情
+     */
+    function actionInfo()
+    {
+        $id = intval($this->req('id'));
+
+        $knowledge = Knowledge::findOne($id);
+        //检验参数是否合法
+        if (!$knowledge) {
+            $this->toJson(-20003, '用户信息不存在');
+        }
+        $knowledge['update_at'] = date('Y-m-d h:i:s', $knowledge['update_at']);
+        $knowledge['create_at'] = date('Y-m-d h:i:s', $knowledge['create_at']);
+        $_data = [
+            'knowledge' => $knowledge
+        ];
+        return $this->render('info', $_data);
+    }
+
+    /**
+     * 改变产品项目状态
      * @return array
      */
     function actionAjaxChangeStatus()
     {
-        $gid = intval($this->req('gid', 0));
-        $goods_status = $this->req('goods_status', 0);
-        $mdl = new Goods();
-        $update_info = [
-            'gid' => $gid,
-            'status' => $goods_status,
-        ];
-        $ret = $mdl->saveGoods($update_info);
-        return $this->toJson($ret['code'], $ret['msg']);
+        $id = intval($this->req('id', 0));
+        $knowledge_status = intval($this->req('knowledge_status', 0));
+        $mdl = Knowledge::findOne($id);
+        if (!$mdl)
+        {
+            return $this->toJson(-40301, '项目不存在');
+        }
+        $mdl->status = $knowledge_status;
+        if (!$mdl->validate())
+        {
+            return $this->toJson(-40301, reset($mdl->getFirstErrors()));
+        }
+        return $this->toJson($mdl->save());
     }
 
 }
