@@ -133,17 +133,16 @@ use common\models\Cases;
                 selectedEvent: 'click',
                 columns: [
                     {title: '序号', dataIndex: 'id', width: 80, elCls : 'center'},
-                    {title: '产品案例名称', dataIndex: 'title', width: 90, elCls : 'center'},
+                    {title: '案例名称', dataIndex: 'title', width: 90, elCls : 'center'},
                     {
-                        title: '缩略图',
+                        title: '图片',
                         width: 140,
                         elCls : 'center',
                         renderer: function (v, obj) {
                             return "<img class='user_avatar' src='"+ obj.pic +"'>";
                         }
                     },
-                    {title: '案例价格', dataIndex: 'price', width: 80, elCls : 'center'},
-                    {title: '剩余数量', dataIndex: 'tags', width: 80, elCls : 'center'},
+                    {title: '案例标签', dataIndex: 'tags', width: 80, elCls : 'center'},
                     {title: '案例状态', dataIndex: 'status_name', width: 80, elCls : 'center'},
                     {title: '创建时间', dataIndex: 'create_time', width: 150, elCls : 'center'},
                     {title: '更新时间', dataIndex: 'update_time', width: 150, elCls : 'center'},
