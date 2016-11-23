@@ -152,11 +152,11 @@ use common\models\Cases;
                         width: 300,
                         renderer: function (v, obj) {
                             if(obj.status == 1){
-                                return "<a class='button ' onclick='showInfo(" + obj.id + ")'>查看</a>" +
+                                return "<a class='button button-info' onclick='showInfo(" + obj.id + ")'>查看</a>" +
                                 "<a class='button button-success page-action' title='编辑产品案例' href='/product/case/update/?id="+ obj.id +"' data-href='/product/case/update/?id="+ obj.id +"' >编辑</a>" +
                                 " <a class='button button-danger' onclick='offShelf(" + obj.id + ")'>禁用</a>";
                             }else if(obj.status == 2){
-                                return "<a class='button ' onclick='showInfo(" + obj.id + ")'>查看</a>" +
+                                return "<a class='button button-info' onclick='showInfo(" + obj.id + ")'>查看</a>" +
                                 "<a class='button button-success page-action' title='编辑产品案例信息' data-href='/product/case/update/?id="+ obj.id +"' >编辑</a>" +
                                 " <a class='button button-primary' onclick='upShelf(" + obj.id + ")'>启用</a>";
                             }
