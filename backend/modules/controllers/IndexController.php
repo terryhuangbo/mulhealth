@@ -199,39 +199,16 @@ class IndexController extends Controller
                 ['添加知识' => 'product/knowledge/add'],
             ],
 
+
         ];
         $menu[] = [
-            'top' => ['订单管理' => 'home'],
-            '订单管理' => [
-                ['订单列表' => 'order/order/list'],
+            'top' => ['标签管理' => 'home'],
+            '标签管理' => [
+                ['标签列表' => 'tag/tag/list'],
+                ['添加标签' => 'tag/tag/add'],
             ],
         ];
-        $menu[] = [
-            'top' => ['卡密管理' => 'home'],
-            '卡密配置' => [
-                ['卡密列表' => 'card/card/list'],
-                ['添加卡密' => 'card/card/add'],
-            ],
-            '卡组配置' => [
-                ['卡组列表' => 'card/card-group/list'],
-                ['添加卡组' => 'card/card-group/add'],
-            ],
-        ];
-        $menu[] = [
-            'top' => ['财务管理' => 'home'],
-            '财务管理' => [
-                ['财务列表' => 'pay/pay/list'],
-            ]
-        ];
-        $menu[] = [
-            'top' => ['系统配置' => 'home'],
-            '网站配置' => [
-                ['配置列表' => 'config/config/web'],
-            ],
-            '内容配置' => [
-                ['配置列表' => 'config/config/content'],
-            ],
-        ];
+
 
         return $menu;
     }

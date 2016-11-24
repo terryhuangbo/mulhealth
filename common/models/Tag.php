@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use common\base\BaseModel;
 use Yii;
@@ -14,7 +14,7 @@ use Yii;
  * @property integer $create_at
  * @property integer $update_at
  */
-class Tags extends BaseModel
+class Tag extends BaseModel
 {
 
     /**
@@ -61,5 +61,19 @@ class Tags extends BaseModel
         ];
     }
 
-    
+    /**
+     * 状态
+     * @param $type int
+     * @return array|boolean
+     */
+    public static function getTypes($type = null){
+        $typeArr = [
+            self::TYPE_PROJECT    => '项目标签',
+            self::TYPE_CASE       => '案例标签',
+            self::TYPE_KNOWLEDGE  => '知识标签',
+        ];
+        return is_null($type) ? $typeArr : (isset($typeArr[$type]) ? $typeArr[$type] : '');
+    }
+
+
 }

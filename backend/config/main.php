@@ -28,9 +28,9 @@ return [
         'product' => [
             'class' => 'backend\modules\product\Module',
         ],
-        // 商品
-        'goods' => [
-            'class' => 'backend\modules\goods\Module',
+        // 标签
+        'tag' => [
+            'class' => 'backend\modules\tag\Module',
         ],
         // 订单
         'order' => [
