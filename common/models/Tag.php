@@ -20,6 +20,7 @@ class Tag extends BaseModel
     /**
      * 类型
      */
+    const TYPE_ALL       = 0;//不限
     const TYPE_PROJECT   = 1;//项目
     const TYPE_CASE      = 2;//案例
     const TYPE_KNOWLEDGE = 3;//知识
@@ -43,7 +44,7 @@ class Tag extends BaseModel
             //name必须唯一
             [['name'], 'unique', 'message' => '你已经添加过该标签了'],
             //type类型限制
-            [['type'], 'in','range' => [self::TYPE_PROJECT, self::TYPE_CASE, self::TYPE_KNOWLEDGE], 'message' => '你已经添加过该标签了'],
+            [['type'], 'in','range' => [self::TYPE_ALL, self::TYPE_PROJECT, self::TYPE_CASE, self::TYPE_KNOWLEDGE], 'message' => '标签类型不正确'],
         ];
     }
 
@@ -68,6 +69,7 @@ class Tag extends BaseModel
      */
     public static function getTypes($type = null){
         $typeArr = [
+            self::TYPE_ALL        => '不限',
             self::TYPE_PROJECT    => '项目标签',
             self::TYPE_CASE       => '案例标签',
             self::TYPE_KNOWLEDGE  => '知识标签',
