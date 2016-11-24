@@ -8,8 +8,11 @@
     <link href="/css/bui.css" rel="stylesheet">
     <link href="/css/page-min.css" rel="stylesheet">
     <link href="/css/extra.css" rel="stylesheet">
+
     <script src="/js/jquery.js" type="text/javascript"></script>
-    <script src="/js/bui-min.js" type="text/javascript"></script>
+<!--    <script src="/js/bui-min.js" type="text/javascript"></script>-->
+    <script src="/js/sea.js"></script>
+    <script src="http://g.alicdn.com/bui/bui/1.1.21/config.js"></script>
     <script src="/js/common.js" type="text/javascript"></script>
     <script src="/js/tools.js" type="text/javascript"></script>
     <script src="/plugins/webuploader/webuploader.js" type="text/javascript"></script>
@@ -60,6 +63,17 @@
             </div>
         </div>
 
+        <div class="control-group" id="description_content">
+            <label class="control-label">在一行中：</label>
+            <div id="s2">
+                <input type="hidden" id="hide1" value="2;3" name="hide1">
+            </div>
+        </div>
+
+        <h2>在一行中</h2>
+        <div id="s2">
+            <input type="hidden" id="hide1" value="2;3" name="hide1">
+        </div>
         <div class="row actions-bar">
             <div class="form-actions span13 offset3">
                 <button type="submit" class="button button-primary" id="save-case">保存</button>
@@ -96,6 +110,24 @@
             $("#cancel-case").on('click', function(){
                 window.location.href = '/product/project/list';
             });
+        });
+
+        BUI.use('bui/select',function(Select){
+
+            var items1 = [
+                    '1','2','3','4'
+                ],
+                select1 = new Select.Combox({
+                    render:'#s2',
+                    showTag:true,
+                    width : 500,
+                    elCls : 'bui-tag-follow',
+                    valueField : '#hide1',//显示tag的Combox必须存在valueField
+                    items:items1
+                });
+            select1.render();
+
+
         });
     </script>
     <!-- script end -->
