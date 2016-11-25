@@ -135,7 +135,7 @@
                 // 选择文件的按钮。可选。
                 pick: '#thumbpic',
                 //文件数量
-                fileNumLimit: 3,
+//                fileNumLimit: 3,
                 //文件大小 byte
                 fileSizeLimit: 5 * 1024 * 1024,
                 // 只允许选择图片文件。
@@ -151,7 +151,10 @@
             });
             // 当有文件添加进来之前
             uploader.on('beforeFileQueued', function (handler) {
-
+                if ($(".img-content-li").length >= 3) {
+                    alert('上传文件总数量超过限制！');
+                    return false;
+                }
             });
             // 当有文件添加进来的时候-执行队列
             uploader.on( 'fileQueued', function( file ) {
@@ -170,7 +173,7 @@
                         '<a href="javaScript:;"><span class="label label-important img-delete" file-path="'+ data.filePath +'">删除</span></a>'+
                         '<div aria-disabled="false"  class="" aria-pressed="false">'+
                         '<img  src="'+ data.url +'" />'+
-                        '<input type="hidden" name="pic" value="'+ data.url +'">'+
+                        '<input type="hidden" name="pic[]" value="'+ data.url +'">'+
                         '<p>'+ file.name +'</p>'+
                         '</div>'+
                         '</div>';

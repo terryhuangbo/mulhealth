@@ -96,16 +96,16 @@ use yii\helpers\Html;
         <div class="row" >
             <div class="span16 layout-outer-content">
                 <div id="thumbpic-content" class="layout-content" aria-disabled="false" aria-pressed="false" >
-                    <?php if(!empty($knowledge['pic'])): ?>
+                    <?php foreach(json_decode($knowledge['pic'], true) as $v): ?>
                         <div id="" class=" pull-left img-content-li">
-                            <a href="javaScript:;"><span class="label label-important img-delete" file-path="<?php echo $knowledge['pic'] ?>">删除</span></a>
+                            <a href="javaScript:;"><span class="label label-important img-delete" file-path="<?php echo $v ?>">删除</span></a>
                             <div aria-disabled="false"  class="" aria-pressed="false">
-                                <img  src="<?php echo $knowledge['pic'] ?>" />
-                                <input type="hidden" name="pic" value="<?php echo $knowledge['pic'] ?>">
+                                <img  src="<?php echo $v ?>" />
+                                <input type="hidden" name="pic[]" value="<?php echo $v ?>">
                                 <p></p>
                             </div>
                         </div>
-                    <?php endif ?>
+                    <?php endforeach ?>
                 </div>
             </div>
         </div>
@@ -197,7 +197,7 @@ use yii\helpers\Html;
                 // 选择文件的按钮。可选。
                 pick: '#thumbpic',
                 //文件数量
-                fileNumLimit: 1,
+//                fileNumLimit: 1,
                 //文件大小 byte
                 fileSizeLimit: 5 * 1024 * 1024,
                 // 只允许选择图片文件。
@@ -213,7 +213,10 @@ use yii\helpers\Html;
             });
             // 当有文件添加进来之前
             uploader.on('beforeFileQueued', function (handler) {
-
+                if ($(".img-content-li").length >= 3) {
+                    alert('上传文件总数量超过限制！');
+                    return false;
+                }
             });
             // 当有文件添加进来的时候-执行队列
             uploader.on( 'fileQueued', function( file ) {
@@ -232,11 +235,11 @@ use yii\helpers\Html;
                         '<a href="javaScript:;"><span class="label label-important img-delete" file-path="'+ data.filePath +'">删除</span></a>'+
                         '<div aria-disabled="false"  class="" aria-pressed="false">'+
                         '<img  src="'+ data.url +'" />'+
-                        '<input type="hidden" name="pic" value="'+ data.url +'">'+
+                        '<input type="hidden" name="pic[]" value="'+ data.url +'">'+
                         '<p>'+ file.name +'</p>'+
                         '</div>'+
                         '</div>';
-                    $('#thumbpic-content').html(div);
+                    $('#thumbpic-content').append(div);
                     uploaderlist.addButton({
                         id: '#thumblistpic'
                     });

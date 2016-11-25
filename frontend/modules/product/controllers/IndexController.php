@@ -25,7 +25,7 @@ class IndexController extends BaseController
         $keyArr = ['cases', 'project', 'knowledge'];
         foreach ($mdlArr as $key => $mdl) {
             $data[$keyArr[$key]] = $mdl::find()
-                ->select(['pic', 'title'])
+                ->select(['id', 'pic', 'title'])
                 ->orderBy('id DESC')
                 ->limit($this->_pageNum)
                 ->asArray()

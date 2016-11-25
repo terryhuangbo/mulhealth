@@ -8,9 +8,11 @@
             </div>
             <? foreach ($data['project'] as $key => $val): ?>
                 <div class="content">
-                    <p><?php echo $val['title'] ?></p>
+                    <a href="/product/project/detail?id=<?php echo $val['id'] ?>">
+                        <p><?php echo $val['title'] ?></p>
+                    </a>
                     <? foreach ($val['pic'] as $v): ?>
-                        <img src="<?php echo $v ?>" alt="<?php echo $val['title'] ?>">
+                        <a href="/product/project/detail?id=<?php echo $val['id'] ?>"><img src="<?php echo $v ?>" alt="<?php echo $val['title'] ?>"></a>
                     <? endforeach ?>
                 </div>
             <? endforeach ?>
@@ -23,9 +25,13 @@
             </div>
             <? foreach ($data['knowledge'] as $key => $val): ?>
                 <div class="content">
-                    <p><?php echo $val['title'] ?></p>
+                    <a href="/product/knowledge/detail?id=<?php echo $val['id'] ?>">
+                        <p><?php echo $val['title'] ?></p>
+                    </a>
                     <? foreach ($val['pic'] as $v): ?>
-                        <img src="<?php echo $v ?>" alt="<?php echo $val['title'] ?>">
+                        <a href="/product/knowledge/detail?id=<?php echo $val['id'] ?>">
+                            <img src="<?php echo $v ?>" alt="<?php echo $val['title'] ?>">
+                        </a>
                     <? endforeach ?>
                 </div>
             <? endforeach ?>
@@ -38,9 +44,13 @@
             </div>
             <? foreach ($data['cases'] as $key => $val): ?>
                 <div class="content">
-                    <p><?php echo $val['title'] ?></p>
+                    <a href="/product/case/detail?id=<?php echo $val['id'] ?>">
+                        <p><?php echo $val['title'] ?></p>
+                    </a>
                     <? foreach ($val['pic'] as $v): ?>
-                        <img src="<?php echo $v ?>" alt="<?php echo $val['title'] ?>">
+                        <a href="/product/case/detail?id=<?php echo $val['id'] ?>">
+                            <img src="<?php echo $v ?>" alt="<?php echo $val['title'] ?>">
+                        </a>
                     <? endforeach ?>
                 </div>
             <? endforeach ?>

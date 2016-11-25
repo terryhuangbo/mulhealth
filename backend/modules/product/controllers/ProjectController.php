@@ -91,10 +91,7 @@ class ProjectController extends BaseController
                 'tags',
                 'status',
                 'pic' => function($m){
-                    if (($pic = json_decode($m->pic, true)) !== null) {
-                        return reset($pic);
-                    }
-                    return $m->pic;
+                    return reset(json_decode($m->pic, true));
                 },
                 'status_name' => function ($m) {
                     return Project::getStatuses($m->status);
