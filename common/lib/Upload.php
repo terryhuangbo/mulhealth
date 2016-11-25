@@ -55,8 +55,8 @@ class Upload
                     'orgname' => $filename,//file原来的名称
                     'fileDir' => $fileDir . $fileName,
                     'filePath' => $filePath . $fileName,
-//                    'url' => 'http://' . $_SERVER['SERVER_NAME'] . $fileDir . $fileName,
-                    'url' => $fileDir . $fileName
+                    'url' => 'http://' . $_SERVER['SERVER_NAME'] . $filePath . $fileName,
+//                    'url' => $fileDir . $fileName
                 ],
             ];
             return $result;

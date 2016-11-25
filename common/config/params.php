@@ -8,24 +8,10 @@ return [
     'api_appid' => '1001',
 
     //前台域名
-    'frontend' => 'http://www.bankunion.com',
+    'frontend' => '@front',
     //后台域名
-    'backend' => 'http://www.bankunion_back.com',
+    'backend' => '@back',
     //图片访问域名
-    'img_host' => 'http://www.bankunion_back.com',
-
-    //手机号码服务商
-    'mobileService' => [
-        '1' => '移动',
-        '2' => '联通',
-        '3' => '电信',
-    ],
-    //活动区域
-    'activityZone' => [
-        '8' => '辽宁',
-        '9' => '吉林',
-        '10' => '黑龙江',
-    ],
-
+    'img_host' => '@back',
 
 ];

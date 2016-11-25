@@ -12,7 +12,7 @@ use yii;
 class Http extends \yii\db\ActiveRecord {
 
     //post请求
-    public function _post($url, $post_data = [], $header = []) {
+    public function post($url, $post_data = [], $header = []) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, true);
@@ -27,7 +27,7 @@ class Http extends \yii\db\ActiveRecord {
     }
 
     //get请求
-    public function _get($url, $get_data = []) {
+    public function get($url, $get_data = []) {
         $url = $url . '?' . http_build_query($get_data);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

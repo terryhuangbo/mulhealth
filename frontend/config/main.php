@@ -7,21 +7,46 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-frontend',
+    'id' => 'mulhealth-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'defaultRoute' => '/redeem/activity/index',
+    'defaultRoute' => '/home/index/index',
     'controllerNamespace' => 'frontend\controllers',
+    'controllerMap' => [],
+    'layout' => '//main',
     'modules' => [
-        //积分兑换
-        'redeem' => [
-            'class' => 'frontend\modules\redeem\Module',
-        ],
-        //积分兑换
+        //公共
         'common' => [
             'class' => 'frontend\modules\common\Module',
         ],
-
+        //用户
+        'redeem' => [
+            'class' => 'frontend\modules\redeem\Module',
+        ],
+        //首页
+        'home' => [
+            'class' => 'frontend\modules\home\Module',
+        ],
+        //用户
+        'user' => [
+            'class' => 'frontend\modules\user\Module',
+        ],
+        //个人中心
+        'my' => [
+            'class' => 'frontend\modules\my\Module',
+        ],
+        //公司
+        'company' => [
+            'class' => 'frontend\modules\company\Module',
+        ],
+        //产品
+        'product' => [
+            'class' => 'frontend\modules\product\Module',
+        ],
+        //评论
+        'comment' => [
+            'class' => 'frontend\modules\comment\Module',
+        ],
     ],
     'components' => [
         'db' => require(__DIR__ . '/../../common/config/db.php'),
@@ -29,13 +54,20 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                "<controller:\w+>/<action:\w+>" => "redeem/<controller>/<action>",
+                'file-upload' => 'common/file/upload',
+                'file-delete' => 'common/file/delete',
+                'index-login' => 'home/index/index-login',
+                'login' => 'user/index/login',
+                'register' => 'user/index/register',
+                'logout' => 'user/index/logout',
+                'reset' => 'user/index/reset',
+                'perfect' => 'my/profile/perfect',
             ],
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'frontend\models\UserForm',
             'enableAutoLogin' => true,
-            'loginUrl' => ['redeem/user/login'],
+            'loginUrl' => ['user/index/login'],
         ],
         'jssdk' => [
             'class' => 'app\components\Wechat\Jssdk',

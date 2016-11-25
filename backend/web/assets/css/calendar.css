@@ -6,7 +6,7 @@
   display: table;
   content: "";
 }
-.clearfix:after { 
+.clearfix:after {
   clear: both;
 }
 .hide-text {

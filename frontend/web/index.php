@@ -1,8 +1,8 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Chuang
- * Date: 2015/5/17
+ * User: Huangbo
+ * Date: 2016/11/02
  * Time: 16:22
  */
 defined('YII_DEBUG') or define('YII_DEBUG', true);

@@ -182,26 +182,30 @@ class IndexController extends Controller
             'top' => ['用户管理' => 'home'],
             '用户管理' => [
                 ['用户列表' => 'user/user/list'],
-            ],
+            ]
         ];
         $menu[] = [
-            'top' => ['商品管理' => 'home'],
-            '商品管理' => [
-                ['商品列表' => 'goods/goods/list'],
-                ['添加商品' => 'goods/goods/add'],
+            'top' => ['产品配置' => 'home'],
+            '产品项目' => [
+                ['项目列表' => 'product/project/list'],
+                ['添加项目' => 'product/project/add'],
             ],
+            '经典案例' => [
+                ['案例列表' => 'product/case/list'],
+                ['添加案例' => 'product/case/add'],
+            ],
+            '产品知识' => [
+                ['知识列表' => 'product/knowledge/list'],
+                ['添加知识' => 'product/knowledge/add'],
+            ],
+
+
         ];
         $menu[] = [
-            'top' => ['订单管理' => 'home'],
-            '订单管理' => [
-                ['订单列表' => 'order/order/list'],
-            ],
-        ];
-        $menu[] = [
-            'top' => ['活动管理' => 'home'],
-            '活动管理' => [
-                ['活动列表' => 'activity/activity/list'],
-                ['添加活动' => 'activity/activity/add'],
+            'top' => ['标签管理' => 'home'],
+            '标签管理' => [
+                ['标签列表' => 'tag/tag/list'],
+                ['添加标签' => 'tag/tag/add'],
             ],
         ];
 

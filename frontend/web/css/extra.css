@@ -1,0 +1,13 @@
+.error{
+    color: red;
+    margin: -10px auto;
+}
+.msg-error{
+	color: red;
+	float: right;
+}
+.msg-error-pwd{
+	color: red;
+	display: block;
+	text-align: center;
+}
