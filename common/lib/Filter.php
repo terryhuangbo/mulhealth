@@ -3,12 +3,13 @@
 namespace common\lib;
 
 use Yii;
+use yii\base\Component;
 
 /**
  * 站点安全-过滤类
  *
  */
-class Filter
+class Filter extends Component
 {
     /**
      * 标题过滤

@@ -11,7 +11,8 @@ use yii\helpers\Html;
     <link href="/css/bui.css" rel="stylesheet">
     <link href="/css/page-min.css" rel="stylesheet">
     <script src="/js/jquery.js" type="text/javascript"></script>
-    <script src="/js/bui-min.js" type="text/javascript"></script>
+    <script src="/js/sea.js"></script>
+    <script src="http://g.alicdn.com/bui/bui/1.1.21/config.js"></script>
     <script src="/js/common.js" type="text/javascript"></script>
     <script src="/js/tools.js" type="text/javascript"></script>
     <script src="/plugins/webuploader/webuploader.js" type="text/javascript"></script>
@@ -81,8 +82,8 @@ use yii\helpers\Html;
 
         <div class="control-group">
             <label class="control-label"><s>*</s>项目标签：</label>
-            <div class="controls">
-                <input name="tags" type="text" class="input-medium" data-rules="{number:true, required : true}" value="<?php echo $project['tags'] ?>">
+            <div id="tags-content" style="text-indent: 10px; margin: auto auto 10px 0">
+                <input name="tags" type="hidden" id="tags" value="<?php echo $project['tags'] ?>"  data-rules="{required : true}">
             </div>
         </div>
 
@@ -153,6 +154,19 @@ use yii\helpers\Html;
             $("#cancel-case").on('click', function(){
                 window.location.href = '/product/project/list';
             });
+        });
+        //选择标签
+        BUI.use('bui/select',function(Select){
+            var items = <?php echo $tags; ?>,
+                select1 = new Select.Combox({
+                    render:'#tags-content',
+                    showTag:true,
+                    width : 340,
+                    elCls : 'bui-tag-follow',
+                    valueField : '#tags',//显示tag的Combox必须存在valueField
+                    items: items
+                });
+            select1.render();
         });
     </script>
     <!-- script end -->

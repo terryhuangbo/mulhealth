@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use common\lib\Filter;
 use common\base\BaseModel;
 
 /**
@@ -39,12 +40,24 @@ class Project extends BaseModel
     public function rules()
     {
         return [
-            [['detail'], 'required'],
             [['detail'], 'string'],
             [['status', 'create_at', 'update_at'], 'integer'],
             [['title'], 'string', 'max' => 60],
-            [['pic'], 'string', 'max' => 250],
-            [['tags'], 'string', 'max' => 150]
+            //必填字段
+            [['title', 'detail', 'pic', 'tags'], 'required'],
+            //title
+            ['title', 'filter', 'filter' => [Filter::className(), 'filters_title']],
+            //pic
+            ['pic', 'filter', 'filter' => function($v){
+                return json_encode((array) $v) ;
+            }],
+            //tags
+            [['tags'], 'string', 'max' => 150],
+            ['tags', 'filter', 'filter' => function($v){
+                return is_array($v) ? implode(';', $v) : $v;
+            }],
+            //status
+            ['status', 'in', 'range' => [self::STATUS_ON, self::STATUS_OFF]],
         ];
     }
 

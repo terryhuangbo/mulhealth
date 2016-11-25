@@ -4,6 +4,8 @@ namespace common\models;
 
 use common\base\BaseModel;
 use Yii;
+use yii\caching\Cache;
+use yii\caching\DbDependency;
 
 /**
  * This is the model class for table "{{%tags}}".
@@ -44,7 +46,7 @@ class Tag extends BaseModel
             //name必须唯一
             [['name'], 'unique', 'message' => '你已经添加过该标签了'],
             //type类型限制
-            [['type'], 'in','range' => [self::TYPE_ALL, self::TYPE_PROJECT, self::TYPE_CASE, self::TYPE_KNOWLEDGE], 'message' => '标签类型不正确'],
+            [['type'], 'in', 'range' => array_keys(self::getTypes()), 'message' => '标签类型不正确'],
         ];
     }
 
@@ -77,5 +79,31 @@ class Tag extends BaseModel
         return is_null($type) ? $typeArr : (isset($typeArr[$type]) ? $typeArr[$type] : '');
     }
 
+    /**
+     * 获取标签列表
+     * @param $type array|string  标签类型，
+     * @param $handler callable 对标签处理的回调
+     * @return array|boolean
+     */
+    public static function getTags($type = [], $handler = null){
+        $cache = Yii::$app->cache;
+        if (!($cacheAvailable = $cache instanceof Cache) || ($tags = $cache->get([__METHOD__, 'tags']) === false)) {
+            $tags = static::find()
+                ->select(['name'])
+                ->where(['type' => $type])
+                ->asArray()
+                ->column();
+            if ($cacheAvailable) {
+                $dependency = new DbDependency([
+                    'sql' => 'SELECT MAX(update_at) FROM {{%tags}}',
+                ]);
+                $cache->set([__METHOD__, $type], $tags, 3600, $dependency);
+            }
+        }
+        if (!empty($tags) && is_callable($handler)) {
+            $tags =  call_user_func($handler, $tags);
+        }
+        return $tags;
+    }
 
 }

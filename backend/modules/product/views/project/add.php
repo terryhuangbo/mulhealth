@@ -10,7 +10,6 @@
     <link href="/css/extra.css" rel="stylesheet">
 
     <script src="/js/jquery.js" type="text/javascript"></script>
-<!--    <script src="/js/bui-min.js" type="text/javascript"></script>-->
     <script src="/js/sea.js"></script>
     <script src="http://g.alicdn.com/bui/bui/1.1.21/config.js"></script>
     <script src="/js/common.js" type="text/javascript"></script>
@@ -18,9 +17,6 @@
     <script src="/plugins/webuploader/webuploader.js" type="text/javascript"></script>
     <script type="text/javascript" charset="utf-8" src="/plugins/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="/plugins/ueditor/ueditor.all.js"></script>
-    <script>
-        _BASE_LIST_URL =  "<?php echo yiiUrl('auth/auth/list') ?>";
-    </script>
 </head>
 
 <body>
@@ -36,8 +32,8 @@
 
         <div class="control-group">
             <label class="control-label"><s>*</s>项目标签：</label>
-            <div class="controls">
-                <input name="tags" type="text" class="input-medium" data-rules="{number:true, required : true}">
+            <div id="tags-content" style="text-indent: 10px; margin: auto auto 10px 0">
+                <input name="tags" type="hidden" id="tags" value=""  data-rules="{required : true}">
             </div>
         </div>
 
@@ -61,18 +57,6 @@
                 <!--                <textarea name="detail" id="" class="control-row3 input-large" data-rules="{required : true}"></textarea>-->
                 <script type="text/plain" id="editor_content" name="detail"></script>
             </div>
-        </div>
-
-        <div class="control-group" id="description_content">
-            <label class="control-label">在一行中：</label>
-            <div id="s2">
-                <input type="hidden" id="hide1" value="2;3" name="hide1">
-            </div>
-        </div>
-
-        <h2>在一行中</h2>
-        <div id="s2">
-            <input type="hidden" id="hide1" value="2;3" name="hide1">
         </div>
         <div class="row actions-bar">
             <div class="form-actions span13 offset3">
@@ -112,22 +96,18 @@
             });
         });
 
+        //选择标签
         BUI.use('bui/select',function(Select){
-
-            var items1 = [
-                    '1','2','3','4'
-                ],
+            var items = <?php echo $tags; ?>,
                 select1 = new Select.Combox({
-                    render:'#s2',
+                    render:'#tags-content',
                     showTag:true,
-                    width : 500,
+                    width : 340,
                     elCls : 'bui-tag-follow',
-                    valueField : '#hide1',//显示tag的Combox必须存在valueField
-                    items:items1
+                    valueField : '#tags',//显示tag的Combox必须存在valueField
+                    items: items
                 });
             select1.render();
-
-
         });
     </script>
     <!-- script end -->
@@ -155,7 +135,7 @@
                 // 选择文件的按钮。可选。
                 pick: '#thumbpic',
                 //文件数量
-//                fileNumLimit: 1,
+                fileNumLimit: 3,
                 //文件大小 byte
                 fileSizeLimit: 5 * 1024 * 1024,
                 // 只允许选择图片文件。
@@ -194,7 +174,7 @@
                         '<p>'+ file.name +'</p>'+
                         '</div>'+
                         '</div>';
-                    $('#thumbpic-content').html(div);
+                    $('#thumbpic-content').append(div);
                     $('.img-delete').off('click').on('click', function(){
                         var dom = $(this);
                         var filePath = dom.attr('file-path');

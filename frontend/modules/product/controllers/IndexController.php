@@ -2,19 +2,18 @@
 
 namespace frontend\modules\product\controllers;
 
-use common\behavior\PointBehavior;
 use Yii;
 use app\base\BaseController;
-use common\models\User;
-use common\models\Goods;
-use common\models\Points;
-use common\models\PointsRecord;
+use common\models\Cases;
+use common\models\Project;
+use common\models\Knowledge;
 
 
 class IndexController extends BaseController
 {
 
     public $enableCsrfValidation = false;
+    public $_pageNum = 5;//首页默认展示条数
 
     /**
      * 首页-未登录
@@ -22,7 +21,22 @@ class IndexController extends BaseController
      */
     public function actionIndex()
     {
-        $_data = [];
+        $mdlArr = [new Cases, new Project, new Knowledge];
+        $keyArr = ['cases', 'project', 'knowledge'];
+        foreach ($mdlArr as $key => $mdl) {
+            $data[$keyArr[$key]] = $mdl::find()
+                ->select(['pic', 'title'])
+                ->orderBy('id DESC')
+                ->limit($this->_pageNum)
+                ->asArray()
+                ->all();
+            array_walk($data[$keyArr[$key]], function (&$v, $k){
+                $v['pic'] =  json_decode($v['pic'], true);
+            });
+        }
+        $_data = [
+            'data' => $data
+        ];
         return $this->render('index', $_data);
     }
 

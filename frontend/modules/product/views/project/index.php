@@ -6,9 +6,9 @@
                     <a><p>时间筛选<img src="/images/arrowDown.png"/></p></a>
                     <div id="time">
                         <ul>
-                            <li>时间段1</li>
-                            <li>时间段2</li>
-                            <li>时间段3</li>
+                            <? foreach ($timeFilters as $t): ?>
+                                <li from="<?php echo $t['from'] ?>" to="<?php echo $t['to'] ?>"><?php echo $t['text'] ?></li>
+                            <? endforeach ?>
                         </ul>
                     </div>
                 </li>
@@ -16,9 +16,9 @@
                     <a><p>标签筛选<img src="/images/arrowDown.png"/></p></a>
                     <div id="items">
                         <ul>
-                            <li>产品项目1</li>
-                            <li>产品项目2</li>
-                            <li>产品项目3</li>
+                            <? foreach ($tagList as $t): ?>
+                                <li><?php echo $t ?></li>
+                            <? endforeach ?>
                         </ul>
                     </div>
                 </li>
@@ -34,7 +34,7 @@
                     <div class="content">
                         <img src="<?php echo $project['pic'] ?>"/>
                         <p><?php echo $project['detail'] ?></p>
-                        <a href="">阅读>></a>
+                        <a href="/product/project/detail?id=<?php echo $project['id'] ?>">阅读>></a>
                     </div>
                 </div>
             <? endforeach ?>
@@ -54,8 +54,10 @@
 <script>
     $("#time li").on('click', function () {
         var el = $(this);
-        var period = el.text();
-        var param = {'period': period};
+        var param = {
+            'from': el.attr('from'),
+            'to': el.attr('to'),
+        };
         getItems(param);
     });
     $("#items li").on('click', function () {
@@ -79,7 +81,7 @@
                         '    <div class="content">'+
                         '        <img src="'+ v.pic +'"/>'+
                         '        <p>'+ v.detail +'</p>'+
-                        '        <a href="">阅读>></a>'+
+                        '        <a href="/product/project/detail?id='+ v.id +'">阅读>></a>'+
                         '    </div>'+
                         '</div>';
                 });

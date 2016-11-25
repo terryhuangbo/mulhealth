@@ -2,6 +2,7 @@
 
 namespace backend\modules\product\controllers;
 
+use common\models\Tag;
 use Yii;
 use yii\helpers\ArrayHelper;
 use app\base\BaseController;
@@ -90,6 +91,9 @@ class ProjectController extends BaseController
                 'tags',
                 'status',
                 'pic' => function($m){
+                    if (($pic = json_decode($m->pic, true)) !== null) {
+                        return reset($pic);
+                    }
                     return $m->pic;
                 },
                 'status_name' => function ($m) {
@@ -117,7 +121,8 @@ class ProjectController extends BaseController
     function actionAdd()
     {
         if(!$this->isAjax()){
-            return $this->render('add');
+            $tags = Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT], 'json_encode');
+            return $this->render('add', ['tags' => $tags]);
         }
         $mdl = new Project();
         $mdl->load($this->req(), '');
@@ -144,7 +149,8 @@ class ProjectController extends BaseController
         //加载
         if(!$this->isAjax()){
             $_data = [
-                'project' => $project
+                'project' => $project,
+                'tags' => Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT], 'json_encode'),
             ];
             return $this->render('update', $_data);
         }

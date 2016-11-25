@@ -152,7 +152,7 @@ class BaseController extends Controller
      * @param bool|array|string $default 当请求的参数不存在时的默认值
      * @return string
      */
-    public function req($key = '', $default = false) {
+    public function req($key = '', $default = null) {
         $request = array_merge(Yii::$app->request->get(), Yii::$app->request->post());
         if(empty($key)){
             return $request;

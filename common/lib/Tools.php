@@ -90,5 +90,40 @@ class Tools {
         return $str;
     }
 
+    /**
+     * 获取时间删选项
+     * @return string
+     */
+    public static function getTimeFilter(){
+        return [
+            0 => [
+                'text' => '今天',
+                'from' => 'today',
+                'to' => 'now',
+            ],
+            1 => [
+                'text' => '昨天',
+                'from' => 'today -1 day',
+                'to' => 'today',
+            ],
+            3 => [
+                'text' => '三天内',
+                'from' => '-3 day',
+                'to' => 'now',
+            ],
+            4 => [
+                'text' => '一周内',
+                'from' => '-1 week',
+                'to' => 'now',
+            ],
+            5 => [
+                'text' => '一月内',
+                'from' => '-1 month',
+                'to' => 'now',
+            ],
+
+        ];
+    }
+
 
 }
