@@ -39,7 +39,7 @@ class CaseController extends BaseController
         }
         $_data = [
             'caseList' => $caseList,
-            'tagList' => Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT]),
+            'tagList' => Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_CASE]),
             'timeFilters' => Tools::getTimeFilter(),
         ];
         if (!$this->isAjax()) {

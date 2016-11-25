@@ -39,7 +39,7 @@ class KnowledgeController extends BaseController
         }
         $_data = [
             'knowledgeList' => $knowledgeList,
-            'tagList' => Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT]),
+            'tagList' => Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_KNOWLEDGE]),
             'timeFilters' => Tools::getTimeFilter(),
         ];
         if (!$this->isAjax()) {

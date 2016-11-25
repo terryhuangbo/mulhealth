@@ -121,7 +121,7 @@ class CaseController extends BaseController
     function actionAdd()
     {
         if(!$this->isAjax()){
-            $tags = Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT], 'json_encode');
+            $tags = Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_CASE], 'json_encode');
             return $this->render('add', ['tags' => $tags]);
         }
         $mdl = new Cases();
@@ -150,7 +150,7 @@ class CaseController extends BaseController
         if(!$this->isAjax()){
             $_data = [
                 'case' => $case,
-                'tags' => Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT], 'json_encode'),
+                'tags' => Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_CASE], 'json_encode'),
             ];
             return $this->render('update', $_data);
         }

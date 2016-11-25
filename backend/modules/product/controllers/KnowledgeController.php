@@ -121,7 +121,7 @@ class KnowledgeController extends BaseController
     function actionAdd()
     {
         if(!$this->isAjax()){
-            $tags = Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT], 'json_encode');
+            $tags = Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_KNOWLEDGE], 'json_encode');
             return $this->render('add', ['tags' => $tags]);
         }
         $mdl = new Knowledge();
@@ -150,7 +150,7 @@ class KnowledgeController extends BaseController
         if(!$this->isAjax()){
             $_data = [
                 'knowledge' => $knowledge,
-                'tags' => Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT], 'json_encode'),
+                'tags' => Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_KNOWLEDGE], 'json_encode'),
             ];
             return $this->render('update', $_data);
         }
