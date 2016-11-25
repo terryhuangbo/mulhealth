@@ -152,12 +152,12 @@ use common\models\Cases;
                         renderer: function (v, obj) {
                             if(obj.status == 1){
                                 return "<a class='button button-info' onclick='showInfo(" + obj.id + ")'>查看</a>" +
-                                "<a class='button button-success page-action' title='编辑产品案例' href='/product/case/update/?id="+ obj.id +"' data-href='/product/case/update/?id="+ obj.id +"' >编辑</a>" +
-                                " <a class='button button-danger' onclick='offShelf(" + obj.id + ")'>禁用</a>";
+                                    "<a class='button button-success page-action' title='编辑产品案例' href='/product/case/update/?id="+ obj.id +"' data-href='/product/case/update/?id="+ obj.id +"' >编辑</a>" +
+                                    " <a class='button button-danger' onclick='offShelf(" + obj.id + ")'>禁用</a>";
                             }else if(obj.status == 2){
                                 return "<a class='button button-info' onclick='showInfo(" + obj.id + ")'>查看</a>" +
-                                "<a class='button button-success page-action' title='编辑产品案例信息' data-href='/product/case/update/?id="+ obj.id +"' >编辑</a>" +
-                                " <a class='button button-primary' onclick='upShelf(" + obj.id + ")'>启用</a>";
+                                    "<a class='button button-success page-action' title='编辑产品案例信息' data-href='/product/case/update/?id="+ obj.id +"' >编辑</a>" +
+                                    " <a class='button button-primary' onclick='upShelf(" + obj.id + ")'>启用</a>";
                             }
                         }
                     }
@@ -180,110 +180,79 @@ use common\models\Cases;
 </script>
 
 <script>
-/**
- * 搜索产品案例,刷新列表
- */
-function searchCases() {
-    var search = {};
-    var fields = $("#authsearch").serializeArray();//获取表单信息
-    jQuery.each(fields, function (i, field) {
-        if (field.value != "") {
-            search[field.name] = field.value;
-        }
-    });
-    var store = $("#case_grid").data("BGrid").get('store');
-    var lastParams = store.get("lastParams");
-    lastParams.search = search;
-    store.load(lastParams);//刷新
-}
-/**
- * 获取过滤项
- */
-function getCasesGridSearchConditions() {
-    var search = {};
-    var upusername = $("#upusername").val();
-    if (upusername != "") {
-        search.upusername = upusername;
-    }
-    var username = $("#username").val();
-    if (username != "") {
-        search.username = username;
-    }
-    return search;
-}
-
-/**
- * 显示产品案例详情
- */
-function showInfo(id) {
-    var width = 500;
-    var height = 450;
-    var Overlay = BUI.Overlay;
-    var buttons = [
-        {
-            text:'确认',
-            elCls : 'button button-primary',
-            handler : function(){
-                window.location.href = '/product/case/list';
-                this.close();
+    /**
+     * 搜索产品案例,刷新列表
+     */
+    function searchCases() {
+        var search = {};
+        var fields = $("#authsearch").serializeArray();//获取表单信息
+        jQuery.each(fields, function (i, field) {
+            if (field.value != "") {
+                search[field.name] = field.value;
             }
-        },
-    ];
-    dialog = new Overlay.Dialog({
-        title: '产品案例信息',
-        width: width,
-        height: height,
-        closeAction: 'destroy',
-        loader: {
-            url: "/product/case/info",
-            autoLoad: true, //不自动加载
-            params: {id: id},//附加的参数
-            lazyLoad: false //不延迟加载
-        },
-        buttons: buttons,
-        mask: false
-    });
-    dialog.show();
-    dialog.get('loader').load({id: id});
-}
-
-
-/**
- * 上架
- */
-function upShelf(id) {
-    ajax_change_status(id, 1, function(json){
-        if(json.code > 0){
-            BUI.Message.Alert(json.msg, function(){
-                window.location.href = '/product/case/list';
-            }, 'success');
-        }else{
-            BUI.Message.Alert(json.msg, 'error');
+        });
+        var store = $("#case_grid").data("BGrid").get('store');
+        var lastParams = store.get("lastParams");
+        lastParams.search = search;
+        store.load(lastParams);//刷新
+    }
+    /**
+     * 获取过滤项
+     */
+    function getCasesGridSearchConditions() {
+        var search = {};
+        var upusername = $("#upusername").val();
+        if (upusername != "") {
+            search.upusername = upusername;
         }
-    });
-}
-
-/**
- * 下架
- */
-function offShelf(id) {
-    ajax_change_status(id, 2, function(json){
-        if(json.code > 0){
-            BUI.Message.Alert(json.msg, function(){
-                window.location.href = '/product/case/list';
-            }, 'success');
-        }else{
-            BUI.Message.Alert(json.msg, 'error');
+        var username = $("#username").val();
+        if (username != "") {
+            search.username = username;
         }
-    });
-}
+        return search;
+    }
 
-/**
- *删除
- */
-function del(id) {
-    BUI.Message.Confirm('您确定要删除？', function(){
-        ajax_change_status(id, 3, function(json){
+    /**
+     * 显示产品案例详情
+     */
+    function showInfo(id) {
+        var width = 500;
+        var height = 450;
+        var Overlay = BUI.Overlay;
+        var buttons = [
+            {
+                text:'确认',
+                elCls : 'button button-primary',
+                handler : function(){
+                    window.location.href = '/product/case/list';
+                    this.close();
+                }
+            },
+        ];
+        dialog = new Overlay.Dialog({
+            title: '产品案例信息',
+            width: width,
+            height: height,
+            closeAction: 'destroy',
+            loader: {
+                url: "/product/case/info",
+                autoLoad: true, //不自动加载
+                params: {id: id},//附加的参数
+                lazyLoad: false //不延迟加载
+            },
+            buttons: buttons,
+            mask: false
+        });
+        dialog.show();
+        dialog.get('loader').load({id: id});
+    }
+
+
+    /**
+     * 上架
+     */
+    function upShelf(id) {
+        ajax_change_status(id, 1, function(json){
             if(json.code > 0){
                 BUI.Message.Alert(json.msg, function(){
                     window.location.href = '/product/case/list';
@@ -292,23 +261,54 @@ function del(id) {
                 BUI.Message.Alert(json.msg, 'error');
             }
         });
-    }, 'question');
-}
+    }
 
-/**
- *改变产品案例状态
- */
-function ajax_change_status(id, status, callback){
-    var param = param || {};
-    param.id = id;
-    param.case_status = status;
-    $._ajax('<?php echo yiiUrl('product/case/ajax-change-status') ?>', param, 'POST','JSON', function(json){
-        if(typeof callback == 'function'){
-            callback(json);
-        }
-    });
+    /**
+     * 下架
+     */
+    function offShelf(id) {
+        ajax_change_status(id, 2, function(json){
+            if(json.code > 0){
+                BUI.Message.Alert(json.msg, function(){
+                    window.location.href = '/product/case/list';
+                }, 'success');
+            }else{
+                BUI.Message.Alert(json.msg, 'error');
+            }
+        });
+    }
 
-}
+    /**
+     *删除
+     */
+    function del(id) {
+        BUI.Message.Confirm('您确定要删除？', function(){
+            ajax_change_status(id, 3, function(json){
+                if(json.code > 0){
+                    BUI.Message.Alert(json.msg, function(){
+                        window.location.href = '/product/case/list';
+                    }, 'success');
+                }else{
+                    BUI.Message.Alert(json.msg, 'error');
+                }
+            });
+        }, 'question');
+    }
+
+    /**
+     *改变产品案例状态
+     */
+    function ajax_change_status(id, status, callback){
+        var param = param || {};
+        param.id = id;
+        param.case_status = status;
+        $._ajax('<?php echo yiiUrl('product/case/ajax-change-status') ?>', param, 'POST','JSON', function(json){
+            if(typeof callback == 'function'){
+                callback(json);
+            }
+        });
+
+    }
 
 </script>
 

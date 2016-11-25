@@ -2,13 +2,14 @@
 
 namespace backend\modules\product\controllers;
 
+use common\models\Tag;
 use Yii;
 use yii\helpers\ArrayHelper;
 use app\base\BaseController;
 use common\models\Knowledge;
 
 /**
- * 产品项目相关操作
+ * 产品知识相关操作
  * @author Bo Huang <Terry1987101@163.com>
  * @since 2016-10-13
  **/
@@ -34,7 +35,7 @@ class KnowledgeController extends BaseController
     }
 
     /**
-     * 产品项目列表
+     * 产品知识列表
      * @return type
      */
     public function actionListView()
@@ -43,7 +44,7 @@ class KnowledgeController extends BaseController
     }
 
     /**
-     * 产品项目数据
+     * 产品知识数据
      */
     public function actionList()
     {
@@ -90,6 +91,9 @@ class KnowledgeController extends BaseController
                 'tags',
                 'status',
                 'pic' => function($m){
+                    if (($pic = json_decode($m->pic, true)) !== null) {
+                        return reset($pic);
+                    }
                     return $m->pic;
                 },
                 'status_name' => function ($m) {
@@ -111,13 +115,14 @@ class KnowledgeController extends BaseController
     }
 
     /**
-     * 添加产品项目
+     * 添加产品知识
      * @return array
      */
     function actionAdd()
     {
         if(!$this->isAjax()){
-            return $this->render('add');
+            $tags = Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT], 'json_encode');
+            return $this->render('add', ['tags' => $tags]);
         }
         $mdl = new Knowledge();
         $mdl->load($this->req(), '');
@@ -128,7 +133,7 @@ class KnowledgeController extends BaseController
     }
 
     /**
-     * 添加产品项目
+     * 添加产品知识
      * @return array
      */
     function actionUpdate()
@@ -139,12 +144,13 @@ class KnowledgeController extends BaseController
         $knowledge = Knowledge::findOne($id);
         //检验参数是否合法
         if (empty($knowledge)) {
-            return $this->toJson(-20001, '产品项目信息不存在');
+            return $this->toJson(-20001, '产品知识信息不存在');
         }
         //加载
         if(!$this->isAjax()){
             $_data = [
-                'knowledge' => $knowledge
+                'knowledge' => $knowledge,
+                'tags' => Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT], 'json_encode'),
             ];
             return $this->render('update', $_data);
         }
@@ -157,7 +163,7 @@ class KnowledgeController extends BaseController
     }
 
     /**
-     * 加载项目详情
+     * 加载知识详情
      */
     function actionInfo()
     {
@@ -177,7 +183,7 @@ class KnowledgeController extends BaseController
     }
 
     /**
-     * 改变产品项目状态
+     * 改变产品知识状态
      * @return array
      */
     function actionAjaxChangeStatus()
@@ -187,7 +193,7 @@ class KnowledgeController extends BaseController
         $mdl = Knowledge::findOne($id);
         if (!$mdl)
         {
-            return $this->toJson(-40301, '项目不存在');
+            return $this->toJson(-40301, '知识不存在');
         }
         $mdl->status = $knowledge_status;
         if (!$mdl->validate())

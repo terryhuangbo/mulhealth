@@ -8,16 +8,15 @@
     <link href="/css/bui.css" rel="stylesheet">
     <link href="/css/page-min.css" rel="stylesheet">
     <link href="/css/extra.css" rel="stylesheet">
+
     <script src="/js/jquery.js" type="text/javascript"></script>
-    <script src="/js/bui-min.js" type="text/javascript"></script>
+    <script src="/js/sea.js"></script>
+    <script src="http://g.alicdn.com/bui/bui/1.1.21/config.js"></script>
     <script src="/js/common.js" type="text/javascript"></script>
     <script src="/js/tools.js" type="text/javascript"></script>
     <script src="/plugins/webuploader/webuploader.js" type="text/javascript"></script>
     <script type="text/javascript" charset="utf-8" src="/plugins/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="/plugins/ueditor/ueditor.all.js"></script>
-    <script>
-        _BASE_LIST_URL =  "<?php echo yiiUrl('auth/auth/list') ?>";
-    </script>
 </head>
 
 <body>
@@ -33,8 +32,8 @@
 
         <div class="control-group">
             <label class="control-label"><s>*</s>案例标签：</label>
-            <div class="controls">
-                <input name="tags" type="text" class="input-medium" data-rules="{number:true, required : true}">
+            <div id="tags-content" style="text-indent: 10px; margin: auto auto 10px 0">
+                <input name="tags" type="hidden" id="tags" value=""  data-rules="{required : true}">
             </div>
         </div>
 
@@ -59,7 +58,6 @@
                 <script type="text/plain" id="editor_content" name="detail"></script>
             </div>
         </div>
-
         <div class="row actions-bar">
             <div class="form-actions span13 offset3">
                 <button type="submit" class="button button-primary" id="save-case">保存</button>
@@ -97,6 +95,20 @@
                 window.location.href = '/product/case/list';
             });
         });
+
+        //选择标签
+        BUI.use('bui/select',function(Select){
+            var items = <?php echo $tags; ?>,
+                select1 = new Select.Combox({
+                    render:'#tags-content',
+                    showTag:true,
+                    width : 340,
+                    elCls : 'bui-tag-follow',
+                    valueField : '#tags',//显示tag的Combox必须存在valueField
+                    items: items
+                });
+            select1.render();
+        });
     </script>
     <!-- script end -->
 
@@ -123,7 +135,7 @@
                 // 选择文件的按钮。可选。
                 pick: '#thumbpic',
                 //文件数量
-//                fileNumLimit: 1,
+                fileNumLimit: 3,
                 //文件大小 byte
                 fileSizeLimit: 5 * 1024 * 1024,
                 // 只允许选择图片文件。
@@ -162,7 +174,7 @@
                         '<p>'+ file.name +'</p>'+
                         '</div>'+
                         '</div>';
-                    $('#thumbpic-content').html(div);
+                    $('#thumbpic-content').append(div);
                     $('.img-delete').off('click').on('click', function(){
                         var dom = $(this);
                         var filePath = dom.attr('file-path');

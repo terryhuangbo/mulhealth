@@ -2,6 +2,7 @@
 
 namespace backend\modules\product\controllers;
 
+use common\models\Tag;
 use Yii;
 use yii\helpers\ArrayHelper;
 use app\base\BaseController;
@@ -77,12 +78,12 @@ class CaseController extends BaseController
         //只能是上架，或者下架的产品
         $_order_by = 'id DESC';
         $count = $query->count();
-        $casesArr = $query
+        $caseArr = $query
             ->offset($offset)
             ->limit($pageSize)
             ->orderby($_order_by)
             ->all();
-        $casesList = ArrayHelper::toArray($casesArr, [
+        $caseList = ArrayHelper::toArray($caseArr, [
             'common\models\Cases' => [
                 'id',
                 'title',
@@ -90,6 +91,9 @@ class CaseController extends BaseController
                 'tags',
                 'status',
                 'pic' => function($m){
+                    if (($pic = json_decode($m->pic, true)) !== null) {
+                        return reset($pic);
+                    }
                     return $m->pic;
                 },
                 'status_name' => function ($m) {
@@ -104,7 +108,7 @@ class CaseController extends BaseController
             ],
         ]);
         $_data = [
-            'caseList' => $casesList,
+            'caseList' => $caseList,
             'totalCount' => $count,
         ];
         return json_encode($_data);
@@ -117,7 +121,8 @@ class CaseController extends BaseController
     function actionAdd()
     {
         if(!$this->isAjax()){
-            return $this->render('add');
+            $tags = Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT], 'json_encode');
+            return $this->render('add', ['tags' => $tags]);
         }
         $mdl = new Cases();
         $mdl->load($this->req(), '');
@@ -134,7 +139,7 @@ class CaseController extends BaseController
     function actionUpdate()
     {
         $id = intval($this->req('id'));
-        $cases_info = $this->req();
+        $case_info = $this->req();
 
         $case = Cases::findOne($id);
         //检验参数是否合法
@@ -144,12 +149,13 @@ class CaseController extends BaseController
         //加载
         if(!$this->isAjax()){
             $_data = [
-                'case' => $case
+                'case' => $case,
+                'tags' => Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT], 'json_encode'),
             ];
             return $this->render('update', $_data);
         }
         //保存
-        $case->load($cases_info, '');
+        $case->load($case_info, '');
         if (!$case->validate()) {
             return $this->toJson(-40301, reset($case->getFirstErrors()));
         }
@@ -183,13 +189,13 @@ class CaseController extends BaseController
     function actionAjaxChangeStatus()
     {
         $id = intval($this->req('id', 0));
-        $cases_status = intval($this->req('case_status', 0));
+        $case_status = intval($this->req('case_status', 0));
         $mdl = Cases::findOne($id);
         if (!$mdl)
         {
             return $this->toJson(-40301, '案例不存在');
         }
-        $mdl->status = $cases_status;
+        $mdl->status = $case_status;
         if (!$mdl->validate())
         {
             return $this->toJson(-40301, reset($mdl->getFirstErrors()));
