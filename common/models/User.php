@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\lib\Tools;
 use Yii;
 use common\lib\Filter;
 use common\lib\RegexValidator;
@@ -20,6 +21,7 @@ use yii\web\IdentityInterface;
  * @property string $nick
  * @property string $name
  * @property string $avatar
+ * @property integer $age
  * @property integer $sex
  * @property string $mobile
  * @property string $address
@@ -61,7 +63,7 @@ class User extends BaseModel
     public function rules()
     {
         return [
-            [['sex', 'status', 'update_at', 'create_at', 'login_at'], 'integer'],
+            [['age', 'sex', 'status', 'update_at', 'create_at', 'login_at'], 'integer'],
             [['username', 'nick', 'name'], 'string', 'max' => 30],
             //必填字段
             [['id_card', 'password', 'name'], 'required'],
@@ -104,6 +106,7 @@ class User extends BaseModel
             'nick' => '用户微信昵称',
             'name' => '用户真实姓名',
             'avatar' => '用户头像',
+            'age' => '年龄',
             'sex' => '性别（1-男；2-女）',
             'mobile' => '用户手机号码',
             'address' => '通讯地址',
@@ -141,6 +144,7 @@ class User extends BaseModel
             'name',
             'nick',
             'sex',
+            'avatar',
             'id_card',
             'mobile',
             'address',
@@ -159,6 +163,9 @@ class User extends BaseModel
 
         if($insert){ //插入操作
             $this->authKey = $this->genAuthKey();
+            $this->nick = !empty($this->nick) ? $this->nick : $this->name;//默认昵称
+            $this->age =  Tools::getAgeByID($this->id_card);//根据身份证计算年龄
+            $this->avatar =  '/images/tx.png';//默认头像
         }
 
         return true;

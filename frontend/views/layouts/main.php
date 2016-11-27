@@ -22,7 +22,7 @@ $moduleId = $this->context->module->id;
 <section class="top">
     <p>多源健康</p>
     <div class="circle">
-        <img src="/images/tx.png"/>
+        <a href="/my/index/index"><img src="<?php echo \Yii::$app->user->identity->avatar ?>"/></a>
     </div>
 </section>
 

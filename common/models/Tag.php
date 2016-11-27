@@ -72,9 +72,9 @@ class Tag extends BaseModel
     public static function getTypes($type = null){
         $typeArr = [
             self::TYPE_ALL        => '不限',
-            self::TYPE_PROJECT    => '项目标签',
-            self::TYPE_CASE       => '案例标签',
-            self::TYPE_KNOWLEDGE  => '知识标签',
+            self::TYPE_PROJECT    => '项目',
+            self::TYPE_CASE       => '案例',
+            self::TYPE_KNOWLEDGE  => '知识',
         ];
         return is_null($type) ? $typeArr : (isset($typeArr[$type]) ? $typeArr[$type] : '');
     }

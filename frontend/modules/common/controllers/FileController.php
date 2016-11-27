@@ -11,6 +11,8 @@ use yii\web\Controller;
  */
 class FileController extends Controller
 {
+    public $enableCsrfValidation = false;
+
     /**
      * Cors Filter
      * 允许跨域上传文件

@@ -3,12 +3,12 @@
         <div class="head">
             <div class="tx">
                 <div class="img">
-                    <img class="txImg" src="/images/tx.png"/>
+                    <img class="txImg" src="<?php echo \Yii::$app->user->identity->avatar ?>"/>
                     <img class="sex" src="/images/sex.png"/>
                 </div>
                 <div class="text">
-                    <p>多源生物管理员</p>
-                    <p>31岁</p>
+                    <p><?php echo \Yii::$app->user->identity->nick ?></p>
+                    <p><?php echo \Yii::$app->user->identity->age ?>岁</p>
                 </div>
             </div>
         </div>

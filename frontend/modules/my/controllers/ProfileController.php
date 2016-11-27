@@ -3,6 +3,7 @@
 namespace frontend\modules\my\controllers;
 
 use common\behavior\PointBehavior;
+use common\lib\Tools;
 use Yii;
 use app\base\BaseController;
 use common\models\User;
