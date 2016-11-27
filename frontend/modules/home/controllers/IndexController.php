@@ -16,6 +16,10 @@ class IndexController extends BaseController
 
     public $layout = '//home';
     public $enableCsrfValidation = false;
+    public $_uncheck = [
+        'index',
+    ];
+
 
     /**
      * 首页-未登录
@@ -24,7 +28,11 @@ class IndexController extends BaseController
     public function actionIndex()
     {
         $_data = [];
-        return $this->render('index', $_data);
+        if (Yii::$app->user->isGuest)
+        {
+            return $this->render('index', $_data);
+        }
+        return $this->render('index-login', $_data);
     }
 
     /**
