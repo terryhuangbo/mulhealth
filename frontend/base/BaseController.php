@@ -172,7 +172,7 @@ class BaseController extends Controller
     public function redirect($url, $statusCode = 302) {
         if (Yii::$app->getRequest()->getIsAjax())
         {
-            return $this->toJson(30201, '', ['redirectUrl' => $url]);
+            return $this->toJson(30201, '', ['redirectUrl' => \yii\helpers\Url::to($url)]);
         }else{
             return parent::redirect($url, $statusCode);
         }

@@ -194,13 +194,6 @@ class User extends BaseModel
     }
 
     /**
-     * 关联购物车
-     **/
-    public function getCart() {
-        return $this->hasOne(Cart::className(), ['uid' => 'uid']);
-    }
-
-    /**
      * 用户信息完善
      * @param array $param
      * @return array
