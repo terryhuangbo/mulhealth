@@ -97,7 +97,7 @@ class Tag extends BaseModel
                 $dependency = new DbDependency([
                     'sql' => 'SELECT MAX(update_at) FROM {{%tags}}',
                 ]);
-                $cache->set([__METHOD__, $type], $tags, 3600, $dependency);
+                $cache->set([__METHOD__, 'tags'], $tags, 3600, $dependency);
             }
         }
         if (!empty($tags) && is_callable($handler)) {
