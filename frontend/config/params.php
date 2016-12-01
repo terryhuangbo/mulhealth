@@ -16,7 +16,8 @@ return [
     //前端上传图片路径
     'img_save_dir' => '/upload',
     //微信分享默认图片
-    'share_img' => 'http://accf.tempires.com/images/banner1.jpg'
-
+    'share_img' => 'http://accf.tempires.com/images/banner1.jpg',
+    //默认头像
+    'default_avatar' => '/images/anumous.png',
 
 ];

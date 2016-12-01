@@ -11,7 +11,7 @@
                 </div>
                 <div class="tail">
                     <a href=""><img src="/images/share.png"/></a>
-                    <a href=""><img src="/images/chat.png"/></a>
+                    <a href="<?php echo yiiUrl(['comment/index/release', 'pid' => $comment['id']]) ?>"><img src="/images/chat.png"/></a>
                     <a href=""><img src="/images/like.png"/></a>
                 </div>
             </div>
