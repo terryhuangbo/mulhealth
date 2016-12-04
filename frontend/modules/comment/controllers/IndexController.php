@@ -38,7 +38,7 @@ class IndexController extends BaseController
         ];
         $comments = (new Comment())->getRelationAll(
             '*',
-            ['status' => Comment::STATUS_ON],
+            ['status' => Comment::STATUS_ON, 'pid' => 0],
             ['with' => $with],
             'id DESC',
             0,
