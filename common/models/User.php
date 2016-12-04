@@ -17,6 +17,7 @@ use yii\web\IdentityInterface;
  * @property string $username
  * @property string $password
  * @property string $authKey
+ * @property string $open_id
  * @property string $id_card
  * @property string $nick
  * @property string $name
@@ -81,7 +82,7 @@ class User extends BaseModel
             //sex
             ['sex', 'in', 'range' => [self::MALE, self::FEMALE], 'message' => '性别错误'],
             //authKey
-            [['authKey'], 'string', 'max' => 50],
+            [['authKey', 'open_id'], 'string', 'max' => 50],
             [['authKey'], 'unique', 'message' => 'authKey必须唯一'],
             //avatar
             [['avatar'], 'string', 'max' => 250],
@@ -102,6 +103,7 @@ class User extends BaseModel
             'username' => '账号',
             'password' => '密码',
             'authKey' => 'authKey',
+            'open_id' => '微信Open ID',
             'id_card' => '身份证号',
             'nick' => '用户微信昵称',
             'name' => '用户真实姓名',

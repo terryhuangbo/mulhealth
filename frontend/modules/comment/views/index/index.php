@@ -12,7 +12,7 @@
                 <div class="tail">
                     <a href=""><img src="/images/share.png"/></a>
                     <a href="<?php echo yiiUrl(['comment/index/release', 'pid' => $comment['id']]) ?>"><img src="/images/chat.png"/></a>
-                    <a href=""><img src="/images/like.png"/></a>
+                    <a href="#" class="addLike" cid="<?php echo $comment['id'] ?>"><img src="/images/like.png"/></a>
                 </div>
             </div>
         <? endforeach ?>
@@ -23,4 +23,17 @@
         </div>
     </div>
 </section>
+<script>
+    $(".addLike").on('click', function () {
+        var _this = $(this);
+        var cid = _this.attr('cid');
+        $._ajax('<?php echo yiiUrl("comment/like/add") ?>', {cid: cid}, 'POST', 'JSON', function (json) {
+            if (json.code > 0) {
+//                alert(json.msg);
+            } else {
+//                alert(json.msg);
+            }
+        });
+    })
+</script>
 

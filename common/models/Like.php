@@ -10,6 +10,7 @@ use common\base\BaseModel;
  *
  * @property integer $id
  * @property integer $uid
+ * @property string $open_id
  * @property integer $cid
  * @property integer $create_at
  */
@@ -29,7 +30,8 @@ class Like extends BaseModel
     public function rules()
     {
         return [
-            [['uid', 'cid', 'create_at'], 'integer']
+            [['uid', 'cid', 'create_at'], 'integer'],
+            [['open_id'], 'string', 'max' => 50],
         ];
     }
 
@@ -41,6 +43,7 @@ class Like extends BaseModel
         return [
             'id' => '点赞ID',
             'uid' => '用户ID',
+            'open_id' => '微信Open ID',
             'cid' => '评论ID',
             'create_at' => '创建时间',
         ];
@@ -62,7 +65,8 @@ class Like extends BaseModel
         return $this->hasOne(Comment::className(), ['cid' => 'id']);
     }
 
-    
+
+
 
 
 }
