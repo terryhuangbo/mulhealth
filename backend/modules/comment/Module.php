@@ -1,10 +1,10 @@
 <?php
 
-namespace backend\modules\points;
+namespace backend\modules\comment;
 
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'backend\modules\points\controllers';
+    public $controllerNamespace = 'backend\modules\comment\controllers';
 
     public function init()
     {

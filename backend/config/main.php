@@ -32,21 +32,9 @@ return [
         'tag' => [
             'class' => 'backend\modules\tag\Module',
         ],
-        // 订单
-        'order' => [
-            'class' => 'backend\modules\order\Module',
-        ],
-        // 卡密
-        'card' => [
-            'class' => 'backend\modules\card\Module',
-        ],
-        // 财务
-        'pay' => [
-            'class' => 'backend\modules\pay\Module',
-        ],
-        // 配置
-        'config' => [
-            'class' => 'backend\modules\config\Module',
+        // 发帖
+        'comment' => [
+            'class' => 'backend\modules\comment\Module',
         ],
     ],
     'components' => [

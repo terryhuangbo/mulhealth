@@ -185,7 +185,7 @@ class IndexController extends Controller
             ]
         ];
         $menu[] = [
-            'top' => ['产品配置' => 'home'],
+            'top' => ['产品管理' => 'home'],
             '产品项目' => [
                 ['项目列表' => 'product/project/list'],
                 ['添加项目' => 'product/project/add'],
@@ -198,8 +198,6 @@ class IndexController extends Controller
                 ['知识列表' => 'product/knowledge/list'],
                 ['添加知识' => 'product/knowledge/add'],
             ],
-
-
         ];
         $menu[] = [
             'top' => ['标签管理' => 'home'],
@@ -208,6 +206,13 @@ class IndexController extends Controller
                 ['添加标签' => 'tag/tag/add'],
             ],
         ];
+        $menu[] = [
+            'top' => ['发帖管理' => 'home'],
+            '发帖管理' => [
+                ['帖子列表' => 'comment/comment/list'],
+            ],
+        ];
+
 
 
         return $menu;
