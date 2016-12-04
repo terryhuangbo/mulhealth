@@ -7,7 +7,7 @@
     </form>
     <p>
         <span><a href="/user/index/register">立即注册</a></span>
-        <span><a href="/user/index/forget">忘记密码</a></span>
+        <span><a href="/user/index/reset">忘记密码</a></span>
     </p>
 </div>
 <script>

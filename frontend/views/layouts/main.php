@@ -1,6 +1,7 @@
 <?php
-use yii\helpers\Html;
+use Yii;
 $moduleId = $this->context->module->id;
+$avatar = !Yii::$app->user->isGuest ? Yii::$app->user->identity->avatar : yiiParams('default_avatar');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -22,7 +23,7 @@ $moduleId = $this->context->module->id;
 <section class="top">
     <p>多源健康</p>
     <div class="circle">
-        <img src="/images/tx.png"/>
+        <a href="/my/index/index"><img src="<?php echo $avatar ?>"/></a>
     </div>
 </section>
 

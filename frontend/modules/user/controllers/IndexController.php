@@ -78,7 +78,7 @@ class IndexController extends BaseController
         {
             return $this->toJson($ret);
         }
-        return $this->redirect('/my/profile/index');
+        return $this->redirect('/my/profile/perfect');
     }
 
     /**
