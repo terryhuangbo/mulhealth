@@ -12,6 +12,7 @@ use common\base\BaseModel;
  * @property string $id
  * @property string $pid
  * @property string $uid
+ * @property string $open_id
  * @property string $pics
  * @property string $content
  * @property integer $status
@@ -50,6 +51,8 @@ class Comment extends BaseModel
             ['content', 'filter', 'filter' => [Filter::className(), 'filters_outcontent']],
             //pid
             ['pid', 'default', 'value' => 0],
+            //pid
+            ['open_id', 'required'],
             //pics
             ['pics', 'filter', 'filter' => function($v){
                 return !empty($v) ? json_encode((array) $v) : '';
@@ -68,6 +71,7 @@ class Comment extends BaseModel
             'id' => '评论ID',
             'pid' => '评论父ID',
             'uid' => '评论者用户ID',
+            'open_id' => '微信Open ID',
             'pics' => '图片',
             'content' => '评论内容',
             'status' => '状态（1-正常；2-删除）',
