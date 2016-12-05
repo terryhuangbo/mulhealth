@@ -214,11 +214,8 @@ class IndexController extends Controller
         ];
         $menu[] = [
             'top' => ['内容管理' => 'home'],
-            '网站配置' => [
-                ['配置列表' => 'config/config/web'],
-            ],
             '内容配置' => [
-                ['配置列表' => 'config/config/content'],
+                ['配置列表' => 'content/index/content'],
             ],
         ];
 

@@ -17,6 +17,11 @@ use common\base\BaseModel;
 class Meta extends BaseModel
 {
     /**
+     * 配置数组
+     */
+    private $_config = [];
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
