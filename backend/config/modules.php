@@ -25,4 +25,9 @@ return [
     'comment' => [
         'class' => 'backend\modules\comment\Module',
     ],
+    // 发帖
+    'content' => [
+        'class' => 'backend\modules\content\Module',
+    ],
+
 ];

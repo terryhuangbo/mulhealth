@@ -212,8 +212,15 @@ class IndexController extends Controller
                 ['帖子列表' => 'comment/comment/list'],
             ],
         ];
-
-
+        $menu[] = [
+            'top' => ['内容管理' => 'home'],
+            '网站配置' => [
+                ['配置列表' => 'config/config/web'],
+            ],
+            '内容配置' => [
+                ['配置列表' => 'config/config/content'],
+            ],
+        ];
 
         return $menu;
     }
