@@ -65,7 +65,6 @@ class IndexController extends BaseController
             return $this->render('content', $_data);
         }
         $configs = Yii::$app->request->post('config', []);
-        lg(Yii::$app->request->post());
 
         foreach($configs as $key => $val){
             $meta->setConfig($key, $val);
