@@ -131,7 +131,7 @@
                 // swf文件路径
                 swf: '/plugins/webuploader/Uploader.swf',
                 // 文件接收服务端。
-                server: "/common/file/upload",
+                server: "/upload_file",
                 // 选择文件的按钮。可选。
                 pick: '#thumbpic',
                 //文件数量
@@ -146,7 +146,7 @@
                 },
                 //传递的参数
                 formData: {
-                    objtype: 'case'
+                    objtype: 'knowledge'
                 }
             });
             // 当有文件添加进来之前
