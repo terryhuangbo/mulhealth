@@ -25,7 +25,7 @@ class FileController extends Controller
                 'class' => Cors::className(),
                 'cors'  => [
                     'Origin' => [Yii::getAlias('@back'), '127.0.0.1', 'localhost'],
-                    'Access-Control-Request-Method' => ['POST', 'PUT'],
+                    'Access-Control-Request-Method' => ['PUT'],
                 ],
             ],
         ];
