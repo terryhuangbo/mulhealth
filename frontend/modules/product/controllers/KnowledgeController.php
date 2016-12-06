@@ -31,6 +31,8 @@ class KnowledgeController extends BaseController
         }
         if (isset($orderBy)) {
             $query->orderBy($orderBy);
+        }else{
+            $query->orderBy('id desc');
         }
         $knowledgeList = $query->asArray()->all();
         foreach ($knowledgeList as $key => &$value) {

@@ -31,6 +31,8 @@ class CaseController extends BaseController
         }
         if (isset($orderBy)) {
             $query->orderBy($orderBy);
+        }else{
+            $query->orderBy('id desc');
         }
         $caseList = $query->asArray()->all();
         foreach ($caseList as $key => &$value) {

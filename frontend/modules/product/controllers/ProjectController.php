@@ -31,6 +31,8 @@ class ProjectController extends BaseController
         }
         if (isset($orderBy)) {
             $query->orderBy($orderBy);
+        }else{
+            $query->orderBy('id desc');
         }
         $projectList = $query->asArray()->all();
         foreach ($projectList as $key => &$value) {
