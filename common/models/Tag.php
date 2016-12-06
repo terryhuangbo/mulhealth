@@ -87,7 +87,7 @@ class Tag extends BaseModel
      */
     public static function getTags($type = [], $handler = null){
         $cache = Yii::$app->cache;
-        if ($tags = $cache->get([__METHOD__, 'tags', $handler]) !== false) {
+        if (($tags = $cache->get([__METHOD__, 'tags', $handler])) !== false) {
             return $tags;
         }
 
