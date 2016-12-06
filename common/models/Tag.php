@@ -87,22 +87,26 @@ class Tag extends BaseModel
      */
     public static function getTags($type = [], $handler = null){
         $cache = Yii::$app->cache;
-        if (!($cacheAvailable = $cache instanceof Cache) || ($tags = $cache->get([__METHOD__, 'tags']) === false)) {
-            $tags = static::find()
-                ->select(['name'])
-                ->where(['type' => $type])
-                ->asArray()
-                ->column();
-            if ($cacheAvailable) {
-                $dependency = new DbDependency([
-                    'sql' => 'SELECT MAX(update_at) FROM {{%tags}}',
-                ]);
-                $cache->set([__METHOD__, 'tags'], $tags, 3600, $dependency);
-            }
+        if ($tags = $cache->get([__METHOD__, 'tags', $handler]) !== false) {
+            return $tags;
         }
+
+        //获取标签列表
+        $tags = static::find()
+            ->select(['name'])
+            ->where(['type' => $type])
+            ->asArray()
+            ->column();
+
+        //缓存标签列表
+        $dependency = new DbDependency([
+            'sql' => 'SELECT MAX(update_at) FROM {{%tags}}',
+        ]);
         if (!empty($tags) && is_callable($handler)) {
             $tags =  call_user_func($handler, $tags);
         }
+        $cache->set([__METHOD__, 'tags', $handler], $tags, 3600, $dependency);
+
         return $tags;
     }
 
