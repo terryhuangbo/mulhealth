@@ -3,6 +3,7 @@
 namespace frontend\modules\home\controllers;
 
 use common\behavior\PointBehavior;
+use common\models\Meta;
 use Yii;
 use app\base\BaseController;
 use common\models\User;
@@ -27,9 +28,13 @@ class IndexController extends BaseController
      */
     public function actionIndex()
     {
-        $_data = [];
+        $meta = new Meta();
+        $_data = $meta->asArray();
+        $_data['banners'] = !empty($_data['banners']) ? json_decode($_data['banners'], true) : [];
+
         if (Yii::$app->user->isGuest)
         {
+
             return $this->render('index', $_data);
         }
         return $this->render('index-login', $_data);

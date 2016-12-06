@@ -1,14 +1,11 @@
 <?php
-use yii\helpers\Html;
-use common\models\Meta;
-$meta = new Meta();
+
 ?>
 <!doctype html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>内容配置</title>
-
     <link href="/css/dpl.css" rel="stylesheet">
     <link href="/css/bui.css" rel="stylesheet">
     <link href="/css/page-min.css" rel="stylesheet">
@@ -17,52 +14,43 @@ $meta = new Meta();
     <script src="/js/common.js" type="text/javascript"></script>
     <script src="/js/tools.js" type="text/javascript"></script>
     <script src="/plugins/webuploader/webuploader.js" type="text/javascript"></script>
-    <script type="text/javascript" charset="utf-8" src="/plugins/ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/plugins/ueditor/ueditor.all.js"></script>
     <style>
-        .user_avatar {
-            width: 120px;
-            height: 80px;
-            margin: 10px auto;
-        }
         .demo-content{
             margin: 40px 60px;
         }
-
         .webuploader-element-invisible{
             display: none;
         }
-
         .layout-outer-content{
             padding: 15px;
             margin: 10px 0px 40px 130px;
-            width: 800px;
+            width: 730px;
             background-color: #f6f6fb;
             border: 1px solid #c3c3d6;
         }
         .layout-content{
-            width: 300px;
+            /*width: 300px;*/
             margin: 10px 120px;
         }
         .img-content-li{
-            width: 200px;
+            width: 210px;
             height: 150px;
             margin-left: -50px;
+            margin-bottom: 30px;
+            float: left;
         }
         .img-content-li img{
-            width: 120px;
-            height:90px;
+            width: 145px;
+            height:100px;
         }
         .img-content-li p{
             padding: 2px 0px;
         }
-
         .img-delete{
             position: relative;
-            top:17px;
-            left: 91px;
+            top:19px;
+            left: 107px;
         }
-
     </style>
 </head>
 
@@ -71,34 +59,27 @@ $meta = new Meta();
     <form id="Config_Form" action="" class="form-horizontal" onsubmit="return false;">
 
         <div class="control-group">
-            <label class="control-label"><s>*</s>最新动态：</label>
+            <label class="control-label">最新动态：</label>
             <div class="controls">
-                <input type="text" name="config[latest]" class="input-large" data-rules="{required : true}" value="<?php echo $latest ?>">
+                <input type="text" name="latest" class="input-large" data-rules="" value="<?php echo $latest ?>">
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label"><s>*</s>轮播Banner：</label>
-            <div class="controls">
-                <input type="text" class="input-large" data-rules="{required : true}">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label"><s>*</s>项目缩略图：</label>
+            <label class="control-label">轮播Banner：</label>
             <div id="thumbpic" class="controls">
                 <span class="button button-primary">上传图片</span>
             </div>
         </div>
 
         <div class="row" >
-            <div class="span16 layout-outer-content">
+            <div class="span20 layout-outer-content">
                 <div id="thumbpic-content" class="layout-content" aria-disabled="false" aria-pressed="false" >
-                    <?php foreach($project as $v): ?>
-                        <div id="" class=" pull-left img-content-li">
-                            <a href="javaScript:;"><span class="label label-important img-delete" file-path="<?php echo $v ?>">删除</span></a>
+                    <?php foreach($banners as $v): ?>
+                        <div class=" pull-left img-content-li" img-url="<?php echo $v['url'] ?>" img-src="<?php echo $v['src'] ?>" >
+                            <a href="javaScript:;"><span class="label label-important img-delete" file-path="<?php echo $v['src'] ?>">删除</span></a>
                             <div aria-disabled="false"  class="" aria-pressed="false">
-                                <img  src="<?php echo $v ?>" />
-                                <input type="hidden" name="" value="<?php echo $v ?>">
-                                <p>链接：<input type="text" name="" class="input-small"   value="<?php echo $latest ?>">
+                                <img src="<?php echo $v['src'] ?>" />
+                                <p>链接：<input type="text" name="" class="input-small" maxlength="100px"  value="<?php echo $v['url'] ?>">
                                 </p>
                             </div>
                         </div>
@@ -110,7 +91,7 @@ $meta = new Meta();
         <div class="row actions-bar">
             <div class="form-actions span13 offset3">
                 <button type="submit" class="button button-primary" id="save-config">保存</button>
-                <button type="reset" class="button" id="cancel-config">返回</button>
+                <button type="reset" class="button button-danger" id="cancel-config">取消</button>
             </div>
         </div>
     </form>
@@ -127,9 +108,18 @@ $meta = new Meta();
         $("#save-config").on('click', function(){
             if(form.isValid()){
                 var param = $._get_form_json("#Config_Form");
-                $._ajax('/content/index/content', param, 'POST', 'JSON', function(json){
+                var banners = [];
+                $(".img-content-li").each(function () {
+                    var dom = $(this);
+                        b = {};
+                    b.src = dom.attr('img-src');
+                    b.url = $.trim(dom.find('input').val());
+                    banners.push(b);
+                });
+                param.banners = JSON.stringify(banners);
+                $._ajax('/content/index/content', {config: param}, 'POST', 'JSON', function(json){
                     if(json.code > 0){
-//                        BUI.Message.Alert('保存成功', 'success');
+                        BUI.Message.Alert('保存成功', 'success');
                     }else{
                         BUI.Message.Alert(json.msg, 'error');
                         this.close();
@@ -139,7 +129,7 @@ $meta = new Meta();
         });
         //返回
         $("#cancel-config").on('click', function(){
-            window.location.href = '/config/config/list';
+            window.location.href = '/content/index/content';
         });
     });
 </script>
@@ -159,8 +149,6 @@ $meta = new Meta();
             server: "/common/file/upload",
             // 选择文件的按钮。可选。
             pick: '#thumbpic',
-            //文件数量
-//                fileNumLimit: 1,
             //文件大小 byte
             fileSizeLimit: 5 * 1024 * 1024,
             // 只允许选择图片文件。
@@ -171,12 +159,12 @@ $meta = new Meta();
             },
             //传递的参数
             formData: {
-                objtype: 'case',
+                objtype: 'banners'
             }
         });
         // 当有文件添加进来之前
         uploader.on('beforeFileQueued', function (handler) {
-            if ($(".img-content-li").length >= 3) {
+            if ($(".img-content-li").length >= 8) {
                 alert('上传文件总数量超过限制！');
                 return false;
             }
@@ -194,18 +182,15 @@ $meta = new Meta();
             if(response.code > 0){
                 var data = response.data;
                 var div =
-                    '<div id="'+ file.id +'" class=" pull-left img-content-li">'+
-                    '<a href="javaScript:;"><span class="label label-important img-delete" file-path="'+ data.filePath +'">删除</span></a>'+
-                    '<div aria-disabled="false"  class="" aria-pressed="false">'+
-                    '<img  src="'+ data.url +'" />'+
-                    '<input type="hidden" name="pic[]" value="'+ data.url +'">'+
-                    '<p>'+ file.name +'</p>'+
-                    '</div>'+
+                    '<div id="" class=" pull-left img-content-li" img-url="" img-src="'+ data.url +'">'+
+                    '    <a href="javaScript:;"><span class="label label-important img-delete" file-path="'+ data.url +'">删除</span></a>'+
+                    '    <div aria-disabled="false" class="" aria-pressed="false">'+
+                    '           <img src="'+ data.url +'">'+
+                    '           <p>链接：<input type="text" name="" class="input-small bui-form-field" maxlength="100px" value="" aria-disabled="false" aria-pressed="false">'+
+                    '           </p>'+
+                    '       </div>'+
                     '</div>';
                 $('#thumbpic-content').append(div);
-                uploaderlist.addButton({
-                    id: '#thumblistpic'
-                });
                 $('.img-delete').off('click').on('click', function(){
                     var dom = $(this);
                     var filePath = dom.attr('file-path');
@@ -226,7 +211,6 @@ $meta = new Meta();
         uploader.on('uploadError', function (file) {
 
         });
-
     });
 
     var _file_upload_notice = function (handler) {
@@ -262,8 +246,6 @@ $meta = new Meta();
             }
         });
     });
-
-
 
 </script>
 

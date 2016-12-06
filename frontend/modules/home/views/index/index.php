@@ -3,13 +3,18 @@
     <div class="banner">
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="/images/banner1.png"/></div>
-                <div class="swiper-slide"><img src="/images/banner2.png"/></div>
+                <?php foreach ($banners as $v): ?>
+                    <?php if (empty($v['url'])): ?>
+                        <div class="swiper-slide"><img src="<?php echo $v['src'] ?>"/></div>
+                    <?php else: ?>
+                        <div class="swiper-slide"><a href="<?php echo $v['url'] ?>"><img src="<?php echo $v['src'] ?>"/></a></div>
+                    <?php endif ?>
+                <?php endforeach ?>
             </div>
         </div>
     </div>
     <div class="slideText">
-        <marquee>最新动态-跑马灯</marquee>
+        <marquee><?php echo !empty($latest) ? $latest : ''  ?></marquee>
     </div>
     <div class="nav">
         <ul>
