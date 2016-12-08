@@ -160,66 +160,7 @@ class IndexController extends Controller
      */
     private function _getMenuArr()
     {
-        $menu = [];
-        $menu[] = [
-            'top' => ['权限配置' => 'home'], //顶部
-            '团队管理' => [//侧边分组
-                ['团队列表' => 'team/team/list'], //导航明细
-                ['添加成员' => 'team/team/add']
-            ],
-            '角色管理' => [
-                ['角色列表' => 'team/role/list'],
-                ['添加角色' => 'team/role/add']
-            ],
-            '权限管理' => [
-                ['权限列表' => 'team/privilege/list'],
-                ['添加权限' => 'team/privilege/add'],
-                ['分组列表' => 'team/privilege/list-group'],
-                ['添加分组' => 'team/privilege/add-group']
-            ]
-        ];
-        $menu[] = [
-            'top' => ['用户管理' => 'home'],
-            '用户管理' => [
-                ['用户列表' => 'user/user/list'],
-            ]
-        ];
-        $menu[] = [
-            'top' => ['产品管理' => 'home'],
-            '产品项目' => [
-                ['项目列表' => 'product/project/list'],
-                ['添加项目' => 'product/project/add'],
-            ],
-            '经典案例' => [
-                ['案例列表' => 'product/case/list'],
-                ['添加案例' => 'product/case/add'],
-            ],
-            '产品知识' => [
-                ['知识列表' => 'product/knowledge/list'],
-                ['添加知识' => 'product/knowledge/add'],
-            ],
-        ];
-        $menu[] = [
-            'top' => ['标签管理' => 'home'],
-            '标签管理' => [
-                ['标签列表' => 'tag/tag/list'],
-                ['添加标签' => 'tag/tag/add'],
-            ],
-        ];
-        $menu[] = [
-            'top' => ['发帖管理' => 'home'],
-            '发帖管理' => [
-                ['帖子列表' => 'comment/comment/list'],
-            ],
-        ];
-        $menu[] = [
-            'top' => ['内容管理' => 'home'],
-            '内容配置' => [
-                ['配置列表' => 'content/index/content'],
-            ],
-        ];
-
-        return $menu;
+        return require_once (Yii::$aliases['@menu']);
     }
 
     /**
