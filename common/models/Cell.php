@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use common\lib\Filter;
+use common\lib\Tools;
 use Yii;
 use common\base\BaseModel;
 
@@ -13,6 +15,7 @@ use common\base\BaseModel;
  * @property string $description
  * @property string $pics
  * @property string $status
+ * @property string $report_at
  * @property string $create_at
  * @property string $update_at
  */
@@ -38,10 +41,16 @@ class Cell extends BaseModel
     public function rules()
     {
         return [
-            [['uid', 'create_at', 'update_at'], 'integer'],
-            [['pics'], 'required'],
-            [['pics'], 'string'],
+            [['uid', 'create_at', 'update_at', 'report_at'], 'integer'],
+            //必填字段
+            [['pics', 'description', 'pics', 'report_at'], 'required'],
+            //uid
+            ['uid', 'exist', 'targetAttribute' => 'uid', 'targetClass' => User::className(), 'message' => '用户必须存在'],
+            //description
             [['description'], 'string', 'max' => 500],
+            [['description'], 'filter', 'filter' => [Filter::className(), 'filters_outcontent']],
+            //pics
+            ['pics', 'filter', 'filter' => [Tools::className(), 'toJson']],
             //status
             ['status', 'in', 'range' => [self::STATUS_ON, self::STATUS_OFF]],
         ];
@@ -58,6 +67,7 @@ class Cell extends BaseModel
             'description' => '描述',
             'pics' => '细胞培养图片',
             'status' => '状态（1-正常；2-删除）',
+            'report_at' => '记录的时间',
             'create_at' => '创建时间',
             'update_at' => '更新时间',
         ];
@@ -70,7 +80,6 @@ class Cell extends BaseModel
     public function getUser(){
         return $this->hasOne(User::className(), ['uid' => 'uid']);
     }
-
 
     /**
      * 状态

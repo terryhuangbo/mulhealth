@@ -2,6 +2,7 @@
 
 namespace backend\modules\cell\controllers;
 
+use common\lib\Tools;
 use common\models\Tag;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -84,7 +85,6 @@ class CellController extends BaseController
             ->limit($pageSize)
             ->orderby($_order_by)
             ->all();
-        lg($cellArr);
         $cellList = ArrayHelper::toArray($cellArr, [
             'common\models\Cell' => [
                 'id',
@@ -95,7 +95,7 @@ class CellController extends BaseController
                     return getValue($m, ['user', 'name']);
                 },
                 'pics' => function($m){
-                    return reset(json_decode($m->pics, true));
+                    return Tools::toArray($m->pics, true);
                 },
                 'status_name' => function ($m) {
                     return Cell::getStatuses($m->status);
@@ -122,11 +122,13 @@ class CellController extends BaseController
     function actionAdd()
     {
         if(!$this->isAjax()){
-            $tags = Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT], 'json_encode');
-            return $this->render('add', ['tags' => $tags]);
+            return $this->render('add');
         }
         $mdl = new Cell();
-        $mdl->load($this->req(), '');
+        $param = $this->req();
+        $param['uid'] = 13;
+        $param['report_at'] = strtotime($param['report_at']);
+        $mdl->load($param, '');
         if (!$mdl->validate()) {
             return $this->toJson(-40301, reset($mdl->getFirstErrors()));
         }
@@ -151,11 +153,11 @@ class CellController extends BaseController
         if(!$this->isAjax()){
             $_data = [
                 'cell' => $cell,
-                'tags' => Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT], 'json_encode'),
             ];
             return $this->render('update', $_data);
         }
         //保存
+        $cell_info['report_at'] = strtotime($cell_info['report_at']);
         $cell->load($cell_info, '');
         if (!$cell->validate()) {
             return $this->toJson(-40301, reset($cell->getFirstErrors()));

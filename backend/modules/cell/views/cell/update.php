@@ -5,7 +5,7 @@ use yii\helpers\Html;
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>编辑细胞</title>
+    <title>编辑细胞培养</title>
 
     <link href="/css/dpl.css" rel="stylesheet">
     <link href="/css/bui.css" rel="stylesheet">
@@ -74,21 +74,14 @@ use yii\helpers\Html;
         <h2>添加细胞</h2>
         <input name="id" type="hidden" value="<?php echo $cell['id'] ?>">
         <div class="control-group">
-            <label class="control-label"><s>*</s>细胞名称：</label>
+            <label class="control-label"><s>*</s>描述：</label>
             <div class="controls">
-                <input name="title" type="text" class="input-medium" data-rules="{required : true}" value="<?php echo $cell['title'] ?>">
+                <input name="description" type="text" class="input-medium" data-rules="{required : true}" value="<?php echo $cell['description'] ?>">
             </div>
         </div>
 
         <div class="control-group">
-            <label class="control-label"><s>*</s>细胞标签：</label>
-            <div id="tags-content" style="text-indent: 10px; margin: auto auto 10px 0">
-                <input name="tags" type="hidden" id="tags" value="<?php echo $cell['tags'] ?>"  data-rules="{required : true}">
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label"><s>*</s>细胞缩略图：</label>
+            <label class="control-label"><s>*</s>细胞图片：</label>
             <div id="thumbpic" class="controls">
                 <span class="button button-primary">上传图片</span>
             </div>
@@ -96,12 +89,12 @@ use yii\helpers\Html;
         <div class="row" >
             <div class="span16 layout-outer-content">
                 <div id="thumbpic-content" class="layout-content" aria-disabled="false" aria-pressed="false" >
-                    <?php foreach(json_decode($cell['pic'], true) as $v): ?>
+                    <?php foreach(json_decode($cell['pics'], true) as $v): ?>
                         <div id="" class=" pull-left img-content-li">
                             <a href="javaScript:;"><span class="label label-important img-delete" file-path="<?php echo $v ?>">删除</span></a>
                             <div aria-disabled="false"  class="" aria-pressed="false">
                                 <img  src="<?php echo $v ?>" />
-                                <input type="hidden" name="pic[]" value="<?php echo $v ?>">
+                                <input type="hidden" name="pics[]" value="<?php echo $v ?>">
                                 <p></p>
                             </div>
                         </div>
@@ -110,11 +103,14 @@ use yii\helpers\Html;
             </div>
         </div>
 
-        <div class="control-group" id="description_content">
-            <label class="control-label">细胞描述：</label>
-            <div class="controls  control-row-auto">
-                <!--                <textarea name="case[description]" id="" class="control-row3 input-large" data-rules="{required : true}"></textarea>-->
-                <script type="text/plain" id="editor_content" name="detail"></script>
+        <div class="row">
+            <div class="control-group span14">
+                <label class="control-label"><s>*</s>记录时间：</label>
+                <div class="controls">
+                    <input type="text" class="calendar calendar-time"
+                           name="report_at" data-rules="{required : true}"
+                           value="<?php echo date('Y-m-d H:i:s', $cell['report_at']) ?>">
+                </div>
             </div>
         </div>
         <div class="row actions-bar">
@@ -137,10 +133,10 @@ use yii\helpers\Html;
             $("#save-case").on('click', function(){
                 if(form.isValid()){
                     var param = $._get_form_json;
-                    $._ajax('/product/cell/update', $("#Goods_Form").serialize(), 'POST', 'JSON', function(json){
+                    $._ajax('/cell/cell/update', $("#Goods_Form").serialize(), 'POST', 'JSON', function(json){
                         if(json.code > 0){
                             BUI.Message.Alert(json.msg, function(){
-                                window.location.href = '/product/cell/list';
+                                window.location.href = '/cell/cell/list';
                             }, 'success');
 
                         }else{
@@ -152,36 +148,21 @@ use yii\helpers\Html;
             });
             //返回
             $("#cancel-case").on('click', function(){
-                window.location.href = '/product/cell/list';
+                window.location.href = '/cell/cell/list';
             });
         });
-        //选择标签
-        BUI.use('bui/select',function(Select){
-            var items = <?php echo $tags; ?>,
-                select1 = new Select.Combox({
-                    render:'#tags-content',
-                    showTag:true,
-                    width : 340,
-                    elCls : 'bui-tag-follow',
-                    valueField : '#tags',//显示tag的Combox必须存在valueField
-                    items: items
-                });
-            select1.render();
+
+        BUI.use('bui/calendar', function (Calendar) {
+            var datepicker = new Calendar.DatePicker({
+                trigger: '.calendar-time',
+                showTime: true,
+                autoRender: true
+            });
         });
     </script>
     <!-- script end -->
 
     <script>
-        $(function () {
-            var editor = UE.getEditor('editor_content', {
-                "initialFrameWidth": "700",
-                "initialFrameHeight": "360",
-                "lang": "zh-cn"
-            });
-            editor.ready(function(){
-                editor.setContent('<?php echo $cell['detail'] ?>');
-            });
-        })
 
         $(function () {
             /*上传缩略图*/
@@ -235,7 +216,7 @@ use yii\helpers\Html;
                         '<a href="javaScript:;"><span class="label label-important img-delete" file-path="'+ data.filePath +'">删除</span></a>'+
                         '<div aria-disabled="false"  class="" aria-pressed="false">'+
                         '<img  src="'+ data.url +'" />'+
-                        '<input type="hidden" name="pic[]" value="'+ data.url +'">'+
+                        '<input type="hidden" name="pics[]" value="'+ data.url +'">'+
                         '<p>'+ file.name +'</p>'+
                         '</div>'+
                         '</div>';

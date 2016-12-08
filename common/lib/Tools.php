@@ -10,7 +10,7 @@ namespace common\lib;
 
 use yii;
 
-class Tools {
+class Tools extends yii\base\Component {
 
     /**
      * 获取客户端IP地址
@@ -129,7 +129,7 @@ class Tools {
      * 从身份证中获取年龄
      * @return string
      */
-    public static function  getAgeByID($id)
+    public static function getAgeByID($id)
     {
         //过了这年的生日才算多了1周岁
         if (empty($id))
@@ -149,5 +149,30 @@ class Tools {
         return $age;
     }
 
+    /**
+     * 将数组转化为json字符串
+     * @param string $data
+     * @return string
+     */
+    public static function toJson($data)
+    {
+        return json_encode((array) $data);
+    }
+
+    /**
+     * 将json字符串转化为数组
+     * @param string $data
+     * @param $first bool 是否返回第一个元素
+     * @return string
+     */
+    public static function toArray($data, $first = false)
+    {
+        $array = json_decode($data, true);
+        if ($first) {
+            $firstEle = reset($array);
+            return $firstEle ? $firstEle : '';
+        }
+        return $array;
+    }
 
 }
