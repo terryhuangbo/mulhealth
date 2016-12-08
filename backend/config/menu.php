@@ -66,5 +66,14 @@ $menu = [
             ['配置列表' => 'content/index/content'],
         ],
     ],
+    //细胞培养
+    [
+        'top' => ['细胞培养' => 'home'],
+        '细胞培养' => [
+            ['细胞列表' => 'cell/cell/list'],
+            ['添加' => 'cell/cell/add'],
+        ],
+    ],
+
 ];
 return $menu;

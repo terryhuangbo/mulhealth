@@ -29,5 +29,10 @@ return [
     'content' => [
         'class' => 'backend\modules\content\Module',
     ],
+    //细胞
+    'cell' => [
+        'class' => 'backend\modules\cell\Module',
+    ],
+
 
 ];
