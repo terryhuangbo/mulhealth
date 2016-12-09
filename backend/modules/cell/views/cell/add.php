@@ -111,7 +111,7 @@
                 // swf文件路径
                 swf: '/plugins/webuploader/Uploader.swf',
                 // 文件接收服务端。
-                server: "/upload_file",
+                server: "/common/file/upload",
                 // 选择文件的按钮。可选。
                 pick: '#thumbpic',
                 //文件数量
