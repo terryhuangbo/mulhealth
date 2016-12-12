@@ -49,8 +49,6 @@ class Cell extends BaseModel
             //description
             [['description'], 'string', 'max' => 500],
             [['description'], 'filter', 'filter' => [Filter::className(), 'filters_outcontent']],
-            //pics
-            ['pics', 'filter', 'filter' => [Tools::className(), 'toJson']],
             //status
             ['status', 'in', 'range' => [self::STATUS_ON, self::STATUS_OFF]],
         ];

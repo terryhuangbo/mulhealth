@@ -126,8 +126,8 @@ class CellController extends BaseController
         }
         $mdl = new Cell();
         $param = $this->req();
-        $param['uid'] = 13;
         $param['report_at'] = strtotime($param['report_at']);
+        $param['pics'] = Tools::toJson($this->req('pics', []));
         $mdl->load($param, '');
         if (!$mdl->validate()) {
             return $this->toJson(-40301, reset($mdl->getFirstErrors()));

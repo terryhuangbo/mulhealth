@@ -22,6 +22,14 @@
     <form id="Goods_Form" action="" class="form-horizontal" onsubmit="return false;" >
         <h2>添加细胞</h2>
         <div class="control-group">
+            <label class="control-label"><s>*</s>用户编号：</label>
+            <div class="controls">
+                <input name="uid" type="text" class="input-medium" data-rules="{required : true}">
+                <span>&nbsp;&nbsp;&nbsp;注：必须是注册用户的编号</span>
+            </div>
+        </div>
+
+        <div class="control-group">
             <label class="control-label"><s>*</s>描述：</label>
             <div class="controls">
                 <input name="description" type="text" class="input-large" data-rules="{required : true}">
