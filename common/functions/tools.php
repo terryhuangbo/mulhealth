@@ -24,40 +24,6 @@ function yiiUrl($params) {
     return yii::$app->urlManager->createUrl($params);
 }
 
-
-/**
- * 获取值
- * @param $data mixed 要判断是否存在的值
- * @param $default mixed 当$data不存在时默认值
- * @param $empty bool true-同时验证$data还不能为空, 默认不验证
- * @return mixed mix
- **/
-function _value($data, $default = '', $empty = false)
-{
-    if ($empty) {
-        return !empty($data) ? $data : $default;
-    } else {
-        return isset($data) ? $data : $default;
-    }
-}
-
-/**
- * 获取Request参数
- * @param string $key
- * @param bool|array|string $default 当请求的参数不存在时的默认值
- * @return string
- */
-function _request($key = '', $default = false) {
-    $request = array_merge(Yii::$app->request->get(), Yii::$app->request->post());
-    if(empty($key)){
-        return $request;
-    }
-    if(!isset($request[$key])){
-        return $default;
-    }
-    return $request[$key];
-}
-
 /**
  * 从对象，数组中获取获取数据
  * @param $array mixed 数组或者对象

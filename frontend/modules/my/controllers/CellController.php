@@ -3,6 +3,8 @@
 namespace frontend\modules\my\controllers;
 
 use common\behavior\PointBehavior;
+use common\lib\Tools;
+use common\models\Cell;
 use Yii;
 use app\base\BaseController;
 use common\models\User;
@@ -22,7 +24,21 @@ class CellController extends BaseController
      */
     public function actionIndex()
     {
-        $_data = [];
+        $uid = Yii::$app->user->identity->uid;
+        $cellList = (new Cell())->getAll(
+            ['uid' => $uid, 'status' => Cell::STATUS_ON],
+            'report_at desc',
+            1,
+            4
+        );
+
+        array_walk($cellList, function(&$val, $i){
+            $val['pics'] = Tools::toArray($val['pics']);
+            $val['report_at'] = getDiffDate($val['report_at']);
+        });
+        $_data = [
+            'cellList' => $cellList
+        ];
         return $this->render('index', $_data);
     }
 
@@ -32,6 +48,7 @@ class CellController extends BaseController
      */
     public function actionDetail()
     {
+
         $_data = [];
         return $this->render('detail', $_data);
     }

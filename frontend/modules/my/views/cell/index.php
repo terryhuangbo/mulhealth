@@ -7,42 +7,17 @@
             </ul>
         </div>
         <div class="content">
-            <div class="list list1">
-                <div class="left"><p>今天</p></div>
-                <div class="right">
-                    <p>细胞株成型</p>
-                    <img src="/images/cellS.png"/>
-                    <img src="/images/cellS.png"/>
-                    <img src="/images/cellS.png"/>
+            <? foreach ($cellList as $k => $cell): ?>
+                <div class="list list<?php echo $k+1 ?>">
+                    <div class="left"><p><?php echo $cell['report_at'] ?></p></div>
+                    <div class="right">
+                        <p><?php echo $cell['description'] ?></p>
+                        <?php foreach ($cell['pics'] as $pic): ?>
+                            <img src="<?php echo $pic ?>"/>
+                        <?php endforeach ?>
+                    </div>
                 </div>
-            </div>
-            <div class="list list2">
-                <div class="left"><p>昨天</p></div>
-                <div class="right">
-                    <p>细胞液破裂</p>
-                    <img src="/images/cellS.png"/>
-                    <img src="/images/cellS.png"/>
-                    <img src="/images/cellS.png"/>
-                </div>
-            </div>
-            <div class="list list3">
-                <div class="left"><p>星期四</p></div>
-                <div class="right">
-                    <p>吸取细胞后，培养皿辅液</p>
-                    <img src="/images/cellS.png"/>
-                    <img src="/images/cellS.png"/>
-                    <img src="/images/cellS.png"/>
-                </div>
-            </div>
-            <div class="list list4">
-                <div class="left"><p>7月5日</p></div>
-                <div class="right">
-                    <p>吸取细胞后，培养皿辅液手术</p>
-                    <img src="/images/cellS.png"/>
-                    <img src="/images/cellS.png"/>
-                    <img src="/images/cellS.png"/>
-                </div>
-            </div>
+            <? endforeach ?>
             <a href="/my/cell/detail">查看更多 >>> </a>
         </div>
     </div>

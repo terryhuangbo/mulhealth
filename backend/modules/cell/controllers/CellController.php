@@ -101,10 +101,10 @@ class CellController extends BaseController
                     return Cell::getStatuses($m->status);
                 },
                 'create_time' => function ($m) {
-                    return date('Y-m-d h:i:s', $m->create_at);
+                    return date('Y-m-d H:i:s', $m->create_at);
                 },
                 'update_time' => function ($m) {
-                    return date('Y-m-d h:i:s', $m->update_at);
+                    return date('Y-m-d H:i:s', $m->update_at);
                 },
             ],
         ]);
@@ -177,8 +177,8 @@ class CellController extends BaseController
         if (!$cell) {
             $this->toJson(-20003, '用户信息不存在');
         }
-        $cell['update_at'] = date('Y-m-d h:i:s', $cell['update_at']);
-        $cell['create_at'] = date('Y-m-d h:i:s', $cell['create_at']);
+        $cell['update_at'] = date('Y-m-d H:i:s', $cell['update_at']);
+        $cell['create_at'] = date('Y-m-d H:i:s', $cell['create_at']);
         $_data = [
             'cell' => $cell
         ];
