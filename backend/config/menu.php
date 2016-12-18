@@ -74,6 +74,15 @@ $menu = [
             ['添加' => 'cell/cell/add'],
         ],
     ],
+    //体检报告
+    [
+        'top' => ['体检报告' => 'home'],
+        '体检报告' => [
+            ['报告列表' => 'report/report/list'],
+            ['添加' => 'report/report/add'],
+        ],
+    ],
+
 
 ];
 return $menu;

@@ -33,6 +33,10 @@ return [
     'cell' => [
         'class' => 'backend\modules\cell\Module',
     ],
+    //体检报告
+    'report' => [
+        'class' => 'backend\modules\report\Module',
+    ],
 
 
 ];
