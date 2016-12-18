@@ -30,7 +30,11 @@ return [
         'targets' => [
             [
                 'class' => 'yii\log\FileTarget',
-                'levels' => ['error', 'warning'],
+                'logFile' => "@runtime/logs/" . date('Y/m/d', time()) . '/log.txt',
+                'levels' => ['error', 'warning', 'info', 'trace'],
+                'categories' => ['frontend\*'],
+                'except' => [],
+                'logVars' => [],
             ],
         ],
     ],
