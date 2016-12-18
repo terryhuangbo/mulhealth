@@ -40,7 +40,11 @@ class Report extends BaseModel
         return [
             [['uid', 'time', 'heartrate', 'create_at', 'update_at'], 'integer'],
             [['weight', 'height', 'systolic', 'diastolic', 'bmi', 'vision'], 'number'],
-            [['pic'], 'string', 'max' => 250]
+            [['pic'], 'string', 'max' => 250],
+            //必须字段
+            [['uid', 'pic', 'time','heartrate', 'weight', 'height', 'systolic', 'diastolic', 'bmi', 'vision'], 'required'],
+            //用户ID
+            ['uid', 'exist', 'targetAttribute' => 'uid', 'targetClass' => User::className(), 'message' => '用户不存在'],
         ];
     }
 

@@ -7,12 +7,12 @@
  */
 
 /**
- * 获取yii配置
+ * 获取Yii配置
  * @param string $key
  * @return mix
  */
 function yiiParams($key) {
-    return yii::$app->params[$key];
+    return Yii::$app->params[$key];
 }
 
 /**
@@ -21,7 +21,19 @@ function yiiParams($key) {
  * @return string
  */
 function yiiUrl($params) {
-    return yii::$app->urlManager->createUrl($params);
+    return Yii::$app->urlManager->createUrl($params);
+}
+
+/**
+ * 记录日志的当前用户
+ * @return string
+ */
+function logUser() {
+    if (Yii::$app->user->isGuest)
+    {
+        return '游客 ';
+    }
+    return Yii::$app->user->identity->nick . '(' . Yii::$app->user->identity->uid . ') ';
 }
 
 /**
@@ -73,8 +85,8 @@ function isMobile() {
     $useragent_commentsblock = preg_match('|\(.*?\)|', $useragent, $matches) > 0 ? $matches[0] : '';
     $mobile_os_list = array('Google Wireless Transcoder', 'Windows CE', 'WindowsCE', 'Symbian', 'Android', 'armv6l', 'armv5', 'Mobile', 'CentOS', 'mowser', 'AvantGo', 'Opera Mobi', 'J2ME/MIDP', 'Smartphone', 'Go.Web', 'Palm', 'iPAQ');
     $mobile_token_list = array('Profile/MIDP', 'Configuration/CLDC-', '160×160', '176×220', '240×240', '240×320', '320×240', 'UP.Browser', 'UP.Link', 'SymbianOS', 'PalmOS', 'PocketPC', 'SonyEricsson', 'Nokia', 'BlackBerry', 'Vodafone', 'BenQ', 'Novarra-Vision', 'Iris', 'NetFront', 'HTC_', 'Xda_', 'SAMSUNG-SGH', 'Wapaka', 'DoCoMo', 'iPhone', 'iPod');
-    $found_mobile = CheckSubstrs($mobile_os_list, $useragent_commentsblock) ||
-        CheckSubstrs($mobile_token_list, $useragent);
+    $found_mobile = checkSubstrs($mobile_os_list, $useragent_commentsblock) ||
+        checkSubstrs($mobile_token_list, $useragent);
     if ($found_mobile) {
         return true;
     } else {
@@ -88,7 +100,7 @@ function isMobile() {
  * @param $text string
  * @return boolean
  */
-function CheckSubstrs($substrs, $text) {
+function checkSubstrs($substrs, $text) {
     foreach ($substrs as $substr)
         if (false !== strpos($text, $substr)) {
             return true;
@@ -143,26 +155,6 @@ function arrayToObject($arr) {
     } else {
         return $arr;
     }
-}
-
-/**
- * 判断远程文件是否存在
- * @param string $url
- * @return boolean
- */
-function _check_file_exists($url) {
-    $curl = curl_init($url);
-    curl_setopt($curl, CURLOPT_NOBODY, true);
-    $result = curl_exec($curl);
-    $found = false;
-    if ($result !== false) {
-        $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        if ($statusCode == 200) {
-            $found = true;
-        }
-    }
-    curl_close($curl);
-    return $found;
 }
 
 /**
