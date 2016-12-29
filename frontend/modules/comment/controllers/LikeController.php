@@ -10,9 +10,6 @@ class LikeController extends BaseController
 {
 
     public $enableCsrfValidation = false;
-    public $_uncheck = [
-        'add',
-    ];
 
     /**
      * 添加/取消点赞

@@ -10,13 +10,6 @@ use app\base\BaseController;
 class IndexController extends BaseController
 {
     public $layout = '//home';
-    public $_uncheck = [
-        'index',
-        'index-login',
-        'login',
-        'register',
-        'reset',
-    ];
 
     /**
      * 首页-未登录

@@ -13,10 +13,7 @@ use common\models\Comment;
 class IndexController extends BaseController
 {
     public $enableCsrfValidation = true;
-    public $_uncheck = [
-        'index',
-        'release',
-    ];
+
     /**
      * 同一用户一天最多评论条数
      */

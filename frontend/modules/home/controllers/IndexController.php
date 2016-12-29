@@ -17,10 +17,6 @@ class IndexController extends BaseController
 
     public $layout = '//home';
     public $enableCsrfValidation = false;
-    public $_uncheck = [
-        'index',
-    ];
-
 
     /**
      * 首页-未登录

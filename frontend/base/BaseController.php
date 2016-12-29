@@ -14,7 +14,7 @@ class BaseController extends Controller
     public $uid = '';//微信公众号
     public $user = '';//用户信息
     public $signPackage = '';//微信jssdk实例
-    public $_uncheck = []; //不用校验登录的方法,可子类复写
+    public $check = []; //需要校验登录的方法,可子类复写
 
     public function behaviors()
     {
@@ -26,17 +26,21 @@ class BaseController extends Controller
                     [
                         'allow' => true,
                         'matchCallback' => function ($role, $action) {
-                            if (in_array($action->id, $this->_uncheck, true)) {
-                                return true;
-                            }else if(!Yii::$app->user->isGuest){
-                                $this->user = Yii::$app->user->identity->toArray();
-                                $this->uid = Yii::$app->user->identity->uid;
-                                $this->signPackage = Yii::$app->jssdk->getSignPackage();
+                            //没有在登录名单，不需要登录
+                            if (!in_array($action->id, $this->check, true) ) {
                                 return true;
                             }
-                            $absUrl = Yii::$app->getRequest()->absoluteUrl;
-                            Yii::$app->session->set('_redirectUrl', $absUrl);
-                            return false;
+                            //在登录名单，需要登录
+                            if (!Yii::$app->user->isGuest)
+                            {
+                                $absUrl = Yii::$app->getRequest()->absoluteUrl;
+                                Yii::$app->session->set('_redirectUrl', $absUrl);
+                                return false;
+                            }
+                            $this->user = Yii::$app->user->identity->toArray();
+                            $this->uid = Yii::$app->user->identity->uid;
+                            $this->signPackage = Yii::$app->jssdk->getSignPackage();
+                            return true;
                         },
                         'denyCallback' => function($rule, $action){//跳转登录页面
                             return Yii::$app->user->loginRequired();
