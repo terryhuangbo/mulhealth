@@ -25,6 +25,7 @@ class CellController extends BaseController
     public function actionIndex()
     {
         $uid = Yii::$app->user->identity->uid;
+
         $cellList = (new Cell())->getAll(
             ['uid' => $uid, 'status' => Cell::STATUS_ON],
             'report_at desc',
