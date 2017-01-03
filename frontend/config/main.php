@@ -74,6 +74,12 @@ return [
             'appId' => 'wx9462dd181a56c284',
             'appSecret' => '6a6d79adca5a20309e05350da253bdae',
         ],
+        'wechat' => [
+            'class' => 'app\components\Wechat\WechatAuth',
+            'appid' => 'wx9462dd181a56c284',
+            'appsecret' => '6a6d79adca5a20309e05350da253bdae',
+            'token' => 're123de456m'
+        ],
         'userData' => [
             'class' => 'app\modules\user\models\UserData',
         ],
@@ -84,12 +90,6 @@ return [
                     '@app/modules' => '@app/themes/basic/modules',
                 ],
             ],
-        ],
-        'wechat' => [
-            'class' => 'callmez\wechat\sdk\Wechat',
-            'appId' => 'wxd67d44974fa6111c',
-            'appSecret' => 'f4793ce52883b15c9da1a11054929bc4',
-            'token' => 're123de456m'
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

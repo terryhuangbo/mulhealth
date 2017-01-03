@@ -2,23 +2,26 @@
 /**
  * 微信oAuth认证示例
  */
-namespace common\lib;
+namespace app\components\Wechat;
 
-use common\lib\Wechat;
 use yii\base\Component;
 
 class WechatAuth extends Component {
-    private $options;
+    public $appid;
+    public $appsecret;
+    public $token;
+
     public $open_id;
     public $wxuser;
-    
-    public function __construct($options, $config = []){
-        $this->options = $options;
+
+    public function init()
+    {
+        parent::init();
         $this->wxoauth();
         session_start();
-        parent::__construct($config);
     }
-    
+
+
     public function wxoauth(){
         $scope = 'snsapi_base';
         $code = isset($_GET['code'])?$_GET['code']:'';
@@ -34,9 +37,9 @@ class WechatAuth extends Component {
         else
         {
             $options = array(
-                    'token'=>$this->options["token"], //填写你设定的key
-                    'appid'=>$this->options["appid"], //填写高级调用功能的app id
-                    'appsecret'=>$this->options["appsecret"] //填写高级调用功能的密钥
+                    'token'=>$this->token, //填写你设定的key
+                    'appid'=>$this->appid, //填写高级调用功能的app id
+                    'appsecret'=>$this->appsecret //填写高级调用功能的密钥
             );
             $we_obj = new Wechat($options);
             if ($code) {
