@@ -1,7 +1,9 @@
 <?php
-namespace app\components\Wechat;
+namespace common\utils;
 
-class Jssdk extends \yii\base\Component
+use yii\base\Component;
+
+class Jssdk extends Component
 {
     public $appId;
     public $appSecret;

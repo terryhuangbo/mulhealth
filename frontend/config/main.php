@@ -74,11 +74,18 @@ return [
             'appId' => 'wx9462dd181a56c284',
             'appSecret' => '6a6d79adca5a20309e05350da253bdae',
         ],
-        'wechat' => [
-            'class' => 'app\components\Wechat\WechatAuth',
+        'wechatAuth' => [
+            'class' => 'common\utils\WechatAuth',
             'appid' => 'wx9462dd181a56c284',
             'appsecret' => '6a6d79adca5a20309e05350da253bdae',
             'token' => 're123de456m'
+        ],
+        'wechat' => [
+            'class' => 'common\utils\Wechat',
+            'appid' => 'wx9462dd181a56c284',
+            'appsecret' => '6a6d79adca5a20309e05350da253bdae',
+            'token' => 're123de456m',
+            'debug' => false,
         ],
         'userData' => [
             'class' => 'app\modules\user\models\UserData',
