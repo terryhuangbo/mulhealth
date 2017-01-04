@@ -13,5 +13,11 @@ return [
     'backend' => '@back',
     //图片访问域名
     'img_host' => '@back',
+    'wechat' => [
+        'token' => 're123de456m',
+        'encodingaeskey' => 'vRcyfRECMZZFGbPGhLDOWP5034uVLrCSTORRdqHPRvE',
+        'appid' => 'wx64d197739e77e041',
+        'appsecret' => '7a61f4bb702cd741c67b7c44b077d3ad',
+    ],
 
 ];
