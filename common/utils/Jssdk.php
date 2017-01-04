@@ -5,8 +5,8 @@ use yii\base\Component;
 
 class Jssdk extends Component
 {
-    public $appId;
-    public $appSecret;
+    public $appid;
+    public $appsecret;
 
     public function getSignPackage() {
         $jsapiTicket = $this->getJsApiTicket();
@@ -24,7 +24,7 @@ class Jssdk extends Component
         $signature = sha1($string);
 
         $signPackage = array(
-            "appId"     => $this->appId,
+            "appid"     => $this->appid,
             "nonceStr"  => $nonceStr,
             "timestamp" => $timestamp,
             "url"       => $url,
@@ -70,8 +70,8 @@ class Jssdk extends Component
         $data = json_decode($this->get_php_file(dirname(__FILE__) . "/access_token.php"));
         if ($data->expire_time < time()) {
             // 如果是企业号用以下URL获取access_token
-            // $url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$this->appId&corpsecret=$this->appSecret";
-            $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$this->appId&secret=$this->appSecret";
+            // $url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$this->appid&corpsecret=$this->appsecret";
+            $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$this->appid&secret=$this->appsecret";
             $res = json_decode($this->httpGet($url));
             $access_token = getValue($res, 'access_token', false);
 

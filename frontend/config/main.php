@@ -71,8 +71,8 @@ return [
         ],
         'jssdk' => [
             'class' => 'app\components\Wechat\Jssdk',
-            'appId' => 'wx9462dd181a56c284',
-            'appSecret' => '6a6d79adca5a20309e05350da253bdae',
+            'appid' => 'wx9462dd181a56c284',
+            'appsecret' => '6a6d79adca5a20309e05350da253bdae',
         ],
         'wechatAuth' => [
             'class' => 'common\utils\WechatAuth',
