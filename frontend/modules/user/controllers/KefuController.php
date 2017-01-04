@@ -26,7 +26,7 @@ class KefuController extends Controller
         switch ($type)
         {
             case Wechat::MSGTYPE_TEXT:
-                $wechat->text("hello, I'm wechat, haha,haha")->reply();
+                $wechat->text("hello, I'm wechat, haha!!!" . $wechat->checkAuth())->reply();
                 exit;
                 break;
             case Wechat::MSGTYPE_EVENT:
@@ -53,7 +53,6 @@ class KefuController extends Controller
 
         $wechat = Yii::$app->wechat;
         $ACC_TOKEN = $wechat->checkAuth();
-        VarDumper::export($wechat);exit;
         $data = [
             'touser' => $touser,
             'msgtype' => 'text',
@@ -63,31 +62,25 @@ class KefuController extends Controller
 
         ];
 
-
-
-
-
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . $ACC_TOKEN;
-//        $url = "https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token=" . $ACC_TOKEN;
-        $url = "https://api.weixin.qq.com/cgi-bin/user/get?access_token={$ACC_TOKEN}";
         $data = json_encode($data);
-//        $result = json_decode(Http::post($url, $data), true);
-        $result = json_decode(Http::get($url, $data), true);
+        $result = json_decode(Http::post($url, $data), true);
+//        $result = json_decode(Http::get($url, $data), true);
         return VarDumper::export($result);
 
-//        return $this->render('index');
     }
 
     /**
      * 微信网页认证
      */
-    public function actionWechatAuth()
+    public function actionAuth()
     {
         $auth = Yii::$app->wechatAuth;
         $open_id = $auth->wxuser['open_id'];
         $nickname = $auth->wxuser['nickname'];
         $avatar = $auth->wxuser['avatar'];
-        VarDumper::export($nickname);
+        echo $nickname;
+        exit;
 
     }
 

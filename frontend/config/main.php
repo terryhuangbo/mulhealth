@@ -70,20 +70,20 @@ return [
             'loginUrl' => ['user/index/login'],
         ],
         'jssdk' => [
-            'class' => 'app\components\Wechat\Jssdk',
-            'appid' => 'wx9462dd181a56c284',
-            'appsecret' => '6a6d79adca5a20309e05350da253bdae',
+            'class' => 'common\utils\Jssdk',
+            'appid' => 'wx64d197739e77e041',
+            'appsecret' => '7a61f4bb702cd741c67b7c44b077d3ad',
         ],
         'wechatAuth' => [
             'class' => 'common\utils\WechatAuth',
-            'appid' => 'wx9462dd181a56c284',
-            'appsecret' => '6a6d79adca5a20309e05350da253bdae',
+            'appid' => 'wx64d197739e77e041',
+            'appsecret' => '7a61f4bb702cd741c67b7c44b077d3ad',
             'token' => 're123de456m'
         ],
         'wechat' => [
             'class' => 'common\utils\Wechat',
-            'appid' => 'wx9462dd181a56c284',
-            'appsecret' => '6a6d79adca5a20309e05350da253bdae',
+            'appid' => 'wx64d197739e77e041',
+            'appsecret' => '7a61f4bb702cd741c67b7c44b077d3ad',
             'token' => 're123de456m',
             'debug' => false,
         ],
