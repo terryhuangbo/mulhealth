@@ -87,9 +87,6 @@ return [
             'token' => 're123de456m',
             'debug' => false,
         ],
-        'userData' => [
-            'class' => 'app\modules\user\models\UserData',
-        ],
         'view' => [
             'theme' => [
                 'pathMap' => [

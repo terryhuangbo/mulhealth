@@ -243,7 +243,7 @@ class Wechat extends yii\base\Component
     public $errMsg = "no access";
     public $logcallback = false;
 
-//    public function __construct($options, $config)
+//    public function __construct($options)
 //    {
 //        $this->token = isset($options['token']) ? $options['token'] : '';
 //        $this->encodingAesKey = isset($options['encodingaeskey']) ? $options['encodingaeskey'] : '';
@@ -1303,8 +1303,8 @@ class Wechat extends yii\base\Component
      */
     protected function setCache($cachename, $value, $expired)
     {
-        //TODO: set cache implementation
-        return false;
+        $cache = Yii::$app->cache;
+        return $cache->set($cachename, $value, $expired);
     }
 
     /**
@@ -1314,8 +1314,8 @@ class Wechat extends yii\base\Component
      */
     protected function getCache($cachename)
     {
-        //TODO: get cache implementation
-        return false;
+        $cache = Yii::$app->cache;
+        return $cache->get($cachename);
     }
 
     /**
@@ -1325,8 +1325,8 @@ class Wechat extends yii\base\Component
      */
     protected function removeCache($cachename)
     {
-        //TODO: remove cache implementation
-        return false;
+        $cache = Yii::$app->cache;
+        return $cache->delete($cachename);
     }
 
     /**
