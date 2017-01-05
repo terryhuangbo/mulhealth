@@ -2,14 +2,10 @@
 
 namespace frontend\modules\home\controllers;
 
-use common\behavior\PointBehavior;
 use common\models\Meta;
 use Yii;
 use app\base\BaseController;
 use common\models\User;
-use common\models\Goods;
-use common\models\Points;
-use common\models\PointsRecord;
 
 
 class IndexController extends BaseController

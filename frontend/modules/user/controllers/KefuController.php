@@ -3,6 +3,7 @@
 namespace frontend\modules\user\controllers;
 
 use common\lib\Http;
+use common\models\WechatMsg;
 use common\utils\Wechat;
 use Yii;
 use yii\helpers\VarDumper;
@@ -26,6 +27,8 @@ class KefuController extends Controller
         switch ($type)
         {
             case Wechat::MSGTYPE_TEXT:
+                $mdl = new WechatMsg();
+
                 $wechat->text("hello, I'm wechat, haha!!!" . $wechat->checkAuth())->reply();
                 exit;
                 break;
