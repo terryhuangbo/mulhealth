@@ -1306,7 +1306,10 @@ class Wechat extends yii\base\Component
     protected function setCache($cachename, $value, $expired)
     {
         $cache = Yii::$app->cache;
-        return $cache->set($cachename, $value, $expired);
+        $dependency = new yii\caching\TagDependency([
+            'tags' => [$this->appid, $this->token]
+        ]);
+        return $cache->set($cachename, $value, $expired, $dependency);
     }
 
     /**

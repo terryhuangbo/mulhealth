@@ -71,22 +71,22 @@ return [
         ],
         'jssdk' => [
             'class' => 'common\utils\Jssdk',
-            'appid' => 'wx64d197739e77e041',
-            'appsecret' => '7a61f4bb702cd741c67b7c44b077d3ad',
+            'appid' => 'wx9462dd181a56c284',
+            'appsecret' => '6a6d79adca5a20309e05350da253bdae',
         ],
         'wechatAuth' => [
             'class' => 'common\utils\WechatAuth',
-            'appid' => 'wx64d197739e77e041',
-            'appsecret' => '7a61f4bb702cd741c67b7c44b077d3ad',
+            'appid' => 'wx9462dd181a56c284',
+            'appsecret' => '6a6d79adca5a20309e05350da253bdae',
             'token' => 're123de456m',
         ],
         'wechat' => [
             'class' => 'common\utils\Wechat',
-            'appid' => 'wx64d197739e77e041',
-            'appsecret' => '7a61f4bb702cd741c67b7c44b077d3ad',
+            'appid' => 'wx9462dd181a56c284',
+            'appsecret' => '6a6d79adca5a20309e05350da253bdae',
             'token' => 're123de456m',
             'debug' => false,
-            'appAccount' => 'gh_6a5dd6d19d83',
+            'appAccount' => 'kangheyuan2015',
         ],
         'view' => [
             'theme' => [
