@@ -28,8 +28,16 @@ class KefuController extends Controller
         {
             case Wechat::MSGTYPE_TEXT:
                 $mdl = new WechatMsg();
-
-                $wechat->text("hello, I'm wechat, haha!!!" . $wechat->checkAuth())->reply();
+                $mdl->scenario = WechatMsg::SCENARIO_RECORD;
+                $mdl->setAttributes([
+                    'open_id' => $wechat->getRevFrom(),
+                    'content' => $wechat->getRevContent(),
+                ]);
+                //保存消息
+                if ($mdl->save())
+                {
+                    $wechat->text("您好！您的消息已收到，我们的客服人员会在第一时间答复您！！")->reply();
+                }
                 exit;
                 break;
             case Wechat::MSGTYPE_EVENT:
@@ -72,6 +80,43 @@ class KefuController extends Controller
         return VarDumper::export($result);
 
     }
+
+    /**
+     * 公众号会话-添加微信客服账号
+     * @return type
+     */
+    public function actionAdd()
+    {
+        $wechat = Yii::$app->wechat;
+        $ACC_TOKEN = $wechat->checkAuth();
+
+        $account = 'kefu1' . '@' . $wechat->appAccount;
+        $nick = '客服1';
+        $password = '123456';
+        $data = [
+            'kf_account' => $account,
+            'nickname' => $nick,
+            'password' => $password,
+        ];
+        $url = "https://api.weixin.qq.com/customservice/kfaccount/add?access_token=$ACC_TOKEN";
+        $data = json_encode($data);
+        $result = json_decode(Http::post($url, $data), true);
+        return VarDumper::export($result);
+    }
+
+    /**
+     * 公众号会话-添加微信客服账号
+     * @return type
+     */
+    public function actionList()
+    {
+        $wechat = Yii::$app->wechat;
+        $ACC_TOKEN = $wechat->checkAuth();
+        $url = "https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token=$ACC_TOKEN";
+        $result = json_decode(Http::get($url, []), true);
+        return VarDumper::export($result);
+    }
+
 
     /**
      * 微信网页认证

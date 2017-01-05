@@ -78,7 +78,7 @@ return [
             'class' => 'common\utils\WechatAuth',
             'appid' => 'wx64d197739e77e041',
             'appsecret' => '7a61f4bb702cd741c67b7c44b077d3ad',
-            'token' => 're123de456m'
+            'token' => 're123de456m',
         ],
         'wechat' => [
             'class' => 'common\utils\Wechat',
@@ -86,6 +86,7 @@ return [
             'appsecret' => '7a61f4bb702cd741c67b7c44b077d3ad',
             'token' => 're123de456m',
             'debug' => false,
+            'appAccount' => 'gh_6a5dd6d19d83',
         ],
         'view' => [
             'theme' => [

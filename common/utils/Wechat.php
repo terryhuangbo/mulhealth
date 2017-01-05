@@ -243,6 +243,8 @@ class Wechat extends yii\base\Component
     public $errMsg = "no access";
     public $logcallback = false;
 
+    public $appAccount = '';//公众号微信号
+
 //    public function __construct($options)
 //    {
 //        $this->token = isset($options['token']) ? $options['token'] : '';
