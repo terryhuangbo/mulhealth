@@ -99,9 +99,7 @@ class KefuController extends Controller
             'password' => $password,
         ];
         $url = "https://api.weixin.qq.com/customservice/kfaccount/add?access_token=$ACC_TOKEN";
-
-        $data = json_encode($data);
-        $result = json_decode(Http::post($url, $data), true);
+        $result = json_decode(Http::post($url, json_encode($data)), true);
         echo '<pre>';
         print_r($result);
         exit;
@@ -123,6 +121,34 @@ class KefuController extends Controller
         exit;
     }
 
+    /**
+     * 公众号会话-回复
+     * @return type
+     */
+    public function actionReply()
+    {
+        $wechat = Yii::$app->wechat;
+        $ACC_TOKEN = $wechat->checkAuth();
+        $open_id = 'onP0htz2OoARzmQzp3NQk_itbB5U';
+
+        $content = 'hait,123!' . time();
+        $data = [
+            'touser' => $open_id,
+            'msgtype' => 'text',
+            'text' => [
+                'content' => $content
+            ],
+            'customservice' => [
+                'kf_account' => 'kefu1@kangheyuan2015'
+            ],
+
+        ];
+        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . $ACC_TOKEN;
+        $result = json_decode(Http::post($url, json_encode($data)), true);
+        echo '<pre>';
+        print_r($result);
+        exit;
+    }
 
     /**
      * 微信网页认证
