@@ -37,6 +37,9 @@ return [
     'report' => [
         'class' => 'backend\modules\report\Module',
     ],
-
+    //客服消息
+    'wechat' => [
+        'class' => 'backend\modules\wechat\Module',
+    ],
 
 ];
