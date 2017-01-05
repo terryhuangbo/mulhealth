@@ -91,7 +91,7 @@ class KefuController extends Controller
         $ACC_TOKEN = $wechat->checkAuth();
 
         $account = 'kefu1' . '@' . $wechat->appAccount;
-        $nick = '客服1';
+        $nick = '客服3';
         $password = '123456';
         $data = [
             'kf_account' => $account,
@@ -99,9 +99,12 @@ class KefuController extends Controller
             'password' => $password,
         ];
         $url = "https://api.weixin.qq.com/customservice/kfaccount/add?access_token=$ACC_TOKEN";
+
         $data = json_encode($data);
         $result = json_decode(Http::post($url, $data), true);
-        return VarDumper::export($result);
+        echo '<pre>';
+        print_r($result);
+        exit;
     }
 
     /**
@@ -112,9 +115,12 @@ class KefuController extends Controller
     {
         $wechat = Yii::$app->wechat;
         $ACC_TOKEN = $wechat->checkAuth();
+
         $url = "https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token=$ACC_TOKEN";
-        $result = json_decode(Http::get($url, []), true);
-        return VarDumper::export($result);
+        $result = json_decode(Http::post($url, []), true);
+        echo '<pre>';
+        print_r($result);
+        exit;
     }
 
 

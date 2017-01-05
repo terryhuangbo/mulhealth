@@ -1342,12 +1342,13 @@ class Wechat extends yii\base\Component
      */
     public function checkAuth($appid = '', $appsecret = '', $token = '')
     {
-        if (!$appid || !$appsecret)
+
+        if (empty($appid) || empty($appsecret))
         {
             $appid = $this->appid;
             $appsecret = $this->appsecret;
         }
-        if ($token)
+        if (!empty($token))
         { //手动指定token，优先使用
             $this->access_token = $token;
             return $this->access_token;
