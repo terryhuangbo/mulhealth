@@ -17,6 +17,14 @@ return [
         'enableAutoLogin' => true,
         'loginUrl' => ['admin/index/login'],//定义后台默认登录界面[权限不足跳到该页]
     ],
+    'wechat' => [
+        'class' => 'common\utils\Wechat',
+        'appid' => 'wx9462dd181a56c284',
+        'appsecret' => '6a6d79adca5a20309e05350da253bdae',
+        'token' => 're123de456m',
+        'debug' => false,
+        'appAccount' => 'kangheyuan2015',
+    ],
     'view' => [
         'theme' => [
             'pathMap' => [

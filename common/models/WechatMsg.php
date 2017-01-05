@@ -51,9 +51,9 @@ class WechatMsg extends BaseModel
             [['open_id'], 'string', 'max' => 50],
             [['service_account'], 'string', 'max' => 30],
             //必填字段
-            [['content', 'reply', 'open_id', 'service_account'], 'required'],
+//            [['content', 'reply', 'open_id', 'service_account'], 'required'],
             //service_account必须存在
-            ['service_account', 'exist', 'targetAttribute' => 'username', 'targetClass' => Team::className()],
+//            ['service_account', 'exist', 'targetAttribute' => 'username', 'targetClass' => Team::className()],
             //status
             ['status', 'in', 'range' => [self::STATUS_WAITING, self::STATUS_REPLIED], 'message' => '状态不正确'],
         ];
@@ -92,7 +92,7 @@ class WechatMsg extends BaseModel
     {
         return [
             self::SCENARIO_RECORD => ['open_id', 'content'],
-            self::SCENARIO_REPLY  => ['service_account', 'reply', 'status'],
+            self::SCENARIO_REPLY  => ['service_account', 'reply', 'status', 'reply_at'],
         ];
     }
 

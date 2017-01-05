@@ -75,24 +75,6 @@ use common\models\Wechat;
     </div>
 </div>
 
-<div id="reason_content" style="display: none" >
-    <form id="reason_form" class="form-horizontal">
-        <div class="control-group" >
-            <div class="control-group" style="height: 80px">
-                <label class="control-label"></label>
-                <div class="controls ">
-                    <textarea class="input-large" id="reason_text" style="height: 60px" data-rules="{required : true}" type="text"></textarea>
-                </div>
-            </div>
-            <div class="control-group style="">
-            <label class="control-label"></label>
-            <div class="controls">
-                <span><b>提示：</b>输入字数不能超过50个字</span>
-            </div>
-        </div>
-    </form>
-</div>
-
 <script>
     $(function () {
         BUI.use('common/page');
@@ -144,9 +126,11 @@ use common\models\Wechat;
                         title: '操作',
                         width: 300,
                         renderer: function (v, obj) {
-                            return "<a class='button button-success' title='客服信息' href='javascript:void(0);' onclick='showWechatInfo(" + obj.id + ")'>查看</a>" +
-                                "<a class='button button-danger' onclick='del(" + obj.id + ")'>删除</a>";
-
+                            if(obj.status == <?php echo \common\models\WechatMsg::STATUS_WAITING ?>){
+                                return "<a class='button button-success' title='客服信息' href='javascript:void(0);' onclick='replyMsg(" + obj.id + ")'>回复</a>";
+                            }else{
+                                return "<a class='button button-danger' title='客服信息' href='javascript:void(0);' >已回复</a>";
+                            }
                         }
                     }
                 ],
@@ -205,9 +189,9 @@ function getWechatGridSearchConditions() {
 /**
  * 显示客服详情
  */
-function showWechatInfo(id) {
-    var width = 800;
-    var height = 400;
+function replyMsg(id) {
+    var width = 500;
+    var height = 300;
     var Overlay = BUI.Overlay;
     var buttons = [
         {
@@ -224,7 +208,7 @@ function showWechatInfo(id) {
         height: height,
         closeAction: 'destroy',
         loader: {
-            url: "/wechat/msg/info",
+            url: "/wechat/msg/reply",
             autoLoad: true, //不自动加载
             params: {id: id},//附加的参数
             lazyLoad: false //不延迟加载
