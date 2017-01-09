@@ -27,11 +27,11 @@
     $(".addLike").on('click', function () {
         var _this = $(this);
         var cid = _this.attr('cid');
-        $._ajax('<?php echo yiiUrl("comment/like/add") ?>', {cid: cid}, 'POST', 'JSON', function (json) {
+        $._ajax('<?php echo yiiUrl("comment/like/add") ?>', {cid: cid}, 'GET', 'JSON', function (json) {
             if (json.code > 0) {
-//                alert(json.msg);
+                alert('点赞成功');
             } else {
-//                alert(json.msg);
+                alert('取消点赞成功');
             }
         });
     })

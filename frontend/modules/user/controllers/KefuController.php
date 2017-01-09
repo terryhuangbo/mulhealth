@@ -159,7 +159,7 @@ class KefuController extends Controller
         $open_id = $auth->wxuser['open_id'];
         $nickname = $auth->wxuser['nickname'];
         $avatar = $auth->wxuser['avatar'];
-        echo $nickname;
+        echo $open_id;
         exit;
 
     }
