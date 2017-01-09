@@ -14,6 +14,17 @@ class IndexController extends BaseController
     public $layout = '//home';
     public $enableCsrfValidation = false;
 
+    public function init()
+    {
+        parent::init();
+        //记录用户open_id
+        $session = Yii::$app->session;
+        $auth    = Yii::$app->wechatAuth;
+        $open_id = getValue($auth, ['wxuser', 'open_id'], '');
+        $session->set('open_id', $open_id);
+    }
+
+
     /**
      * 首页-未登录
      * @return type

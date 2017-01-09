@@ -19,11 +19,7 @@ class LikeController extends BaseController
     public function actionAdd()
     {
         $cid = $this->req('cid');
-        $auth = Yii::$app->wechatAuth;
-        $open_id = $auth->wxuser['open_id'];
-//        echo $open_id;exit;
-//        $open_id = getValue($auth, ['wxuser', 'open_id'], '12345');
-//        $open_id = isset($auth->wxuser['open_id']) ? $auth->wxuser['open_id'] : 12347;
+        $open_id = $session = Yii::$app->session->get('open_id');
         $like = Like::findOne(['cid' => $cid, 'open_id' => $open_id]);
         if ($like) {
             return $this->toJson($like->delete());
