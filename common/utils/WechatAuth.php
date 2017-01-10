@@ -13,6 +13,7 @@ class WechatAuth extends Component
     public $appid;
     public $appsecret;
     public $token;
+    public $encodingaeskey = '';
 
     public $open_id;
     public $wxuser;
@@ -42,6 +43,7 @@ class WechatAuth extends Component
         {
             $options = array(
                 'token' => $this->token, //填写你设定的key
+                'encodingaeskey' => $this->encodingaeskey, //填写加密用的EncodingAESKey
                 'appid' => $this->appid, //填写高级调用功能的app id
                 'appsecret' => $this->appsecret //填写高级调用功能的密钥
             );
