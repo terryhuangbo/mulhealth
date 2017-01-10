@@ -75,7 +75,7 @@ return [
             'appsecret' => '6a6d79adca5a20309e05350da253bdae',
         ],
         'wxauth' => [
-            'class' => 'common\utils\WechatAuth',
+            'class' => 'common\utils\Wxauth',
             'appid' => 'wx9462dd181a56c284',
             'appsecret' => '6a6d79adca5a20309e05350da253bdae',
             'token' => 're123de456m',

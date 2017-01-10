@@ -68,12 +68,12 @@ class User extends BaseModel
             [['username', 'nick', 'name'], 'string', 'max' => 30],
             //必填字段
             [['id_card', 'password', 'name'], 'required'],
-            //id_card
-            [['id_card'], 'unique', 'message' => '用户已经被注册了'],
+            //id_card,open_id
+            [['id_card', 'open_id'], 'unique', 'message' => '用户已经被注册了'],
             [['id_card'], RegexValidator::className(),'method' => 'identity', 'message' => '身份证号不合法'],
             //password
             [['password'], 'string', 'max' => 32],
-            ['password', 'filter',  'filter' => [$this, 'genPwd']],
+            ['password', 'filter', 'filter' => [$this, 'genPwd']],
             //name
             ['name', 'string', 'max' => 30],
             ['name', 'filter', 'filter' => function($val){

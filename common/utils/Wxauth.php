@@ -47,7 +47,6 @@ class Wxauth extends Component
                 'appid' => $this->appid, //填写高级调用功能的app id
                 'appsecret' => $this->appsecret //填写高级调用功能的密钥
             );
-//            $we_obj = new Wechat($options);
             $options['class'] = Wechat::className();
             $we_obj = Yii::createObject($options);
             if ($code)

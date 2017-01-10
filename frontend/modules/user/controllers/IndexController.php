@@ -70,8 +70,9 @@ class IndexController extends BaseController
             return $this->render('register');
         }
         $user = new UserForm();
-
-        $ret = $user->register(Yii::$app->request->post());
+        $param = Yii::$app->request->post();
+        $param['open_id'] = $this->open_id;
+        $ret = $user->register($param);
         if ($ret['code'] < 0)
         {
             return $this->toJson($ret);

@@ -11,6 +11,7 @@ class BaseController extends Controller
 {
     public $enableCsrfValidation = true;
     public $open_id = '';//微信公众号
+    public $wxuser = [];//微信用户
     public $uid = '';//微信公众号
     public $user = '';//用户信息
     public $signPackage = '';//微信jssdk实例
@@ -50,6 +51,27 @@ class BaseController extends Controller
             ],
         ];
     }
+
+    /**
+     * 初始化
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        $session = Yii::$app->session;
+        $this->open_id = $session->get('openid');
+        $this->wxuser = $session->get('wxuser');
+        if(!$this->open_id){
+            $auth = Yii::$app->wxauth;
+            $session->set('openid', $auth->open_id);
+            $session->set('wxuser', $auth->wxuser);
+            $this->open_id = $auth->open_id;
+            $this->wxuser = $auth->wxuser;
+            Yii::info("The openID of current user is: {$auth->open_id}", __METHOD__);
+        }
+    }
+
 
     /**
      * 判断是否是POST请求

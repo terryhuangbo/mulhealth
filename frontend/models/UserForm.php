@@ -32,6 +32,7 @@ class UserForm extends User implements IdentityInterface
             'name',
             'id_card',
             'password',
+            'open_id',
         ];
         //修改密码
         $scenarios[self::SCENARIO_RESET] = [
@@ -71,6 +72,14 @@ class UserForm extends User implements IdentityInterface
     public function getAuthKey()
     {
         return $this->authKey;
+    }
+
+    /**
+     * 获取用户OpenID
+     */
+    public function getOpenID()
+    {
+        return $this->open_id;
     }
 
     /**

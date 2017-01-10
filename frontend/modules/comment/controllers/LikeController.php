@@ -20,10 +20,7 @@ class LikeController extends BaseController
     public function actionAdd()
     {
         $cid = $this->req('cid');
-        $session = Yii::$app->session;
-        $open_id = $session->get('openid');
-        $wxuser = $session->get('wxuser');
-        Yii::info(VarDumper::export($wxuser), __METHOD__);
+        $open_id = Yii::$app->session->get('openid');
         $like = Like::findOne(['cid' => $cid, 'open_id' => $open_id]);
         if ($like)
         {

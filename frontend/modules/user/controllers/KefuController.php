@@ -36,7 +36,7 @@ class KefuController extends Controller
                 //保存消息
                 if ($mdl->save())
                 {
-                    $wechat->text("您好！您的消息已收到，我们的客服人员会在第一时间答复您！！")->reply();
+//                    $wechat->text("您好！您的消息已收到，我们的客服人员会在第一时间答复您！！")->reply();
                 }
                 exit;
                 break;
@@ -159,7 +159,7 @@ class KefuController extends Controller
         $open_id = $auth->wxuser['open_id'];
         $nickname = $auth->wxuser['nickname'];
         $avatar = $auth->wxuser['avatar'];
-        echo $open_id;
+        echo $avatar;
         exit;
 
     }
