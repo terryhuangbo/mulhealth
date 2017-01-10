@@ -75,12 +75,52 @@ use common\models\Wechat;
     </div>
 </div>
 
+
+<div id="reason_content" style="display: none" >
+    <form id="reason_form" class="form-horizontal" onsubmit="return false;">
+        <div class="control-group" >
+            <div class="row">
+                <div class="control-group span15">
+                    <label class="control-label">微信用户：</label>
+                    <div class="controls">
+                        <span class="input-small control-text" id="msg-openid"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span15">
+                    <label class="control-label">消息内容：</label>
+                    <div class="controls">
+                        <span class="input-small control-text" id="msg-content"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group" >
+                    <label class="control-label">回复：</label>
+                    <div class="controls ">
+                        <textarea class="input-large" name="content" id="reason_text"  data-rules="{required : true}" type="text"></textarea>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </form>
+</div>
+
 <script>
     $(function () {
         BUI.use('common/page');
         BUI.use('bui/form', function (Form) {
             var form = new Form.HForm({
                 srcNode: '#wechatsearch'
+            });
+            form.render();
+        });
+        BUI.use('bui/form', function (Form) {
+            var form = new Form.Form({
+                srcNode: '#reason_form'
             });
             form.render();
         });
@@ -127,7 +167,7 @@ use common\models\Wechat;
                         width: 300,
                         renderer: function (v, obj) {
                             if(obj.status == <?php echo \common\models\WechatMsg::STATUS_WAITING ?>){
-                                return "<a class='button button-success' title='客服信息' href='javascript:void(0);' onclick='replyMsg(" + obj.id + ")'>回复</a>";
+                                return "<a class='button button-success' title='客服信息' href='javascript:void(0);' data-openid='"+obj.open_id+"' data-id='"+obj.id+"' data-content='"+obj.content+"'  onclick='replyMsg(this)'>回复</a>";
                             }else{
                                 return "<a class='button button-danger' title='客服信息' href='javascript:void(0);' >已回复</a>";
                             }
@@ -189,8 +229,12 @@ function getWechatGridSearchConditions() {
 /**
  * 显示客服详情
  */
-function replyMsg(id) {
-    var width = 500;
+function replyMsg(dom) {
+    var data = $(dom).data();
+    $("#msg-content").text(data.content);
+    $("#msg-openid").text(data.openid);
+    $("#reason_text").val('');
+    var width = 600;
     var height = 300;
     var Overlay = BUI.Overlay;
     var buttons = [
@@ -198,27 +242,49 @@ function replyMsg(id) {
             text:'确认',
             elCls : 'button button-primary',
             handler : function(){
+                var self = this;
+                var content = $.trim($("#reason_text").val());
+                if(content == ''){
+                    BUI.Message.Alert('请输入回复内容', 'error');
+                    return false;
+                }
+                var param = {
+                    content: content,
+                    id: data.id
+                };
+                $._ajax('/wechat/msg/reply', param, 'POST', 'JSON', function (json) {
+                    if (json.code > 0) {
+                        self.close();
+                        searchWechats();
+                        BUI.Message.Alert('回复成功！', 'success');
+                    }else{
+                        BUI.Message.Alert(json.msg, 'error');
+                    }
+                });
+            }
+        },
+        {
+            text:'取消',
+            elCls : 'button button-danger',
+            handler : function(){
                 this.close();
             }
         }
+
     ];
     dialog = new Overlay.Dialog({
         title: '客服信息',
         width: width,
         height: height,
         closeAction: 'destroy',
-        loader: {
-            url: "/wechat/msg/reply",
-            autoLoad: true, //不自动加载
-            params: {id: id},//附加的参数
-            lazyLoad: false //不延迟加载
-        },
+        contentId:'reason_content',
         buttons: buttons,
         mask: false
     });
     dialog.show();
-    dialog.get('loader').load({id: id});
 }
+
+
 
 /**
  *删除

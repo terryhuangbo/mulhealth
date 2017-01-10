@@ -17,7 +17,7 @@
     }
 
 </style>
-<div id="reason_content" style="display: block" >
+<div id="reason_content" style="display: none" >
     <form id="reason_form" class="form-horizontal" onsubmit="return false;">
         <div class="control-group" >
             <input type="hidden" name="id" value="<?php echo $msg['id'] ?>">
