@@ -155,7 +155,7 @@ class KefuController extends Controller
      */
     public function actionAuth()
     {
-        $auth = Yii::$app->wechatAuth;
+        $auth = Yii::$app->wxauth;
         $open_id = $auth->wxuser['open_id'];
         $nickname = $auth->wxuser['nickname'];
         $avatar = $auth->wxuser['avatar'];

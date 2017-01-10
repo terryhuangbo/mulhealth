@@ -8,7 +8,7 @@ use Yii;
 /**
  * 微信oAuth认证，用户公众号内网页功能开发
  */
-class WechatAuth extends Component
+class Wxauth extends Component
 {
     public $appid;
     public $appsecret;
@@ -43,7 +43,7 @@ class WechatAuth extends Component
         {
             $options = array(
                 'token' => $this->token, //填写你设定的key
-                'encodingaeskey' => $this->encodingaeskey, //填写加密用的EncodingAESKey
+                'encodingAesKey' => $this->encodingaeskey, //填写加密用的EncodingAESKey
                 'appid' => $this->appid, //填写高级调用功能的app id
                 'appsecret' => $this->appsecret //填写高级调用功能的密钥
             );
@@ -118,8 +118,8 @@ class WechatAuth extends Component
 
     public function __destruct()
     {
-        unset($this->wxuser);
-        session_destroy();
+//        unset($this->wxuser);
+//        session_destroy();
     }
 }
 

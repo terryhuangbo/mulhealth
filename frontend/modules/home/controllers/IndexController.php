@@ -14,6 +14,19 @@ class IndexController extends BaseController
     public $layout = '//home';
     public $enableCsrfValidation = false;
 
+    public function init()
+    {
+        parent::init();
+        $session = Yii::$app->session;
+        $auth = Yii::$app->wxauth;
+        $open_id = $auth->open_id;
+        $wxuser = $auth->wxuser;
+        $session->set('openid', $open_id);
+        $session->set('wxuser', $wxuser);
+        Yii::info("The openID of current user is: $open_id", __METHOD__);
+    }
+
+
     /**
      * 首页-未登录
      * @return type
