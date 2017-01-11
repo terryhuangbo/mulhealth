@@ -12,7 +12,11 @@
                 <div class="tail">
                     <a href=""><img src="/images/share.png"/></a>
                     <a href="<?php echo yiiUrl(['comment/index/release', 'pid' => $comment['id']]) ?>"><img src="/images/chat.png"/></a>
-                    <a href="javaScript:void(0)" class="addLike" cid="<?php echo $comment['id'] ?>"><img src="/images/like.png"/></a>
+                    <?php  if($comment['isLiked']): ?>
+                        <a href="javaScript:void(0)" class="addLike" cid="<?php echo $comment['id'] ?>"><img src="/images/like.png"/></a>
+                    <?php  else: ?>
+                        <a href="javaScript:void(0)" class="addLike unlike" cid="<?php echo $comment['id'] ?>"><img src="/images/unlike.png"/></a>
+                    <?php  endif ?>
                 </div>
             </div>
         <? endforeach ?>
@@ -28,8 +32,14 @@
         var _this = $(this);
         var cid = _this.attr('cid');
         $._ajax('<?php echo yiiUrl("comment/like/add") ?>', {cid: cid}, 'GET', 'JSON', function (json) {
-            if (json.code > 0) {
+            if (json.code == 20000) {
+                //点赞成功
                 alert(json.msg);
+                _this.find('img').attr('src', '/images/like.png');
+            } else if (json.code == 20001) {
+                //取消点赞成功
+                alert(json.msg);
+                _this.find('img').attr('src', '/images/unlike.png');
             } else {
                 alert(json.msg);
             }

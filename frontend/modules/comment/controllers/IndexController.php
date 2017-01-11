@@ -2,6 +2,7 @@
 
 namespace frontend\modules\comment\controllers;
 
+use common\models\Like;
 use Yii;
 use app\base\BaseController;
 use common\models\Comment;
@@ -41,10 +42,14 @@ class IndexController extends BaseController
             0,
             5
         );
-        array_walk($comments, function (&$val, $key){
+        //获取我的点赞列表
+        $open_id = $this->open_id;
+        $myLikeList = Like::find()->select(['cid'])->where(['open_id' => $open_id])->column();
+        array_walk($comments, function (&$val, $key) use ($myLikeList){
             $val['create_at'] = date('Y/m/d H:i:s', $val['create_at']);
             $val['avatar'] = getValue($val, ['user', 'avatar'], '/images/tx.png');
             $val['nick'] = getValue($val, ['user', 'nick'], '游客');
+            $val['isLiked'] = in_array($val['id'], $myLikeList);
         });
         $_data = [
             'comments' => $comments,
