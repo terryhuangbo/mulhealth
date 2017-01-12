@@ -111,7 +111,11 @@
             errorClass: "msg-error",
             submitHandler: function(form) {
                 $._ajax('/my/profile/perfect', $(form).serialize(), 'POST', 'JSON', function(json){
-                    if(json.code < 0) {
+                    if(json.code > 0) {
+                        showModal('修改成功！', 1500, function () {
+                            window.location.href = '/my/index/index';
+                        });
+                    }else{
                         $(".saveBtn")._error(json.msg);
                     }
                 });

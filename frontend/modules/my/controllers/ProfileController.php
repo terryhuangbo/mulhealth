@@ -40,11 +40,7 @@ class ProfileController extends BaseController
         }
         $user = Yii::$app->user->identity;
         $ret = $user->perfect($this->req());
-        if ($ret['code'] < 0)
-        {
-            return $this->toJson($ret);
-        }
-        return $this->refresh();
+        return $this->toJson($ret);
     }
 
 

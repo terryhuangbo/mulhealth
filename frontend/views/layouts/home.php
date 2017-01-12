@@ -17,5 +17,28 @@
 <body>
 <?php echo $content ?>
 </body>
+    <script>
+        var showModal = function (text, time, callback) {
+            var dom = $('.body-modal');
+            dom.find('p').text(text);
+            $('.body-modal').show();
+            if(typeof time == "number"){
+                setTimeout(function () {
+                    $(".modal").hide();
+                    if (typeof callback == "function") {
+                        callback();
+                    }
+                }, time);
+            }else if(typeof time == "function"){
+                $(".ok").off('click').on('click', function () {
+                    $(".modal").hide();
+                    time();
+                })
+            }
+        }
+        $(".ok, .closeModal").click(function () {
+            $(".modal").hide();
+        });
+    </script>
 </html>
 <?php $this->endPage() ?>
