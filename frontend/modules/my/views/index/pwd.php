@@ -22,13 +22,6 @@
             <button type="submit" class="commit">修改</button>
         </form>
     </div>
-    <div class="modal">
-        <div class="content">
-            <a class="closeModal"><img src="/images/close.png"/> </a>
-            <p>您的密码修改成功！</p>
-            <button class="ok">确定</button>
-        </div>
-    </div>
 </section>
 <script>
     $().ready(function(){
@@ -68,15 +61,13 @@
                     if(json.code < 0) {
                         $(".commit")._error(json.msg);
                     }else{
-                        $(".modal").show();
+                        showModal('密码修改成功！您需要重新登录！', 2000, function () {
+                            window.location.href = "<?php echo yiiUrl('user/index/login') ?>";
+                        });
                     }
                 });
             }
         });
     });
 
-    $(".ok, .closeModal").click(function () {
-        $(".modal").hide();
-        window.location.reload();
-    });
 </script>
