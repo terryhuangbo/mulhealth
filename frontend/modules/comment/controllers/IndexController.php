@@ -73,7 +73,7 @@ class IndexController extends BaseController
         $param = $this->req();
         $param['uid'] = !Yii::$app->user->isGuest ? Yii::$app->user->identity->uid : 0;
         $param['pid'] = intval($this->req('pid'));
-        $param['open_id'] = '1234';//TODO 获取open_id
+        $param['open_id'] = $this->open_id;
 
         //检查是否可以评论
         if (!$this->can($param)) {

@@ -21,7 +21,7 @@ $avatar = !Yii::$app->user->isGuest ? Yii::$app->user->identity->avatar : yiiPar
     </head>
 <body>
 <section class="top">
-    <p>多源健康</p>
+    <p><a href="<?php echo Yii::$app->homeUrl ?>">多源健康</a></p>
     <div class="circle">
         <a href="/my/index/index"><img src="<?php echo $avatar ?>"/></a>
     </div>

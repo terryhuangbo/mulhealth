@@ -51,12 +51,8 @@ class IndexController extends BaseController
         }
         //登录用户
         $user->login();
-        $redirectUrl = Yii::$app->session->get('_redirectUrl');
-        if (Yii::$app->request->absoluteUrl ==  $redirectUrl || empty($redirectUrl))
-        {
-            $redirectUrl = Yii::$app->homeUrl;
-        }
-        return $this->redirect($redirectUrl);
+        //登录后统一跳转首页
+        return $this->redirect(Yii::$app->homeUrl);
     }
 
     /**
