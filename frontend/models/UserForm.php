@@ -32,7 +32,6 @@ class UserForm extends User implements IdentityInterface
             'name',
             'id_card',
             'password',
-            'open_id',
         ];
         //修改密码
         $scenarios[self::SCENARIO_RESET] = [

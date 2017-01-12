@@ -164,10 +164,13 @@ class User extends BaseModel
         }
 
         if($insert){ //插入操作
+            $wx_user = Yii::$app->session->get('wxuser');
+            Yii::info($wx_user, __METHOD__);
             $this->authKey = $this->genAuthKey();
-            $this->nick = !empty($this->nick) ? $this->nick : $this->name;//默认昵称
             $this->age =  Tools::getAgeByID($this->id_card);//根据身份证计算年龄
-            $this->avatar =  '/images/tx.png';//默认头像
+            $this->open_id = $wx_user['open_id'];
+            $this->nick = !empty($this->nick) ? $this->nick : $wx_user['nickname'];//默认昵称
+            $this->avatar =  $wx_user['avatar'];//默认头像
         }
 
         return true;

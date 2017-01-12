@@ -5,6 +5,7 @@ namespace frontend\modules\user\controllers;
 use Yii;
 use frontend\models\UserForm;
 use app\base\BaseController;
+use yii\helpers\VarDumper;
 
 
 class IndexController extends BaseController
@@ -67,7 +68,6 @@ class IndexController extends BaseController
         }
         $user = new UserForm();
         $param = Yii::$app->request->post();
-        $param['open_id'] = $this->open_id;
         $ret = $user->register($param);
         if ($ret['code'] < 0)
         {
