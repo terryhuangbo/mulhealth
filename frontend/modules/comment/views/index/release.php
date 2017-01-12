@@ -43,9 +43,12 @@
             }
 
             $._ajax('/comment/index/release', param, 'POST', 'JSON', function(json){
-                if(json.code < 0) {
-                    alert(json.msg);
-                    return
+                if(json.code > 0) {
+                    showModal('评论成功', 2000, function () {
+                        window.location.href = '/comment/index/index';
+                    })
+                }else{
+                    showModal(json.msg, 2000);
                 }
             });
         });

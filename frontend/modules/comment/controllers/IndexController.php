@@ -36,7 +36,8 @@ class IndexController extends BaseController
         ];
         $comments = (new Comment())->getRelationAll(
             '*',
-            ['status' => Comment::STATUS_ON, 'pid' => 0],
+//            ['status' => Comment::STATUS_ON, 'pid' => 0],
+            ['status' => Comment::STATUS_ON],
             ['with' => $with],
             'id DESC',
             0,
@@ -86,10 +87,7 @@ class IndexController extends BaseController
             return $this->toJson(-43001, reset($mdl->getFirstErrors()));
         }
         $ret = $mdl->save(false);
-        if ($ret['code'] < 0) {
-            return $this->toJson($ret);
-        }
-        return $this->redirect('/comment/index/index');
+        return $this->toJson($ret);
     }
 
     /**
@@ -98,7 +96,7 @@ class IndexController extends BaseController
      */
     protected function can($param)
     {
-        if (!isset($param['open_id'], $param['pid'])) {
+        if (!isset($param['open_id']) || !isset($param['pid'])) {
             return false;
         }
 

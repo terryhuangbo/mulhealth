@@ -39,14 +39,14 @@
         $._ajax('<?php echo yiiUrl("comment/like/add") ?>', {cid: cid}, 'GET', 'JSON', function (json) {
             if (json.code == 20000) {
                 //点赞成功
-                alert(json.msg);
+                showModal(json.msg, 1500);
                 _this.find('img').attr('src', '/images/like.png');
             } else if (json.code == 20001) {
                 //取消点赞成功
-                alert(json.msg);
+                showModal(json.msg, 1500);
                 _this.find('img').attr('src', '/images/unlike.png');
             } else {
-                alert(json.msg);
+                showModal(json.msg, 1500);
             }
         });
     })
