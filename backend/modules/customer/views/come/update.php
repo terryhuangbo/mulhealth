@@ -47,7 +47,7 @@
         <div class="control-group">
             <label class="control-label">来访时间：</label>
             <div class="controls">
-                <input name="call_at" type="text" class="input-medium" data-rules="" value="<?php echo $customer['call_at'] ?>">
+                <input name="call_at" type="text" class="calendar calendar-time" data-rules="" value="<?php echo date('Y-m-d H:i:s', $customer['call_at']) ?>">
             </div>
         </div>
 
@@ -114,6 +114,14 @@
             //返回
             $("#cancel-case").on('click', function(){
                 window.location.href = '/customer/come/list';
+            });
+        });
+
+        BUI.use('bui/calendar', function (Calendar) {
+            var datepicker = new Calendar.DatePicker({
+                trigger: '.calendar-time',
+                showTime: true,
+                autoRender: true
             });
         });
     </script>

@@ -35,13 +35,13 @@ use common\models\CustomerCome;
 
                 <div class="row">
                     <div class="control-group span12">
-                        <label class="control-label">客户来访名称：</label>
+                        <label class="control-label">客户名称：</label>
                         <div class="controls" data-type="city">
                             <input type="text" class="control-text" name="name" id="name">
                         </div>
                     </div>
                     <div class="control-group span10">
-                        <label class="control-label">客户来访状态：</label>
+                        <label class="control-label">来访状态：</label>
                         <div class="controls" >
                             <select name="status" id="status">
                                 <option value="">请选择</option>
@@ -133,12 +133,13 @@ use common\models\CustomerCome;
                 selectedEvent: 'click',
                 columns: [
                     {title: '序号', dataIndex: 'id', width: 80, elCls : 'center'},
-                    {title: '姓名', dataIndex: 'title', width: 90, elCls : 'center'},
+                    {title: '姓名', dataIndex: 'name', width: 90, elCls : 'center'},
                     {title: '联系方式', dataIndex: 'mobile', width: 120, elCls : 'center'},
                     {title: '客户来源', dataIndex: 'source', width: 120, elCls : 'center'},
                     {title: '来访时间', dataIndex: 'call_time', width: 150, elCls : 'center'},
                     {title: '来访目的', dataIndex: 'purpose', width: 100, elCls : 'center'},
                     {title: '客户评级', dataIndex: 'mark', width: 100, elCls : 'center'},
+                    {title: '状态', dataIndex: 'status_name', width: 80, elCls : 'center'},
                     {title: '创建时间', dataIndex: 'create_time', width: 150, elCls : 'center'},
                     {title: '更新时间', dataIndex: 'update_time', width: 150, elCls : 'center'},
                     {

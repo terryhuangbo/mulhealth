@@ -125,7 +125,7 @@ class ComeController extends BaseController
         }
         $mdl = new CustomerCome();
         $param = $this->req();
-        $param['call_at'] = (int) $param['call_at'];
+        $param['call_at'] = strtotime($param['call_at']);
         $mdl->load($param, '');
         if (!$mdl->validate()) {
             return $this->toJson(-40301, reset($mdl->getFirstErrors()));
@@ -155,7 +155,7 @@ class ComeController extends BaseController
             return $this->render('update', $_data);
         }
         //保存
-        $custom_info['call_at'] = (int) $custom_info['call_at'];
+        $param['call_at'] = strtotime($param['call_at']);
         $customer->load($custom_info, '');
         if (!$customer->validate()) {
             return $this->toJson(-40301, reset($customer->getFirstErrors()));

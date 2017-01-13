@@ -38,13 +38,13 @@
             <div class="control-group " >
                 <label class="control-label">客户来源：</label>
                 <div class="controls">
-                    <span  class="control-text" ><?php echo $customer['source'] ?></span>
+                    <span  class="control-text"  ><?php echo $customer['source'] ?></span>
                 </div>
             </div>
             <div class="control-group ">
                 <label class="control-label">来访时间：</label>
                 <div class="controls">
-                    <span  class="control-text" ><?php echo $customer['call_at'] ?></span>
+                    <span  class="control-text" ><?php echo date('Y-m-d H:i:s', $customer['call_at']) ?></span>
                 </div>
             </div>
             <div class="control-group ">
