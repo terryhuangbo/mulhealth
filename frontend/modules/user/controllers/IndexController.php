@@ -69,11 +69,7 @@ class IndexController extends BaseController
         $user = new UserForm();
         $param = Yii::$app->request->post();
         $ret = $user->register($param);
-        if ($ret['code'] < 0)
-        {
-            return $this->toJson($ret);
-        }
-        return $this->redirect('/my/profile/perfect');
+        return $this->toJson($ret);
     }
 
     /**

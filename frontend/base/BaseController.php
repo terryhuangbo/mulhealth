@@ -60,6 +60,16 @@ class BaseController extends Controller
     {
         parent::init();
         $session = Yii::$app->session;
+
+        //<editor-fold desc="测试">
+//        $session->set('openid', 'open_id123344');
+//        $session->set('wxuser', [
+//            'open_id' => 'open_id123344',
+//            'nickname' => 'nick',
+//            'avatar' => '',
+//        ]);
+        //</editor-fold>
+
         $this->open_id = $session->get('openid');
         $this->wxuser = $session->get('wxuser');
         if(!$this->open_id){

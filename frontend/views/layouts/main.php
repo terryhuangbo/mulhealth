@@ -62,7 +62,7 @@ $avatar = !Yii::$app->user->isGuest ? Yii::$app->user->identity->avatar : yiiPar
 <div class="modal body-modal">
     <div class="content">
         <a class="closeModal"><img src="/images/close.png"/> </a>
-        <p>您的密码修改成功！</p>
+        <p>提示内容</p>
         <button class="ok">确定</button>
     </div>
 </div>

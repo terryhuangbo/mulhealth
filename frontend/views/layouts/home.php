@@ -15,7 +15,17 @@
         <script src="/js/tools.js"></script>
     </head>
 <body>
+
 <?php echo $content ?>
+
+<div class="modal body-modal">
+    <div class="content">
+        <a class="closeModal"><img src="/images/close.png"/> </a>
+        <p>提示内容</p>
+        <button class="ok">确定</button>
+    </div>
+</div>
+</body>
 </body>
     <script>
         var showModal = function (text, time, callback) {

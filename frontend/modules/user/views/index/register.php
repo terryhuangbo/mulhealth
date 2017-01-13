@@ -50,7 +50,11 @@
             submitHandler: function(form) {
                 $._ajax('/user/index/register', $(form).serialize(), 'POST', 'JSON', function(json){
                     if(json.code < 0) {
-                        $(".submit")._error(json.msg);
+                        showModal(json.msg, 2000);
+                    }else{
+                        showModal('恭喜您，注册成功。请继续完善您的信息！', 2000, function () {
+                            window.location.href = "<?php echo yiiUrl('/my/profile/perfect') ?>";
+                        });
                     }
                 });
             }

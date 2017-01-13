@@ -5,80 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
     <title>微信接口测试</title>
     <script>
-        function sendMessage(){
+
+
+        var imgUrl = "";
+        var lineLink = "http://www.3lian.net";
+        var descContent = '爱在五月，\n\n妈咪爱1+1亲子健康之旅开启全国行首站----重庆站妈咪爱活性益生菌';
+        var shareTitle = '标题';
+        var appid = '';
+
+        function shareFriend() {
+            WeixinJSBridge.invoke('sendAppMessage',{
+                "appid": appid,
+                "img_url": imgUrl,
+                "img_width": "200",
+                "img_height": "200",
+                "link": lineLink,
+                "desc": descContent,
+                "title": shareTitle
+            }, function(res) {
+                alert('发送给朋友');
+                //_report('send_msg', res.err_msg);
+            })
+        }
+        function shareTimeline() {
+            WeixinJSBridge.invoke('shareTimeline',{
+                "img_url": imgUrl,
+                "img_width": "200",
+                "img_height": "200",
+                "link": lineLink,
+                "desc": descContent,
+                "title": shareTitle
+            }, function(res) {
+                //_report('timeline', res.err_msg);
+            });
+        }
+        function shareWeibo() {
+            WeixinJSBridge.invoke('shareWeibo',{
+                "content": descContent,
+                "url": lineLink,
+            }, function(res) {
+                //_report('weibo', res.err_msg);
+            });
+        }
+        // 当微信内置浏览器完成内部初始化后会触发WeixinJSBridgeReady事件。
+        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+            // 发送给好友
             WeixinJSBridge.on('menu:share:appmessage', function(argv){
-                WeixinJSBridge.invoke('sendAppMessage',{
-
-                    "appid":"", //appid 设置空就好了。
-                    "img_url":"", //分享时所带的图片路径
-                    "img_width":"120", //图片宽度
-                    "img_height":"120", //图片高度
-                    "link":"http://www.3lian.net", //分享附带链接地址
-                    "desc":"极客标签--http://www.jb51.net", //分享内容介绍
-                    "title":"发现 极客标签 - 做最棒的极客知识分享平台"
-                }, function(res){/*** 回调函数，最好设置为空 ***/
-
-                });
+                shareFriend();
             });
-
+            // 分享到朋友圈
             WeixinJSBridge.on('menu:share:timeline', function(argv){
-
-                WeixinJSBridge.invoke('shareTimeline',{
-
-                    "appid":"", //appid 设置空就好了。
-                    "img_url":"", //分享时所带的图片路径
-                    "img_width":"120", //图片宽度
-                    "img_height":"120", //图片高度
-                    "link":"http://www.3lian.net", //分享附带链接地址
-                    "desc":"极客标签--http://www.jb51.net", //分享内容介绍
-                    "title":"发现 极客标签 - 做最棒的极客知识分享平台"
-                }, function(res){/*** 回调函数，最好设置为空 ***/
-                });
-
+                shareTimeline();
             });
+            // 分享到微博
+            WeixinJSBridge.on('menu:share:weibo', function(argv){
+                shareWeibo();
+            });
+        }, false);
 
-            alert("调用成功！现在可以通过右上角按钮分享给朋友或者朋友圈！");
-
-        }
-
-        function hideMenu(){
-            WeixinJSBridge.call('hideOptionMenu');
-        }
-
-        function showMenu(){
-            WeixinJSBridge.call('showOptionMenu');
-        }
-
-        function hideTool(){
-            WeixinJSBridge.call('hideToolbar');
-        }
-
-        function showTool(){
-            WeixinJSBridge.call('showToolbar');
-        }
-        if(document.addEventListener){
-            document.addEventListener('WeixinJSBridgeReady', sendMessage, false);
-        }else if(document.attachEvent){
-            document.attachEvent('WeixinJSBridgeReady' , sendMessage);
-            document.attachEvent('onWeixinJSBridgeReady' , sendMessage);
-        }
-
-        //判断网页是否在微信中被调用
-        var ua = navigator.userAgent.toLowerCase();
-        if(ua.match(/MicroMessenger/i)=="micromessenger") {
-        } else {
-            alert("调用失败，请用微信扫一扫，扫描下面二维码打开网页！");
-        }
     </script>
 </head>
 <body>
 <center>
     <h2>分享请点击右上角</h2>
-    <button onclick="hideMenu()" style="width:100px;height:100px;font-size:16px;">隐藏右上角三个点</button> <br /><br />
-    <button onclick="showMenu()" style="width:100px;height:100px;font-size:16px;">显示右上角三个点</button> <br /><br />
-    <button onclick="hideTool()" style="width:100px;height:100px;font-size:16px;">隐藏下面导条</button> <br /><br />
-    <button onclick="showTool()" style="width:100px;height:100px;font-size:16px;">显示下面导条</button> <br /><br />
-    <button onclick="sendMessage()" style="width:100px;height:100px;font-size:16px;">发送给朋友</button> <br /><br />
+    <button onclick="shareFriend()" style="width:100px;height:100px;font-size:16px;">发送给朋友</button> <br /><br />
+    <button onclick="shareTimeline()" style="width:100px;height:100px;font-size:16px;">分享到朋友圈</button> <br /><br />
 </center>
 </body>
 </html>

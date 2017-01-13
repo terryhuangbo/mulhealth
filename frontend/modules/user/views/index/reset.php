@@ -50,7 +50,7 @@
             submitHandler: function(form) {
                 $._ajax('/user/index/reset', $(form).serialize(), 'POST', 'JSON', function(json){
                     if(json.code < 0) {
-                        $(".submit")._error(json.msg);
+                        showModal(json.msg, 2000);
                     }
                 });
             }
