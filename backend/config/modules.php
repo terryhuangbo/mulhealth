@@ -41,5 +41,9 @@ return [
     'wechat' => [
         'class' => 'backend\modules\wechat\Module',
     ],
+    //客服消息
+    'customer' => [
+        'class' => 'backend\modules\customer\Module',
+    ],
 
 ];

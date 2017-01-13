@@ -89,6 +89,19 @@ $menu = [
             ['消息列表' => 'wechat/msg/list'],
         ],
     ],
+    //客户访问
+    [
+        'top' => ['客户访问' => 'home'],
+        '客户拜访' => [
+            ['客户拜访列表' => 'customer/go/list'],
+            ['添加' => 'customer/go/add'],
+        ],
+        '客户来访' => [
+            ['客户拜访列表' => 'customer/come/list'],
+            ['添加' => 'customer/come/add'],
+        ],
+    ],
+
 
 
 
