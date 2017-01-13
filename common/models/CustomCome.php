@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use common\lib\Filter;
+use common\lib\RegexValidator;
 use Yii;
 
 /**
@@ -49,6 +51,12 @@ class CustomCome extends \common\base\BaseModel
             [['purpose', 'result', 'mark', 'note'], 'string', 'max' => 250],
             //必填字段
             [['name', 'mobile'], 'required'],
+            //name姓名过滤
+            ['name', 'filter', 'filter' => function($val){
+                return Filter::filters_title($val);//姓名过滤
+            }],
+            //mobile
+            ['mobile', RegexValidator::className(), 'method' => 'mobile', 'message' => '手机格式不正确']
         ];
     }
 

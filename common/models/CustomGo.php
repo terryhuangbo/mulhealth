@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use common\lib\Filter;
+use common\lib\RegexValidator;
 use Yii;
 
 /**
@@ -26,7 +28,7 @@ class CustomGo extends \common\base\BaseModel
      */
     const STATUS_ON  = 1;//启用
     const STATUS_OFF = 2;//禁用
-    
+
     /**
      * @inheritdoc
      */
@@ -47,6 +49,12 @@ class CustomGo extends \common\base\BaseModel
             [['purpose', 'result', 'next_plan', 'note'], 'string', 'max' => 250],
             //必填字段
             [['name', 'mobile'], 'required'],
+            //name姓名过滤
+            ['name', 'filter', 'filter' => function($val){
+                return Filter::filters_title($val);//姓名过滤
+            }],
+            //mobile
+            ['mobile', RegexValidator::className(), 'method' => 'mobile', 'message' => '手机格式不正确']
         ];
     }
 
