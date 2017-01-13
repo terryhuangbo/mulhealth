@@ -141,7 +141,6 @@ class GoController extends BaseController
         $custom_info = $this->req();
 
         $customer = CustomerGo::findOne($id);
-        lg($id);
         //检验参数是否合法
         if (empty($customer)) {
             return $this->toJson(-20001, '客户拜访信息不存在');
@@ -155,7 +154,6 @@ class GoController extends BaseController
         }
         //保存
         $custom_info['call_at'] = strtotime($custom_info['call_at']);
-        lg($custom_info);
         $customer->load($custom_info, '');
         if (!$customer->validate()) {
             return $this->toJson(-40301, reset($customer->getFirstErrors()));

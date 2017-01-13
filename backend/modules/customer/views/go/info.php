@@ -35,12 +35,6 @@
                     <span  class="control-text" ><?php echo $customer['name'] ?></span>
                 </div>
             </div>
-            <div class="control-group " >
-                <label class="control-label">客户来源：</label>
-                <div class="controls">
-                    <span  class="control-text"  ><?php echo $customer['source'] ?></span>
-                </div>
-            </div>
             <div class="control-group ">
                 <label class="control-label">拜访时间：</label>
                 <div class="controls">
@@ -54,9 +48,9 @@
                 </div>
             </div>
             <div class="control-group ">
-                <label class="control-label">客户评级：</label>
+                <label class="control-label">下次拜访目标：</label>
                 <div class="controls">
-                    <span  class="control-text" ><?php echo $customer['mark'] ?></span>
+                    <span  class="control-text" ><?php echo $customer['next_plan'] ?></span>
                 </div>
             </div>
             <div class="control-group ">
