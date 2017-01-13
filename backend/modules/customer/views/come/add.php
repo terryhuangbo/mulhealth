@@ -22,7 +22,7 @@
 <body>
 <div class="demo-content">
     <form id="Customer_Form" action="" class="form-horizontal" onsubmit="return false;" >
-        <h2>添加项目</h2>
+        <h2>添加来访</h2>
         <div class="control-group">
             <label class="control-label">客户姓名：</label>
             <div class="controls">

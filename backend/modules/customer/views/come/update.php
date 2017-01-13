@@ -79,6 +79,7 @@
             </div>
         </div>
 
+        <input type="hidden" name="id" value="<?php echo $customer['id'] ?>">
         <div class="row actions-bar">
             <div class="form-actions span13 offset3">
                 <button type="submit" class="button button-primary" id="save-case">保存</button>
@@ -98,7 +99,7 @@
             $("#save-case").on('click', function(){
                 if(form.isValid()){
                     var param = $("#Customer_Form").serialize();
-                    $._ajax('/customer/come/add', param, 'POST', 'JSON', function(json){
+                    $._ajax('/customer/come/update', param, 'POST', 'JSON', function(json){
                         if(json.code > 0){
                             BUI.Message.Alert(json.msg, function(){
                                 window.location.href = '/customer/come/list';

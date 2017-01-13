@@ -155,7 +155,7 @@ class ComeController extends BaseController
             return $this->render('update', $_data);
         }
         //保存
-        $param['call_at'] = strtotime($param['call_at']);
+        $custom_info['call_at'] = strtotime($custom_info['call_at']);
         $customer->load($custom_info, '');
         if (!$customer->validate()) {
             return $this->toJson(-40301, reset($customer->getFirstErrors()));
