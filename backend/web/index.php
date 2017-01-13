@@ -24,6 +24,6 @@ $config = yii\helpers\ArrayHelper::merge(
 //引入公用函数
 require_once(__DIR__.'/../../common/functions/tools.php');
 
-error_reporting(E_NOTICE);
+error_reporting(E_ERROR);
 $application = new yii\web\Application($config);
 $application->run();
