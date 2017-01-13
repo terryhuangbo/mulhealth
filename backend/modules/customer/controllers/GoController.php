@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\product\controllers;
+namespace backend\modules\customer\controllers;
 
 use common\models\Tag;
 use Yii;

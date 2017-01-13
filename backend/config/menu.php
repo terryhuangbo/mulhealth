@@ -93,11 +93,11 @@ $menu = [
     [
         'top' => ['客户访问' => 'home'],
         '客户拜访' => [
-            ['客户拜访列表' => 'customer/go/list'],
+            ['拜访列表' => 'customer/go/list'],
             ['添加' => 'customer/go/add'],
         ],
         '客户来访' => [
-            ['客户拜访列表' => 'customer/come/list'],
+            ['来访列表' => 'customer/come/list'],
             ['添加' => 'customer/come/add'],
         ],
     ],

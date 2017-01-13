@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\product\controllers;
+namespace backend\modules\customer\controllers;
 
 use common\models\Tag;
 use Yii;
@@ -13,7 +13,7 @@ use common\models\Project;
  * @author Bo Huang <Terry1987101@163.com>
  * @since 2016-10-13
  **/
-class GoController extends BaseController
+class ComeController extends BaseController
 {
 
     /**
