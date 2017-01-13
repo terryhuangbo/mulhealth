@@ -49,12 +49,14 @@ class CustomGo extends \common\base\BaseModel
             [['purpose', 'result', 'next_plan', 'note'], 'string', 'max' => 250],
             //必填字段
             [['name', 'mobile'], 'required'],
-            //name姓名过滤
-            ['name', 'filter', 'filter' => function($val){
-                return Filter::filters_title($val);//姓名过滤
-            }],
+            //姓名过滤
+            ['name', 'filter', 'filter' => [Filter::className(), 'filters_title']],
             //mobile
-            ['mobile', RegexValidator::className(), 'method' => 'mobile', 'message' => '手机格式不正确']
+            ['mobile', RegexValidator::className(), 'method' => 'mobile', 'message' => '手机格式不正确'],
+            //状态
+            [['status'], 'in', 'range' => array_keys(static::getStatuses()), 'message' => '状态不正确'],
+            //输入过滤
+            [['purpose', 'result', 'next_plan', 'note'], 'filter', 'filter' => [Filter::className(), 'filters_outcontent']],
         ];
     }
 
@@ -76,5 +78,18 @@ class CustomGo extends \common\base\BaseModel
             'create_at' => '创建时间',
             'update_at' => '修改时间',
         ];
+    }
+
+    /**
+     * 状态
+     * @param $status int
+     * @return array|boolean
+     */
+    public static function getStatuses($status = null){
+        $statusArr = [
+            self::STATUS_ON   => '启用',
+            self::STATUS_OFF  => '禁用',
+        ];
+        return is_null($status) ? $statusArr : (isset($statusArr[$status]) ? $statusArr[$status] : '');
     }
 }
