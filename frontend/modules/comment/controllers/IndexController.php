@@ -125,5 +125,15 @@ class IndexController extends BaseController
         return false;
     }
 
+    /**
+     * 手动分享
+     */
+    public function actionBridge()
+    {
+        $this->layout = false;
+        return $this->render('bridge');
+
+    }
+
 
 }
