@@ -2,11 +2,10 @@
 
 namespace backend\modules\customer\controllers;
 
-use common\models\Tag;
 use Yii;
 use yii\helpers\ArrayHelper;
 use app\base\BaseController;
-use common\models\Project;
+use common\models\CustomerCome;
 
 /**
  * 客户拜访相关操作
@@ -51,13 +50,12 @@ class ComeController extends BaseController
         if ($this->isGet()) {
             return $this->render('list');
         }
-        $mdl = new Project();
+        $mdl = new CustomerCome();
         $query = $mdl::find();
         $search = $this->req('search');
         $page = $this->req('page', 0);
         $pageSize = $this->req('pageSize', 10);
         $offset = $page * $pageSize;
-        $query->where(['status' => [Project::STATUS_ON, Project::STATUS_OFF]]);
         if ($search) {
             if (isset($search['uptimeStart'])) //时间范围
             {
@@ -78,23 +76,28 @@ class ComeController extends BaseController
         //只能是上架，或者下架的产品
         $_order_by = 'id DESC';
         $count = $query->count();
-        $projectArr = $query
+        $customArr = $query
             ->offset($offset)
             ->limit($pageSize)
             ->orderby($_order_by)
             ->all();
-        $projectList = ArrayHelper::toArray($projectArr, [
-            'common\models\Project' => [
+        $customList = ArrayHelper::toArray($customArr, [
+            'common\models\CustomerCome' => [
                 'id',
-                'title',
-                'pic',
-                'tags',
+                'name',
+                'mobile',
+                'source',
                 'status',
-                'pic' => function($m){
-                    return reset(json_decode($m->pic, true));
-                },
+                'purpose',
+                'result',
+                'mark',
+                'note',
+                'note',
                 'status_name' => function ($m) {
-                    return Project::getStatuses($m->status);
+                    return CustomerCome::getStatuses($m->status);
+                },
+                'call_time' => function ($m) {
+                    return date('Y-m-d h:i:s', $m->call_at);
                 },
                 'create_time' => function ($m) {
                     return date('Y-m-d h:i:s', $m->create_at);
@@ -105,7 +108,7 @@ class ComeController extends BaseController
             ],
         ]);
         $_data = [
-            'projectList' => $projectList,
+            'customerList' => $customList,
             'totalCount' => $count,
         ];
         return json_encode($_data);
@@ -118,11 +121,12 @@ class ComeController extends BaseController
     function actionAdd()
     {
         if(!$this->isAjax()){
-            $tags = Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT], 'json_encode');
-            return $this->render('add', ['tags' => $tags]);
+            return $this->render('add');
         }
-        $mdl = new Project();
-        $mdl->load($this->req(), '');
+        $mdl = new CustomerCome();
+        $param = $this->req();
+        $param['call_at'] = (int) $param['call_at'];
+        $mdl->load($param, '');
         if (!$mdl->validate()) {
             return $this->toJson(-40301, reset($mdl->getFirstErrors()));
         }
@@ -136,27 +140,27 @@ class ComeController extends BaseController
     function actionUpdate()
     {
         $id = intval($this->req('id'));
-        $project_info = $this->req();
+        $custom_info = $this->req();
 
-        $project = Project::findOne($id);
+        $customer = CustomerCome::findOne($id);
         //检验参数是否合法
-        if (empty($project)) {
+        if (empty($customer)) {
             return $this->toJson(-20001, '客户拜访信息不存在');
         }
         //加载
         if(!$this->isAjax()){
             $_data = [
-                'project' => $project,
-                'tags' => Tag::getTags([Tag::TYPE_ALL, Tag::TYPE_PROJECT], 'json_encode'),
+                'customer' => $customer,
             ];
             return $this->render('update', $_data);
         }
         //保存
-        $project->load($project_info, '');
-        if (!$project->validate()) {
-            return $this->toJson(-40301, reset($project->getFirstErrors()));
+        $custom_info['call_at'] = (int) $custom_info['call_at'];
+        $customer->load($custom_info, '');
+        if (!$customer->validate()) {
+            return $this->toJson(-40301, reset($customer->getFirstErrors()));
         }
-        return $this->toJson($project->save());
+        return $this->toJson($customer->save());
     }
 
     /**
@@ -166,16 +170,18 @@ class ComeController extends BaseController
     {
         $id = intval($this->req('id'));
 
-        $project = Project::findOne($id);
+        $customer = CustomerCome::findOne($id);
         //检验参数是否合法
-        if (!$project) {
+        if (!$customer) {
             $this->toJson(-20003, '用户信息不存在');
         }
-        $project['update_at'] = date('Y-m-d h:i:s', $project['update_at']);
-        $project['create_at'] = date('Y-m-d h:i:s', $project['create_at']);
+        $customer['update_at'] = date('Y-m-d h:i:s', $customer['update_at']);
+        $customer['create_at'] = date('Y-m-d h:i:s', $customer['create_at']);
+        $customer['call_at'] = date('Y-m-d h:i:s', $customer['call_at']);
         $_data = [
-            'project' => $project
+            'customer' => $customer
         ];
+
         return $this->render('info', $_data);
     }
 
@@ -186,13 +192,13 @@ class ComeController extends BaseController
     function actionAjaxChangeStatus()
     {
         $id = intval($this->req('id', 0));
-        $project_status = intval($this->req('project_status', 0));
-        $mdl = Project::findOne($id);
+        $status = intval($this->req('status', 0));
+        $mdl = CustomerCome::findOne($id);
         if (!$mdl)
         {
             return $this->toJson(-40301, '项目不存在');
         }
-        $mdl->status = $project_status;
+        $mdl->status = $status;
         if (!$mdl->validate())
         {
             return $this->toJson(-40301, reset($mdl->getFirstErrors()));

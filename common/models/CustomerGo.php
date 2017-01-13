@@ -21,7 +21,7 @@ use Yii;
  * @property integer $create_at
  * @property integer $update_at
  */
-class CustomGo extends \common\base\BaseModel
+class CustomerGo extends \common\base\BaseModel
 {
     /**
      * 状态
@@ -34,7 +34,7 @@ class CustomGo extends \common\base\BaseModel
      */
     public static function tableName()
     {
-        return '{{%custom_go}}';
+        return '{{%customer_go}}';
     }
 
     /**

@@ -22,7 +22,7 @@ use Yii;
  * @property integer $create_at
  * @property integer $update_at
  */
-class CustomCome extends \common\base\BaseModel
+class CustomerCome extends \common\base\BaseModel
 {
     /**
      * 状态
@@ -35,7 +35,7 @@ class CustomCome extends \common\base\BaseModel
      */
     public static function tableName()
     {
-        return '{{%custom_come}}';
+        return '{{%customer_come}}';
     }
 
     /**

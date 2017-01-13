@@ -1,12 +1,12 @@
 <?php
 use yii\helpers\Html;
-use common\models\Cases;
+use common\models\CustomerCome;
 ?>
 <!doctype html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>产品项目列表</title>
+    <title>客户来访列表</title>
     <link href="/css/dpl.css" rel="stylesheet">
     <link href="/css/bui.css" rel="stylesheet">
     <link href="/css/page-min.css" rel="stylesheet">
@@ -23,7 +23,7 @@ use common\models\Cases;
         }
     </style>
     <script>
-        _BASE_LIST_URL =  "<?php echo yiiUrl('product/project/list') ?>";
+        _BASE_LIST_URL =  "<?php echo yiiUrl('customer/come/list') ?>";
     </script>
 </head>
 
@@ -35,17 +35,17 @@ use common\models\Cases;
 
                 <div class="row">
                     <div class="control-group span12">
-                        <label class="control-label">项目名称：</label>
+                        <label class="control-label">客户来访名称：</label>
                         <div class="controls" data-type="city">
                             <input type="text" class="control-text" name="name" id="name">
                         </div>
                     </div>
                     <div class="control-group span10">
-                        <label class="control-label">项目状态：</label>
+                        <label class="control-label">客户来访状态：</label>
                         <div class="controls" >
                             <select name="status" id="status">
                                 <option value="">请选择</option>
-                                <?php foreach (Cases::getStatuses() as $key => $name): ?>
+                                <?php foreach (CustomerCome::getStatuses() as $key => $name): ?>
                                     <option value="<?= $key ?>"><?= $name ?></option>
                                 <?php endforeach ?>
                             </select>
@@ -61,7 +61,7 @@ use common\models\Cases;
                     </div>
                     <div class="row">
                         <div class="control-group span10">
-                            <button type="button" id="btnSearch" class="button button-primary"  onclick="searchCases()">查询</button>
+                            <button type="button" id="btnSearch" class="button button-primary"  onclick="searchCustomers()">查询</button>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@ use common\models\Cases;
         </div>
         <div class="bui-grid-tbar">
         </div>
-        <div id="project_grid">
+        <div id="come_grid">
         </div>
     </div>
 </div>
@@ -123,27 +123,22 @@ use common\models\Cases;
                 autoLoad: true, //自动加载数据
                 params: {
                 },
-                root: 'projectList',//数据返回字段,支持深成次属性root : 'data.records',
+                root: 'customerList',//数据返回字段,支持深成次属性root : 'data.records',
                 totalProperty: 'totalCount',//总计字段
                 pageSize: 10// 配置分页数目,
             });
             var grid = new Grid.Grid({
-                render: '#project_grid',
+                render: '#come_grid',
                 idField: 'id', //自定义选项 id 字段
                 selectedEvent: 'click',
                 columns: [
                     {title: '序号', dataIndex: 'id', width: 80, elCls : 'center'},
-                    {title: '项目名称', dataIndex: 'title', width: 90, elCls : 'center'},
-                    {
-                        title: '图片',
-                        width: 140,
-                        elCls : 'center',
-                        renderer: function (v, obj) {
-                            return "<img class='user_avatar' src='"+ obj.pic +"'>";
-                        }
-                    },
-                    {title: '项目标签', dataIndex: 'tags', width: 80, elCls : 'center'},
-                    {title: '项目状态', dataIndex: 'status_name', width: 80, elCls : 'center'},
+                    {title: '姓名', dataIndex: 'title', width: 90, elCls : 'center'},
+                    {title: '联系方式', dataIndex: 'mobile', width: 120, elCls : 'center'},
+                    {title: '客户来源', dataIndex: 'source', width: 120, elCls : 'center'},
+                    {title: '来访时间', dataIndex: 'call_time', width: 150, elCls : 'center'},
+                    {title: '来访目的', dataIndex: 'purpose', width: 100, elCls : 'center'},
+                    {title: '客户评级', dataIndex: 'mark', width: 100, elCls : 'center'},
                     {title: '创建时间', dataIndex: 'create_time', width: 150, elCls : 'center'},
                     {title: '更新时间', dataIndex: 'update_time', width: 150, elCls : 'center'},
                     {
@@ -152,11 +147,11 @@ use common\models\Cases;
                         renderer: function (v, obj) {
                             if(obj.status == 1){
                                 return "<a class='button button-info' onclick='showInfo(" + obj.id + ")'>查看</a>" +
-                                    "<a class='button button-success page-action' title='编辑产品项目' href='/product/project/update/?id="+ obj.id +"' data-href='/product/project/update/?id="+ obj.id +"' >编辑</a>" +
+                                    "<a class='button button-success page-action' title='编辑来访信息' href='/customer/come/update/?id="+ obj.id +"' data-href='/customer/come/update/?id="+ obj.id +"' >编辑</a>" +
                                     " <a class='button button-danger' onclick='offShelf(" + obj.id + ")'>禁用</a>";
                             }else if(obj.status == 2){
                                 return "<a class='button button-info' onclick='showInfo(" + obj.id + ")'>查看</a>" +
-                                    "<a class='button button-success page-action' title='编辑产品项目信息' data-href='/product/project/update/?id="+ obj.id +"' >编辑</a>" +
+                                    "<a class='button button-success page-action' title='编辑来访信息' data-href='/customer/come/update/?id="+ obj.id +"' >编辑</a>" +
                                     " <a class='button button-primary' onclick='upShelf(" + obj.id + ")'>启用</a>";
                             }
                         }
@@ -172,7 +167,7 @@ use common\models\Cases;
                 plugins: Grid.Plugins.CheckSelection,// 插件形式引入多选表格
             });
             grid.render();
-            $("#project_grid").data("BGrid", grid);
+            $("#come_grid").data("BGrid", grid);
 
         });
 
@@ -181,9 +176,9 @@ use common\models\Cases;
 
 <script>
     /**
-     * 搜索产品项目,刷新列表
+     * 搜索客户来访,刷新列表
      */
-    function searchCases() {
+    function searchCustomers() {
         var search = {};
         var fields = $("#authsearch").serializeArray();//获取表单信息
         jQuery.each(fields, function (i, field) {
@@ -191,7 +186,7 @@ use common\models\Cases;
                 search[field.name] = field.value;
             }
         });
-        var store = $("#project_grid").data("BGrid").get('store');
+        var store = $("#come_grid").data("BGrid").get('store');
         var lastParams = store.get("lastParams");
         lastParams.search = search;
         store.load(lastParams);//刷新
@@ -199,7 +194,7 @@ use common\models\Cases;
     /**
      * 获取过滤项
      */
-    function getCasesGridSearchConditions() {
+    function getCustomersGridSearchConditions() {
         var search = {};
         var upusername = $("#upusername").val();
         if (upusername != "") {
@@ -213,29 +208,29 @@ use common\models\Cases;
     }
 
     /**
-     * 显示产品项目详情
+     * 显示客户来访详情
      */
     function showInfo(id) {
         var width = 500;
-        var height = 450;
+        var height = 600;
         var Overlay = BUI.Overlay;
         var buttons = [
             {
                 text:'确认',
                 elCls : 'button button-primary',
                 handler : function(){
-                    window.location.href = '/product/project/list';
+                    window.location.href = '/customer/come/list';
                     this.close();
                 }
             },
         ];
         dialog = new Overlay.Dialog({
-            title: '产品项目信息',
+            title: '客户来访信息',
             width: width,
             height: height,
             closeAction: 'destroy',
             loader: {
-                url: "/product/project/info",
+                url: "/customer/come/info",
                 autoLoad: true, //不自动加载
                 params: {id: id},//附加的参数
                 lazyLoad: false //不延迟加载
@@ -255,7 +250,7 @@ use common\models\Cases;
         ajax_change_status(id, 1, function(json){
             if(json.code > 0){
                 BUI.Message.Alert(json.msg, function(){
-                    window.location.href = '/product/project/list';
+                    searchCustomers();
                 }, 'success');
             }else{
                 BUI.Message.Alert(json.msg, 'error');
@@ -270,7 +265,7 @@ use common\models\Cases;
         ajax_change_status(id, 2, function(json){
             if(json.code > 0){
                 BUI.Message.Alert(json.msg, function(){
-                    window.location.href = '/product/project/list';
+                    searchCustomers();
                 }, 'success');
             }else{
                 BUI.Message.Alert(json.msg, 'error');
@@ -286,7 +281,7 @@ use common\models\Cases;
             ajax_change_status(id, 3, function(json){
                 if(json.code > 0){
                     BUI.Message.Alert(json.msg, function(){
-                        window.location.href = '/product/project/list';
+                        searchCustomers();
                     }, 'success');
                 }else{
                     BUI.Message.Alert(json.msg, 'error');
@@ -296,13 +291,13 @@ use common\models\Cases;
     }
 
     /**
-     *改变产品项目状态
+     *改变客户来访状态
      */
     function ajax_change_status(id, status, callback){
         var param = param || {};
         param.id = id;
-        param.project_status = status;
-        $._ajax('<?php echo yiiUrl('product/project/ajax-change-status') ?>', param, 'POST','JSON', function(json){
+        param.status = status;
+        $._ajax('<?php echo yiiUrl('customer/come/ajax-change-status') ?>', param, 'POST','JSON', function(json){
             if(typeof callback == 'function'){
                 callback(json);
             }
