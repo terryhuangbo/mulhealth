@@ -10,8 +10,12 @@ use common\base\BaseModel;
  *
  * @property string $id
  * @property string $uid
+ * @property string $location
+ * @property string $self_history
+ * @property string $family_history
  * @property string $pic
  * @property string $time
+ * @property string $age
  * @property string $weight
  * @property string $height
  * @property string $systolic
@@ -39,9 +43,10 @@ class Report extends BaseModel
     public function rules()
     {
         return [
-            [['uid', 'time', 'heartrate', 'create_at', 'update_at'], 'integer'],
+            [['uid', 'time', 'age', 'heartrate', 'create_at', 'update_at'], 'integer'],
             [['weight', 'height', 'systolic', 'diastolic', 'bmi', 'vision'], 'number'],
-            [['pic'], 'string', 'max' => 250],
+            [['pic', 'self_history', 'family_history'], 'string', 'max' => 250],
+            [['location'], 'string', 'max' => 100],
             [['data'], 'string'],
             //必须字段
 //            [['uid', 'pic', 'time','heartrate', 'weight', 'height', 'systolic', 'diastolic', 'bmi', 'vision'], 'required'],
@@ -59,8 +64,12 @@ class Report extends BaseModel
         return [
             'id' => '报告编号',
             'uid' => '用户ID',
+            'location' => '地点',
+            'self_history' => '个人病史',
+            'family_history' => '家族病史',
             'pic' => '体检报告图',
             'time' => '体检时间',
+            'age' => '年龄',
             'weight' => '体重（公斤）',
             'height' => '身高（cm）',
             'systolic' => '收缩压（mnHg）',

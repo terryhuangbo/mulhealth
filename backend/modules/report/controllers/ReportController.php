@@ -126,8 +126,20 @@ class ReportController extends BaseController
         }
         $mdl = new Report();
         $param = $this->req();
-        $param['report_at'] = strtotime($param['report_at']);
-        $param['pics'] = Tools::toJson($this->req('pics', []));
+        $param['time'] = strtotime($param['time']);
+        $param['age'] = intval($param['age']);
+        $param['weight'] = floatval($param['weight']);
+        $param['weight'] = floatval($param['weight']);
+        $data = [];
+        foreach ($param as $key => $val){
+            if(is_array($val)){
+                unset($param[$key]);
+                if(!empty($val)){
+                    $data[$key] = $val;
+                }
+            }
+        }
+        $param['data'] = json_encode($data);
         $mdl->load($param, '');
         if (!$mdl->validate()) {
             return $this->toJson(-40301, reset($mdl->getFirstErrors()));
