@@ -19,6 +19,7 @@ use common\base\BaseModel;
  * @property integer $heartrate
  * @property string $bmi
  * @property string $vision
+ * @property string $data
  * @property string $create_at
  * @property string $update_at
  */
@@ -41,8 +42,10 @@ class Report extends BaseModel
             [['uid', 'time', 'heartrate', 'create_at', 'update_at'], 'integer'],
             [['weight', 'height', 'systolic', 'diastolic', 'bmi', 'vision'], 'number'],
             [['pic'], 'string', 'max' => 250],
+            [['data'], 'string'],
             //必须字段
-            [['uid', 'pic', 'time','heartrate', 'weight', 'height', 'systolic', 'diastolic', 'bmi', 'vision'], 'required'],
+//            [['uid', 'pic', 'time','heartrate', 'weight', 'height', 'systolic', 'diastolic', 'bmi', 'vision'], 'required'],
+            [['uid'], 'required'],
             //用户ID
             ['uid', 'exist', 'targetAttribute' => 'uid', 'targetClass' => User::className(), 'message' => '用户不存在'],
         ];
@@ -65,6 +68,7 @@ class Report extends BaseModel
             'heartrate' => '心率（次/分）',
             'bmi' => '体重指数',
             'vision' => '视力',
+            'data' => '体检项目',
             'create_at' => '创建时间',
             'update_at' => '更新时间',
         ];
