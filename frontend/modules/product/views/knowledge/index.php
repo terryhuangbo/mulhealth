@@ -3,7 +3,7 @@
         <div class="filter">
             <ul>
                 <li>
-                    <a><p>时间筛选<img src="/images/arrowDown.png"/></p></a>
+                    <a><p><span id="time-filter" from="0" to="0">时间筛选</span><img src="/images/arrowDown.png"/></p></a>
                     <div id="time">
                         <ul>
                             <? foreach ($timeFilters as $t): ?>
@@ -13,7 +13,7 @@
                     </div>
                 </li>
                 <li>
-                    <a><p>标签筛选<img src="/images/arrowDown.png"/></p></a>
+                    <a><p><span id="tag-filter" tag="不限">标签筛选</span><img src="/images/arrowDown.png"/></p></a>
                     <div id="items">
                         <ul>
                             <? foreach ($tagList as $t): ?>
@@ -55,19 +55,22 @@
 <script>
     $("#time li").on('click', function () {
         var el = $(this);
-        var param = {
-            'from': el.attr('from'),
-            'to': el.attr('to'),
-        };
-        getItems(param);
+        $("#time-filter").attr('from', el.attr('from'));
+        $("#time-filter").attr('to', el.attr('to'));
+        getItems();
     });
     $("#items li").on('click', function () {
         var el = $(this);
         var tags = el.text();
-        var param = {'tags': tags};
-        getItems(param);
+        $("#tag-filter").attr('tag', tags);
+        getItems();
     });
-    var getItems = function (param) {
+    var getItems = function () {
+        var param = {
+            'from' : $("#time-filter").attr('from'),
+            'to' : $("#time-filter").attr('to'),
+            'tags' : $("#tag-filter").attr('tag')
+        };
         $._ajax('/product/knowledge/items', param, 'POST', 'JSON', function (json) {
             if(json.code > 0){
                 var items = json.data.knowledgeList;
