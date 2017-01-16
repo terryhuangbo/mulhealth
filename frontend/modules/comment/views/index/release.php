@@ -38,13 +38,13 @@
                 return
             }
             if ($._str_len(content.length) > 140) {
-                alert('评论内容不能超过140个字');
+                alert('发帖内容不能超过140个字');
                 return
             }
 
             $._ajax('/comment/index/release', param, 'POST', 'JSON', function(json){
                 if(json.code > 0) {
-                    showModal('评论成功', 2000, function () {
+                    showModal('发帖成功', 2000, function () {
                         window.location.href = '/comment/index/index';
                     })
                 }else{

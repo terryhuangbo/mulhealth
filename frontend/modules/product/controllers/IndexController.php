@@ -27,16 +27,18 @@ class IndexController extends BaseController
             $data[$keyArr[$key]] = $mdl::find()
                 ->select(['id', 'pic', 'title'])
                 ->orderBy('id DESC')
-                ->limit($this->_pageNum)
+//                ->limit($this->_pageNum)
                 ->asArray()
-                ->all();
-            array_walk($data[$keyArr[$key]], function (&$v, $k){
-                $v['pic'] =  json_decode($v['pic'], true);
-            });
+                ->one();
+            $data[$keyArr[$key]]['pic'] =  json_decode($data[$keyArr[$key]]['pic'], true);
+//            array_walk($data[$keyArr[$key]], function (&$v, $k){
+//                $v['pic'] =  json_decode($v['pic'], true);
+//            });
         }
         $_data = [
             'data' => $data
         ];
+        
         return $this->render('index', $_data);
     }
 
