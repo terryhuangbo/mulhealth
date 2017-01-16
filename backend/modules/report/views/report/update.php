@@ -173,7 +173,7 @@
         </div>
         <hr>
 
-        <h4>肝功能</h4><hr>
+        <h4>肝功能</h4>
         <div class="control-group">
             <label class="control-label">总胆红素：</label>
             <div class="controls">
@@ -324,7 +324,7 @@
                     $._ajax('/report/report/update', param, 'POST', 'JSON', function(json){
                         if(json.code > 0){
                             BUI.Message.Alert(json.msg, function(){
-//                                window.location.href = '/report/report/list';
+                                window.location.href = '/report/report/list';
                             }, 'success');
 
                         }else{

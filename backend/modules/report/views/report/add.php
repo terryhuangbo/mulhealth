@@ -178,7 +178,7 @@
         </div>
         <hr>
 
-        <h4>肝功能</h4><hr>
+        <h4>肝功能</h4>
         <div class="control-group">
             <label class="control-label">总胆红素：</label>
             <div class="controls">

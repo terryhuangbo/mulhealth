@@ -173,7 +173,7 @@
         </div>
         <hr>
 
-        <h4>肝功能</h4><hr>
+        <h4>肝功能</h4>
         <div class="control-group">
             <label class="control-label">总胆红素：</label>
             <div class="controls">
@@ -304,7 +304,6 @@
 
         <div class="row actions-bar">
             <div class="form-actions span13 offset3">
-                <button type="submit" class="button button-primary" id="save-case">保存</button>
                 <button type="reset" class="button" id="cancel-case">返回</button>
             </div>
         </div>
@@ -317,23 +316,6 @@
                 srcNode : '#Report_Form'
             });
             form.render();
-            //保存
-            $("#save-case").on('click', function(){
-                if(form.isValid()){
-                    var param = $("#Report_Form").serialize();
-                    $._ajax('/report/report/update', param, 'POST', 'JSON', function(json){
-                        if(json.code > 0){
-                            BUI.Message.Alert(json.msg, function(){
-//                                window.location.href = '/report/report/list';
-                            }, 'success');
-
-                        }else{
-                            BUI.Message.Alert(json.msg, 'error');
-                            this.close();
-                        }
-                    });
-                }
-            });
             //返回
             $("#cancel-case").on('click', function(){
                 window.location.href = '/report/report/list';
