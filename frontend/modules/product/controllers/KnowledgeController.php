@@ -22,7 +22,7 @@ class KnowledgeController extends BaseController
         $from = $this->req('from');
         $to = $this->req('to');
         //获取（筛选）列表
-        $query = Knowledge::find()->where('1=1');
+        $query = Knowledge::find()->where(['status' => Knowledge::STATUS_ON]);
         if (isset($tags)) {
             $query->andWhere(['like', 'tags', $tags]);
         }

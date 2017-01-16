@@ -1,6 +1,7 @@
 <section class="center">
     <div class="team">
-        <div class="title"><img src="/images/teamTitle.png"/></div>
+<!--        <div class="title"><img src="/images/teamTitle.png"/></div>-->
+        <br>
         <div class="img">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
