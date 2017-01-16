@@ -1,70 +1,360 @@
-<style>
-    .avatar_content{
-        height: 120px;
-        width: 140px;
-        display: block;
-    }
-    .avatar_img{
-        height: 100px;
-        width: 120px;
-        position: relative;
-        top: -21px;
-        left: 118px;
-        display: block;
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>体检报告</title>
 
-    }
-    .bui-stdmod-body{
-        overflow-x : hidden;
-        overflow-y : auto;
-    }
+    <link href="/css/dpl.css" rel="stylesheet">
+    <link href="/css/bui.css" rel="stylesheet">
+    <link href="/css/page-min.css" rel="stylesheet">
+    <link href="/css/extra.css" rel="stylesheet">
 
-</style>
-<div id="content" style="display: block" >
-    <form id="form" class="form-horizontal">
-        <div class="row">
+    <script src="/js/jquery.js" type="text/javascript"></script>
+    <script src="/js/sea.js"></script>
+    <script src="http://g.alicdn.com/bui/bui/1.1.21/config.js"></script>
+    <script src="/js/common.js" type="text/javascript"></script>
+    <script src="/js/tools.js" type="text/javascript"></script>
+    <script src="/plugins/webuploader/webuploader.js" type="text/javascript"></script>
+</head>
 
-            <div class="control-group ">
-                <label class="control-label">细胞ID：</label>
-                <div class="controls">
-                    <span  class="control-text" ><?php echo $report['id'] ?></span>
-                </div>
+<body>
+<div class="demo-content">
+    <form id="Report_Form" action="" class="form-horizontal" onsubmit="return false;" >
+        <h2>查看体检报告</h2>
+        <input type="hidden" name="id" value="<?php echo $report['id'] ?>">
+        <div class="control-group">
+            <label class="control-label">用户ID：</label>
+            <div class="controls">
+                <input name="uid" type="text" disabled   class="input-medium" value="<?php echo $report['uid'] ?>" data-rules="{required : true}">
+                <span>&nbsp;&nbsp;&nbsp;注：必须是注册用户的编号</span>
             </div>
-            <div class="control-group ">
-                <label class="control-label">细胞标题：</label>
-                <div class="controls">
-                    <span  class="control-text" ><?php echo $report['title'] ?></span>
-                </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">体检时间：</label>
+            <div class="controls">
+                <input name="time" type="text" disabled  class="calendar calendar-time"  value="<?php echo date('Y-m-d H:i:s',$report['time']) ?>" data-rules="">
             </div>
-            <div class="control-group  avatar_content" >
-                <label class="control-label">细胞图片：</label>
-                <div class="controls">
-                    <img class="avatar_img" src="<?php echo $report['pic'] ?>">
-                </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">地点：</label>
+            <div class="controls">
+                <input name="location" type="text" disabled  class="input-medium" value="<?php echo $report['location'] ?>" data-rules="">
             </div>
-            <div class="control-group ">
-                <label class="control-label">详情：</label>
-                <div class="controls">
-                    <span  class="control-text" ><?php echo $report['detail'] ?></span>
-                </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">年龄：</label>
+            <div class="controls">
+                <input name="age" type="text" disabled  class="input-medium" value="<?php echo $report['age'] ?>" data-rules="">
             </div>
-            <div class="control-group ">
-                <label class="control-label">标签：</label>
-                <div class="controls">
-                    <span  class="control-text" ><?php echo $report['tags'] ?></span>
-                </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">身高：</label>
+            <div class="controls">
+                <input name="height" type="text" disabled  class="input-medium" value="<?php echo $report['height'] ?>" data-rules="">
             </div>
-            <div class="control-group ">
-                <label class="control-label">创建时间：</label>
-                <div class="controls">
-                    <span  class="control-text" ><?php echo $report['create_at']?></span>
-                </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">体重：</label>
+            <div class="controls">
+                <input name="weight" type="text" disabled  class="input-medium" value="<?php echo $report['weight'] ?>" data-rules="">
             </div>
-            <div class="control-group ">
-                <label class="control-label">更新登录：</label>
-                <div class="controls">
-                    <span  class="control-text" ><?php echo $report['update_at'] ?></span>
-                </div>
+        </div>
+
+        <div class="control-group" id="description_content">
+            <label class="control-label">个人病史：</label>
+            <div class="controls  control-row-auto">
+                <textarea name="self_history" disabled id="" class="control-row3 input-large" value="<?php echo $report['self_history'] ?>" data-rules=""></textarea>
+            </div>
+        </div>
+
+        <div class="control-group" id="description_content">
+            <label class="control-label">家族病史：</label>
+            <div class="controls  control-row-auto">
+                <textarea name="family_history" disabled id="" class="control-row3 input-large" value="<?php echo $report['family_history'] ?>" data-rules=""></textarea>
+            </div>
+        </div>
+        <hr>
+
+        <h4>血常规</h4><br>
+        <div class="control-group">
+            <label class="control-label">WBC总数：</label>
+            <div class="controls">
+                <input name="blood[wbc]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['blood', 'wbc'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">中性粒比例：</label>
+            <div class="controls">
+                <input name="blood[zxl]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['blood', 'zxl'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">淋巴C比例：</label>
+            <div class="controls">
+                <input name="blood[lbc]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['blood', 'lbc'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">RBC总数：</label>
+            <div class="controls">
+                <input name="blood[brc]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['blood', 'rbc'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Hb含量：</label>
+            <div class="controls">
+                <input name="blood[hb]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['blood', 'hb'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">PLT 血小板数目：</label>
+            <div class="controls">
+                <input name="blood[plt]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['blood', 'plt'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">HCT 红细胞压积：</label>
+            <div class="controls">
+                <input name="blood[hct]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['blood', 'hct'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <hr>
+
+        <h4>尿常规</h4><br>
+        <div class="control-group">
+            <label class="control-label">尿WBC：</label>
+            <div class="controls">
+                <input name="urine[wbc]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['urine', 'wbc'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">尿蛋白：</label>
+            <div class="controls">
+                <input name="urine[ldb]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['urine', 'ldb'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">尿红细胞：</label>
+            <div class="controls">
+                <input name="urine[hxb]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['urine', 'hxb'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <hr>
+
+        <h4>电解质</h4><hr>
+        <div class="control-group">
+            <label class="control-label">钾K+：</label>
+            <div class="controls">
+                <input name="elec[k]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['elec', 'k'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">钠Na-：</label>
+            <div class="controls">
+                <input name="elec[na]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['elec', 'na'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">氯Cl-：</label>
+            <div class="controls">
+                <input name="elec[cl]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['elec', 'cl'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">钙Ca2-：</label>
+            <div class="controls">
+                <input name="elec[ca]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['elec', 'ca'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <hr>
+
+        <h4>肝功能</h4><hr>
+        <div class="control-group">
+            <label class="control-label">总胆红素：</label>
+            <div class="controls">
+                <input name="liver[dhs]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['liver', 'dhs'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">间接胆红素：</label>
+            <div class="controls">
+                <input name="liver[jdhs]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['liver', 'jdhs'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">直接胆红素：</label>
+            <div class="controls">
+                <input name="liver[zdhs]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['liver', 'zdhs'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">ALT 谷丙转氨酶：</label>
+            <div class="controls">
+                <input name="liver[alt]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['liver', 'alt'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">AST 谷草转氨酶：</label>
+            <div class="controls">
+                <input name="liver[ast]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['liver', 'ast'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <hr>
+
+        <h4>肾功能</h4><hr>
+        <div class="control-group">
+            <label class="control-label">BUN 血尿素氮：</label>
+            <div class="controls">
+                <input name="kidney[bun]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['kidney', 'bun'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">CRE 肌酐：</label>
+            <div class="controls">
+                <input name="kidney[cre]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['kidney', 'cre'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">URIC 尿素肌酐比：</label>
+            <div class="controls">
+                <input name="kidney[uric]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['kidney', 'uric'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <hr>
+
+        <h4>肿瘤指标</h4><hr>
+        <div class="control-group">
+            <label class="control-label">AFP 甲胎蛋白：</label>
+            <div class="controls">
+                <input name="cancer[afp]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['cancer', 'afp'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">CEA 癌胚抗原：</label>
+            <div class="controls">
+                <input name="cancer[cea]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['cancer', 'cea'], '') ?>"  data-rules="">
+            </div>
+        </div>
+        <hr>
+
+        <h4>免疫四项</h4><hr>
+        <div class="control-group">
+            <label class="control-label">乙肝：</label>
+            <div class="controls">
+                <input name="immune[yg]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['immune', 'yg'], '') ?>"  data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">丙肝：</label>
+            <div class="controls">
+                <input name="immune[bg]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['immune', 'bg'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">梅毒抗体：</label>
+            <div class="controls">
+                <input name="immune[md]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['immune', 'md'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">HIV抗体：</label>
+            <div class="controls">
+                <input name="immune[hiv]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['immune', 'hiv'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <hr>
+
+        <h4>凝血五项</h4><br>
+        <div class="control-group">
+            <label class="control-label">PT 凝血酶原时间</label>
+            <div class="controls">
+                <input name="fivbl[pt]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['fivbl', 'pt'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">PT% 活动度：</label>
+            <div class="controls">
+                <input name="fivbl[ptp]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['fivbl', 'ptp'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">FIB纤维蛋白原：</label>
+            <div class="controls">
+                <input name="fivbl[fib]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['fivbl', 'fib'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">APTT部分凝血酶原时间：</label>
+            <div class="controls">
+                <input name="fivbl[aptt]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['fivbl', 'aptt'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">TT凝血酶时间：</label>
+            <div class="controls">
+                <input name="fivbl[tt]" type="text" disabled  class="input-medium" value="<?php echo getValue($data, ['fivbl', 'tt'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <hr>
+
+        <div class="row actions-bar">
+            <div class="form-actions span13 offset3">
+                <button type="submit" class="button button-primary" id="save-case">保存</button>
+                <button type="reset" class="button" id="cancel-case">返回</button>
             </div>
         </div>
     </form>
+
+    <!-- script start -->
+    <script type="text/javascript">
+        BUI.use('bui/form',function(Form){
+            var form = new Form.Form({
+                srcNode : '#Report_Form'
+            });
+            form.render();
+            //保存
+            $("#save-case").on('click', function(){
+                if(form.isValid()){
+                    var param = $("#Report_Form").serialize();
+                    $._ajax('/report/report/update', param, 'POST', 'JSON', function(json){
+                        if(json.code > 0){
+                            BUI.Message.Alert(json.msg, function(){
+//                                window.location.href = '/report/report/list';
+                            }, 'success');
+
+                        }else{
+                            BUI.Message.Alert(json.msg, 'error');
+                            this.close();
+                        }
+                    });
+                }
+            });
+            //返回
+            $("#cancel-case").on('click', function(){
+                window.location.href = '/report/report/list';
+            });
+        });
+
+        BUI.use('bui/calendar', function (Calendar) {
+            var datepicker = new Calendar.DatePicker({
+                trigger: '.calendar-time',
+                showTime: true,
+                autoRender: true
+            });
+        });
+    </script>
+    <!-- script end -->
+
+    <script>
+
+
+    </script>
+
 </div>
+</body>
+</html>

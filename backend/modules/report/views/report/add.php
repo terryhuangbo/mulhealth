@@ -20,7 +20,7 @@
 <body>
 <div class="demo-content">
     <form id="Report_Form" action="" class="form-horizontal" onsubmit="return false;" >
-        <h2>添加细胞</h2>
+        <h2>添加体检报告</h2>
         <div class="control-group">
             <label class="control-label">用户ID：</label>
             <div class="controls">
@@ -192,21 +192,9 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label">间接胆红素：</label>
-            <div class="controls">
-                <input name="liver[jdhs]" type="text" class="input-medium" data-rules="">
-            </div>
-        </div>
-        <div class="control-group">
             <label class="control-label">直接胆红素：</label>
             <div class="controls">
                 <input name="liver[zdhs]" type="text" class="input-medium" data-rules="">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">直接胆红素：</label>
-            <div class="controls">
-                <input name="liver[zdb]" type="text" class="input-medium" data-rules="">
             </div>
         </div>
         <div class="control-group">
@@ -269,25 +257,19 @@
         <div class="control-group">
             <label class="control-label">丙肝：</label>
             <div class="controls">
-                <input name="cancer[bg]" type="text" class="input-medium" data-rules="">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">丙肝：</label>
-            <div class="controls">
-                <input name="cancer[bg]" type="text" class="input-medium" data-rules="">
+                <input name="immune[bg]" type="text" class="input-medium" data-rules="">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">梅毒抗体：</label>
             <div class="controls">
-                <input name="cancer[md]" type="text" class="input-medium" data-rules="">
+                <input name="immune[md]" type="text" class="input-medium" data-rules="">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">HIV抗体：</label>
             <div class="controls">
-                <input name="cancer[hiv]" type="text" class="input-medium" data-rules="">
+                <input name="immune[hiv]" type="text" class="input-medium" data-rules="">
             </div>
         </div>
         <hr>
@@ -302,25 +284,25 @@
         <div class="control-group">
             <label class="control-label">PT% 活动度：</label>
             <div class="controls">
-                <input name="cancer[ptp]" type="text" class="input-medium" data-rules="">
+                <input name="fivbl[ptp]" type="text" class="input-medium" data-rules="">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">FIB纤维蛋白原：</label>
             <div class="controls">
-                <input name="cancer[fib]" type="text" class="input-medium" data-rules="">
+                <input name="fivbl[fib]" type="text" class="input-medium" data-rules="">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">APTT部分凝血酶原时间：</label>
             <div class="controls">
-                <input name="cancer[aptt]" type="text" class="input-medium" data-rules="">
+                <input name="fivbl[aptt]" type="text" class="input-medium" data-rules="">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">TT凝血酶时间：</label>
             <div class="controls">
-                <input name="cancer[tt]" type="text" class="input-medium" data-rules="">
+                <input name="fivbl[tt]" type="text" class="input-medium" data-rules="">
             </div>
         </div>
         <hr>

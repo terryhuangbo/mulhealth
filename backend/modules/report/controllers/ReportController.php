@@ -58,7 +58,7 @@ class ReportController extends BaseController
         $page = $this->req('page', 0);
         $pageSize = $this->req('pageSize', 10);
         $offset = $page * $pageSize;
-        $query->where(['status' => [Report::STATUS_ON, Report::STATUS_OFF]]);
+//        $query->where(['status' => [Report::STATUS_ON, Report::STATUS_OFF]]);
         if ($search) {
             if (isset($search['uptimeStart'])) //时间范围
             {
@@ -83,22 +83,25 @@ class ReportController extends BaseController
             ->with(['user'])
             ->offset($offset)
             ->limit($pageSize)
-            ->orderby($_order_by)
+            ->orderBy($_order_by)
             ->all();
         $reportList = ArrayHelper::toArray($reportArr, [
             'common\models\Report' => [
                 'id',
                 'uid',
-                'description',
+                'location',
+                'age',
                 'status',
+                'weight',
+                'height',
                 'user_name' => function($m){
                     return getValue($m, ['user', 'name']);
                 },
-                'pics' => function($m){
-                    return Tools::toArray($m->pics, true);
-                },
                 'status_name' => function ($m) {
                     return Report::getStatuses($m->status);
+                },
+                'tj_time' => function ($m) {
+                    return date('Y-m-d H:i:s', $m->time);
                 },
                 'create_time' => function ($m) {
                     return date('Y-m-d H:i:s', $m->create_at);
@@ -128,7 +131,7 @@ class ReportController extends BaseController
         $param = $this->req();
         $param['time'] = strtotime($param['time']);
         $param['age'] = intval($param['age']);
-        $param['weight'] = floatval($param['weight']);
+        $param['height'] = floatval($param['height']);
         $param['weight'] = floatval($param['weight']);
         $data = [];
         foreach ($param as $key => $val){
@@ -154,7 +157,7 @@ class ReportController extends BaseController
     function actionUpdate()
     {
         $id = intval($this->req('id'));
-        $report_info = $this->req();
+        $param = $this->req();
 
         $report = Report::findOne($id);
         //检验参数是否合法
@@ -165,12 +168,26 @@ class ReportController extends BaseController
         if(!$this->isAjax()){
             $_data = [
                 'report' => $report,
+                'data' => json_decode($report->data, true),
             ];
             return $this->render('update', $_data);
         }
         //保存
-        $report_info['report_at'] = strtotime($report_info['report_at']);
-        $report->load($report_info, '');
+        $param['time'] = strtotime($param['time']);
+        $param['age'] = intval($param['age']);
+        $param['height'] = floatval($param['height']);
+        $param['weight'] = floatval($param['weight']);
+        $data = [];
+        foreach ($param as $key => $val){
+            if(is_array($val)){
+                unset($param[$key]);
+                if(!empty($val)){
+                    $data[$key] = $val;
+                }
+            }
+        }
+        $param['data'] = json_encode($data);
+        $report->load($param, '');
         if (!$report->validate()) {
             return $this->toJson(-40301, reset($report->getFirstErrors()));
         }
@@ -178,7 +195,7 @@ class ReportController extends BaseController
     }
 
     /**
-     * 加载细胞详情
+     * 查看细胞详情
      */
     function actionInfo()
     {
@@ -186,13 +203,12 @@ class ReportController extends BaseController
 
         $report = Report::findOne($id);
         //检验参数是否合法
-        if (!$report) {
-            $this->toJson(-20003, '用户信息不存在');
+        if (empty($report)) {
+            return $this->toJson(-20001, '细胞信息不存在');
         }
-        $report['update_at'] = date('Y-m-d H:i:s', $report['update_at']);
-        $report['create_at'] = date('Y-m-d H:i:s', $report['create_at']);
         $_data = [
-            'report' => $report
+            'report' => $report,
+            'data' => json_decode($report->data, true),
         ];
         return $this->render('info', $_data);
     }

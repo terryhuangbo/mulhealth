@@ -1,12 +1,12 @@
 <?php
 use yii\helpers\Html;
-use common\models\Cases;
+use common\models\Report;
 ?>
 <!doctype html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>细胞列表</title>
+    <title>报告列表</title>
     <link href="/css/dpl.css" rel="stylesheet">
     <link href="/css/bui.css" rel="stylesheet">
     <link href="/css/page-min.css" rel="stylesheet">
@@ -35,17 +35,17 @@ use common\models\Cases;
 
                 <div class="row">
                     <div class="control-group span12">
-                        <label class="control-label">细胞名称：</label>
+                        <label class="control-label">报告名称：</label>
                         <div class="controls" data-type="city">
                             <input type="text" class="control-text" name="name" id="name">
                         </div>
                     </div>
                     <div class="control-group span10">
-                        <label class="control-label">细胞状态：</label>
+                        <label class="control-label">报告状态：</label>
                         <div class="controls" >
                             <select name="status" id="status">
                                 <option value="">请选择</option>
-                                <?php foreach (Cases::getStatuses() as $key => $name): ?>
+                                <?php foreach (Report::getStatuses() as $key => $name): ?>
                                     <option value="<?= $key ?>"><?= $name ?></option>
                                 <?php endforeach ?>
                             </select>
@@ -61,7 +61,7 @@ use common\models\Cases;
                     </div>
                     <div class="row">
                         <div class="control-group span10">
-                            <button type="button" id="btnSearch" class="button button-primary"  onclick="searchCases()">查询</button>
+                            <button type="button" id="btnSearch" class="button button-primary"  onclick="searchReport()">查询</button>
                         </div>
                     </div>
                 </div>
@@ -133,17 +133,14 @@ use common\models\Cases;
                 selectedEvent: 'click',
                 columns: [
                     {title: '序号', dataIndex: 'id', width: 80, elCls : 'center'},
+                    {title: '用户编号', dataIndex: 'uid', width: 80, elCls : 'center'},
                     {title: '用户姓名', dataIndex: 'user_name', width: 80, elCls : 'center'},
-                    {
-                        title: '图片',
-                        width: 140,
-                        elCls : 'center',
-                        renderer: function (v, obj) {
-                            return "<img class='user_avatar' src='"+ obj.pics +"'>";
-                        }
-                    },
-                    {title: '描述', dataIndex: 'description', width: 80, elCls : 'center'},
-                    {title: '细胞状态', dataIndex: 'status_name', width: 80, elCls : 'center'},
+                    {title: '地点', dataIndex: 'location', width: 80, elCls : 'center'},
+                    {title: '年龄', dataIndex: 'age', width: 80, elCls : 'center'},
+                    {title: '身高(cm)', dataIndex: 'height', width: 80, elCls : 'center'},
+                    {title: '体重(kg)', dataIndex: 'weight', width: 80, elCls : 'center'},
+                    {title: '状态', dataIndex: 'status_name', width: 80, elCls : 'center'},
+                    {title: '体检时间', dataIndex: 'tj_time', width: 150, elCls : 'center'},
                     {title: '创建时间', dataIndex: 'create_time', width: 150, elCls : 'center'},
                     {title: '更新时间', dataIndex: 'update_time', width: 150, elCls : 'center'},
                     {
@@ -151,12 +148,12 @@ use common\models\Cases;
                         width: 300,
                         renderer: function (v, obj) {
                             if(obj.status == 1){
-                                return "<a class='button button-info' onclick='showInfo(" + obj.id + ")'>查看</a>" +
-                                    "<a class='button button-success page-action' title='编辑细胞' href='/report/report/update/?id="+ obj.id +"' data-href='/report/report/update/?id="+ obj.id +"' >编辑</a>" +
+                                return "<a class='button button-info page-action' title='查看报告信息' data-href='/report/report/info/?id="+ obj.id +"' >查看</a>" +
+                                    "<a class='button button-success page-action' title='编辑报告' href='/report/report/update/?id="+ obj.id +"' data-href='/report/report/update/?id="+ obj.id +"' >编辑</a>" +
                                     " <a class='button button-danger' onclick='offShelf(" + obj.id + ")'>禁用</a>";
                             }else if(obj.status == 2){
-                                return "<a class='button button-info' onclick='showInfo(" + obj.id + ")'>查看</a>" +
-                                    "<a class='button button-success page-action' title='编辑细胞信息' data-href='/report/report/update/?id="+ obj.id +"' >编辑</a>" +
+                                return "<a class='button button-info page-action' title='查看报告信息' data-href='/report/report/info/?id="+ obj.id +"' >查看</a>" +
+                                    "<a class='button button-success page-action' title='编辑报告信息' data-href='/report/report/update/?id="+ obj.id +"' >编辑</a>" +
                                     " <a class='button button-primary' onclick='upShelf(" + obj.id + ")'>启用</a>";
                             }
                         }
@@ -181,9 +178,9 @@ use common\models\Cases;
 
 <script>
     /**
-     * 搜索细胞,刷新列表
+     * 搜索报告,刷新列表
      */
-    function searchCases() {
+    function searchReport() {
         var search = {};
         var fields = $("#authsearch").serializeArray();//获取表单信息
         jQuery.each(fields, function (i, field) {
@@ -199,7 +196,7 @@ use common\models\Cases;
     /**
      * 获取过滤项
      */
-    function getCasesGridSearchConditions() {
+    function getReportGridSearchConditions() {
         var search = {};
         var upusername = $("#upusername").val();
         if (upusername != "") {
@@ -213,7 +210,7 @@ use common\models\Cases;
     }
 
     /**
-     * 显示细胞详情
+     * 显示报告详情
      */
     function showInfo(id) {
         var width = 500;
@@ -224,13 +221,13 @@ use common\models\Cases;
                 text:'确认',
                 elCls : 'button button-primary',
                 handler : function(){
-                    window.location.href = '/report/report/list';
+                    searchReport();
                     this.close();
                 }
             },
         ];
         dialog = new Overlay.Dialog({
-            title: '细胞信息',
+            title: '报告信息',
             width: width,
             height: height,
             closeAction: 'destroy',
@@ -255,7 +252,7 @@ use common\models\Cases;
         ajax_change_status(id, 1, function(json){
             if(json.code > 0){
                 BUI.Message.Alert(json.msg, function(){
-                    window.location.href = '/report/report/list';
+                    searchReport();
                 }, 'success');
             }else{
                 BUI.Message.Alert(json.msg, 'error');
@@ -270,7 +267,7 @@ use common\models\Cases;
         ajax_change_status(id, 2, function(json){
             if(json.code > 0){
                 BUI.Message.Alert(json.msg, function(){
-                    window.location.href = '/report/report/list';
+                    searchReport();
                 }, 'success');
             }else{
                 BUI.Message.Alert(json.msg, 'error');
@@ -286,7 +283,7 @@ use common\models\Cases;
             ajax_change_status(id, 3, function(json){
                 if(json.code > 0){
                     BUI.Message.Alert(json.msg, function(){
-                        window.location.href = '/report/report/list';
+                        searchReport();
                     }, 'success');
                 }else{
                     BUI.Message.Alert(json.msg, 'error');
@@ -296,7 +293,7 @@ use common\models\Cases;
     }
 
     /**
-     *改变细胞状态
+     *改变报告状态
      */
     function ajax_change_status(id, status, callback){
         var param = param || {};

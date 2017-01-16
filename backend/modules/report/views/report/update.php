@@ -1,6 +1,3 @@
-<?php
-use yii\helpers\Html;
-?>
 <!doctype html>
 <html>
 <head>
@@ -10,117 +7,301 @@ use yii\helpers\Html;
     <link href="/css/dpl.css" rel="stylesheet">
     <link href="/css/bui.css" rel="stylesheet">
     <link href="/css/page-min.css" rel="stylesheet">
+    <link href="/css/extra.css" rel="stylesheet">
+
     <script src="/js/jquery.js" type="text/javascript"></script>
     <script src="/js/sea.js"></script>
     <script src="http://g.alicdn.com/bui/bui/1.1.21/config.js"></script>
     <script src="/js/common.js" type="text/javascript"></script>
     <script src="/js/tools.js" type="text/javascript"></script>
     <script src="/plugins/webuploader/webuploader.js" type="text/javascript"></script>
-    <script type="text/javascript" charset="utf-8" src="/plugins/ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/plugins/ueditor/ueditor.all.js"></script>
-    <style>
-        .user_avatar {
-            width: 120px;
-            height: 80px;
-            margin: 10px auto;
-        }
-        .demo-content{
-            margin: 40px 60px;
-        }
-
-        .webuploader-element-invisible{
-            display: none;
-        }
-
-        .layout-outer-content{
-            padding: 15px;
-            margin: 10px 0px 40px 130px;
-            width: 700px;
-            background-color: #f6f6fb;
-            border: 1px solid #c3c3d6;
-        }
-        .layout-content{
-            width: 700px;
-            margin: 10px 120px;
-        }
-        .img-content-li{
-            width: 200px;
-            height: 150px;
-            margin-left: -50px;
-        }
-        .img-content-li img{
-            width: 120px;
-            height:90px;
-        }
-        .img-content-li p{
-            padding: 2px 0px;
-        }
-
-        .img-delete{
-            position: relative;
-            top:17px;
-            left: 91px;
-        }
-
-    </style>
-    <script>
-        _BASE_LIST_URL =  "<?php echo yiiUrl('auth/auth/list') ?>";
-    </script>
 </head>
 
 <body>
 <div class="demo-content">
-    <form id="Goods_Form" action="" class="form-horizontal" onsubmit="return false;" >
-        <h2>添加细胞</h2>
-        <input name="id" type="hidden" value="<?php echo $report['id'] ?>">
+    <form id="Report_Form" action="" class="form-horizontal" onsubmit="return false;" >
+        <h2>编辑体检报告</h2>
+        <input type="hidden" name="id" value="<?php echo $report['id'] ?>">
         <div class="control-group">
-            <label class="control-label"><s>*</s>用户编号：</label>
+            <label class="control-label">用户ID：</label>
             <div class="controls">
-                <input name="uid" type="text" class="input-medium" data-rules="{required : true}" value="<?php echo $report['uid'] ?>">
+                <input name="uid" type="text" class="input-medium" value="<?php echo $report['uid'] ?>" data-rules="{required : true}">
                 <span>&nbsp;&nbsp;&nbsp;注：必须是注册用户的编号</span>
             </div>
         </div>
 
         <div class="control-group">
-            <label class="control-label"><s>*</s>描述：</label>
+            <label class="control-label">体检时间：</label>
             <div class="controls">
-                <input name="description" type="text" class="input-large" data-rules="{required : true}" value="<?php echo $report['description'] ?>">
+                <input name="time" type="text" class="calendar calendar-time"  value="<?php echo date('Y-m-d H:i:s',$report['time']) ?>" data-rules="">
             </div>
         </div>
 
         <div class="control-group">
-            <label class="control-label"><s>*</s>细胞图片：</label>
-            <div id="thumbpic" class="controls">
-                <span class="button button-primary">上传图片</span>
-            </div>
-        </div>
-        <div class="row" >
-            <div class="span16 layout-outer-content">
-                <div id="thumbpic-content" class="layout-content" aria-disabled="false" aria-pressed="false" >
-                    <?php foreach(json_decode($report['pics'], true) as $v): ?>
-                        <div id="" class=" pull-left img-content-li">
-                            <a href="javaScript:;"><span class="label label-important img-delete" file-path="<?php echo $v ?>">删除</span></a>
-                            <div aria-disabled="false"  class="" aria-pressed="false">
-                                <img  src="<?php echo $v ?>" />
-                                <input type="hidden" name="pics[]" value="<?php echo $v ?>">
-                                <p></p>
-                            </div>
-                        </div>
-                    <?php endforeach ?>
-                </div>
+            <label class="control-label">地点：</label>
+            <div class="controls">
+                <input name="location" type="text" class="input-medium" value="<?php echo $report['location'] ?>" data-rules="">
             </div>
         </div>
 
-        <div class="row">
-            <div class="control-group span14">
-                <label class="control-label"><s>*</s>记录时间：</label>
-                <div class="controls">
-                    <input type="text" class="calendar calendar-time"
-                           name="report_at" data-rules="{required : true}"
-                           value="<?php echo date('Y-m-d H:i:s', $report['report_at']) ?>">
-                </div>
+        <div class="control-group">
+            <label class="control-label">年龄：</label>
+            <div class="controls">
+                <input name="age" type="text" class="input-medium" value="<?php echo $report['age'] ?>" data-rules="">
             </div>
         </div>
+
+        <div class="control-group">
+            <label class="control-label">身高：</label>
+            <div class="controls">
+                <input name="height" type="text" class="input-medium" value="<?php echo $report['height'] ?>" data-rules="">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">体重：</label>
+            <div class="controls">
+                <input name="weight" type="text" class="input-medium" value="<?php echo $report['weight'] ?>" data-rules="">
+            </div>
+        </div>
+
+        <div class="control-group" id="description_content">
+            <label class="control-label">个人病史：</label>
+            <div class="controls  control-row-auto">
+                <textarea name="self_history" id="" class="control-row3 input-large" value="<?php echo $report['self_history'] ?>" data-rules=""></textarea>
+            </div>
+        </div>
+
+        <div class="control-group" id="description_content">
+            <label class="control-label">家族病史：</label>
+            <div class="controls  control-row-auto">
+                <textarea name="family_history" id="" class="control-row3 input-large" value="<?php echo $report['family_history'] ?>" data-rules=""></textarea>
+            </div>
+        </div>
+        <hr>
+
+        <h4>血常规</h4><br>
+        <div class="control-group">
+            <label class="control-label">WBC总数：</label>
+            <div class="controls">
+                <input name="blood[wbc]" type="text" class="input-medium" value="<?php echo getValue($data, ['blood', 'wbc'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">中性粒比例：</label>
+            <div class="controls">
+                <input name="blood[zxl]" type="text" class="input-medium" value="<?php echo getValue($data, ['blood', 'zxl'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">淋巴C比例：</label>
+            <div class="controls">
+                <input name="blood[lbc]" type="text" class="input-medium" value="<?php echo getValue($data, ['blood', 'lbc'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">RBC总数：</label>
+            <div class="controls">
+                <input name="blood[brc]" type="text" class="input-medium" value="<?php echo getValue($data, ['blood', 'rbc'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Hb含量：</label>
+            <div class="controls">
+                <input name="blood[hb]" type="text" class="input-medium" value="<?php echo getValue($data, ['blood', 'hb'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">PLT 血小板数目：</label>
+            <div class="controls">
+                <input name="blood[plt]" type="text" class="input-medium" value="<?php echo getValue($data, ['blood', 'plt'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">HCT 红细胞压积：</label>
+            <div class="controls">
+                <input name="blood[hct]" type="text" class="input-medium" value="<?php echo getValue($data, ['blood', 'hct'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <hr>
+
+        <h4>尿常规</h4><br>
+        <div class="control-group">
+            <label class="control-label">尿WBC：</label>
+            <div class="controls">
+                <input name="urine[wbc]" type="text" class="input-medium" value="<?php echo getValue($data, ['urine', 'wbc'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">尿蛋白：</label>
+            <div class="controls">
+                <input name="urine[ldb]" type="text" class="input-medium" value="<?php echo getValue($data, ['urine', 'ldb'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">尿红细胞：</label>
+            <div class="controls">
+                <input name="urine[hxb]" type="text" class="input-medium" value="<?php echo getValue($data, ['urine', 'hxb'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <hr>
+
+        <h4>电解质</h4><hr>
+        <div class="control-group">
+            <label class="control-label">钾K+：</label>
+            <div class="controls">
+                <input name="elec[k]" type="text" class="input-medium" value="<?php echo getValue($data, ['elec', 'k'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">钠Na-：</label>
+            <div class="controls">
+                <input name="elec[na]" type="text" class="input-medium" value="<?php echo getValue($data, ['elec', 'na'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">氯Cl-：</label>
+            <div class="controls">
+                <input name="elec[cl]" type="text" class="input-medium" value="<?php echo getValue($data, ['elec', 'cl'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">钙Ca2-：</label>
+            <div class="controls">
+                <input name="elec[ca]" type="text" class="input-medium" value="<?php echo getValue($data, ['elec', 'ca'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <hr>
+
+        <h4>肝功能</h4><hr>
+        <div class="control-group">
+            <label class="control-label">总胆红素：</label>
+            <div class="controls">
+                <input name="liver[dhs]" type="text" class="input-medium" value="<?php echo getValue($data, ['liver', 'dhs'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">间接胆红素：</label>
+            <div class="controls">
+                <input name="liver[jdhs]" type="text" class="input-medium" value="<?php echo getValue($data, ['liver', 'jdhs'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">直接胆红素：</label>
+            <div class="controls">
+                <input name="liver[zdhs]" type="text" class="input-medium" value="<?php echo getValue($data, ['liver', 'zdhs'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">ALT 谷丙转氨酶：</label>
+            <div class="controls">
+                <input name="liver[alt]" type="text" class="input-medium" value="<?php echo getValue($data, ['liver', 'alt'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">AST 谷草转氨酶：</label>
+            <div class="controls">
+                <input name="liver[ast]" type="text" class="input-medium" value="<?php echo getValue($data, ['liver', 'ast'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <hr>
+
+        <h4>肾功能</h4><hr>
+        <div class="control-group">
+            <label class="control-label">BUN 血尿素氮：</label>
+            <div class="controls">
+                <input name="kidney[bun]" type="text" class="input-medium" value="<?php echo getValue($data, ['kidney', 'bun'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">CRE 肌酐：</label>
+            <div class="controls">
+                <input name="kidney[cre]" type="text" class="input-medium" value="<?php echo getValue($data, ['kidney', 'cre'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">URIC 尿素肌酐比：</label>
+            <div class="controls">
+                <input name="kidney[uric]" type="text" class="input-medium" value="<?php echo getValue($data, ['kidney', 'uric'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <hr>
+
+        <h4>肿瘤指标</h4><hr>
+        <div class="control-group">
+            <label class="control-label">AFP 甲胎蛋白：</label>
+            <div class="controls">
+                <input name="cancer[afp]" type="text" class="input-medium" value="<?php echo getValue($data, ['cancer', 'afp'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">CEA 癌胚抗原：</label>
+            <div class="controls">
+                <input name="cancer[cea]" type="text" class="input-medium" value="<?php echo getValue($data, ['cancer', 'cea'], '') ?>"  data-rules="">
+            </div>
+        </div>
+        <hr>
+
+        <h4>免疫四项</h4><hr>
+        <div class="control-group">
+            <label class="control-label">乙肝：</label>
+            <div class="controls">
+                <input name="immune[yg]" type="text" class="input-medium" value="<?php echo getValue($data, ['immune', 'yg'], '') ?>"  data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">丙肝：</label>
+            <div class="controls">
+                <input name="immune[bg]" type="text" class="input-medium" value="<?php echo getValue($data, ['immune', 'bg'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">梅毒抗体：</label>
+            <div class="controls">
+                <input name="immune[md]" type="text" class="input-medium" value="<?php echo getValue($data, ['immune', 'md'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">HIV抗体：</label>
+            <div class="controls">
+                <input name="immune[hiv]" type="text" class="input-medium" value="<?php echo getValue($data, ['immune', 'hiv'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <hr>
+
+        <h4>凝血五项</h4><br>
+        <div class="control-group">
+            <label class="control-label">PT 凝血酶原时间</label>
+            <div class="controls">
+                <input name="fivbl[pt]" type="text" class="input-medium" value="<?php echo getValue($data, ['fivbl', 'pt'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">PT% 活动度：</label>
+            <div class="controls">
+                <input name="fivbl[ptp]" type="text" class="input-medium" value="<?php echo getValue($data, ['fivbl', 'ptp'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">FIB纤维蛋白原：</label>
+            <div class="controls">
+                <input name="fivbl[fib]" type="text" class="input-medium" value="<?php echo getValue($data, ['fivbl', 'fib'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">APTT部分凝血酶原时间：</label>
+            <div class="controls">
+                <input name="fivbl[aptt]" type="text" class="input-medium" value="<?php echo getValue($data, ['fivbl', 'aptt'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">TT凝血酶时间：</label>
+            <div class="controls">
+                <input name="fivbl[tt]" type="text" class="input-medium" value="<?php echo getValue($data, ['fivbl', 'tt'], '') ?>" data-rules="">
+            </div>
+        </div>
+        <hr>
+
         <div class="row actions-bar">
             <div class="form-actions span13 offset3">
                 <button type="submit" class="button button-primary" id="save-case">保存</button>
@@ -133,18 +314,17 @@ use yii\helpers\Html;
     <script type="text/javascript">
         BUI.use('bui/form',function(Form){
             var form = new Form.Form({
-                srcNode : '#Goods_Form'
+                srcNode : '#Report_Form'
             });
             form.render();
-
             //保存
             $("#save-case").on('click', function(){
                 if(form.isValid()){
-                    var param = $._get_form_json;
-                    $._ajax('/report/report/update', $("#Goods_Form").serialize(), 'POST', 'JSON', function(json){
+                    var param = $("#Report_Form").serialize();
+                    $._ajax('/report/report/update', param, 'POST', 'JSON', function(json){
                         if(json.code > 0){
                             BUI.Message.Alert(json.msg, function(){
-                                window.location.href = '/report/report/list';
+//                                window.location.href = '/report/report/list';
                             }, 'success');
 
                         }else{
@@ -172,195 +352,6 @@ use yii\helpers\Html;
 
     <script>
 
-        $(function () {
-            /*上传缩略图*/
-            var uploader = WebUploader.create({
-                // 选完文件后，是否自动上传。
-                auto: true,
-                //文件名称
-                fileVal: 'attachment',
-                // swf文件路径
-                swf: '/plugins/webuploader/Uploader.swf',
-                // 文件接收服务端。
-                server: "/common/file/upload",
-                // 选择文件的按钮。可选。
-                pick: '#thumbpic',
-                //文件数量
-//                fileNumLimit: 1,
-                //文件大小 byte
-                fileSizeLimit: 5 * 1024 * 1024,
-                // 只允许选择图片文件。
-                accept: {
-                    title: 'Images',
-                    extensions: 'gif,jpg,jpeg,bmp,png',
-                    mimeTypes: 'image/*'
-                },
-                //传递的参数
-                formData: {
-                    objtype: 'report'
-                }
-            });
-            // 当有文件添加进来之前
-            uploader.on('beforeFileQueued', function (handler) {
-                if ($(".img-content-li").length >= 3) {
-                    alert('上传文件总数量超过限制！');
-                    return false;
-                }
-            });
-            // 当有文件添加进来的时候-执行队列
-            uploader.on( 'fileQueued', function( file ) {
-
-            });
-            //文件数量，格式等出错
-            uploader.on('error', function (handler) {
-                _file_upload_notice(handler);
-            });
-            // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-            uploader.on('uploadSuccess', function (file, response) {
-                if(response.code > 0){
-                    var data = response.data;
-                    var div =
-                        '<div id="'+ file.id +'" class=" pull-left img-content-li">'+
-                        '<a href="javaScript:;"><span class="label label-important img-delete" file-path="'+ data.filePath +'">删除</span></a>'+
-                        '<div aria-disabled="false"  class="" aria-pressed="false">'+
-                        '<img  src="'+ data.url +'" />'+
-                        '<input type="hidden" name="pics[]" value="'+ data.url +'">'+
-                        '<p>'+ file.name +'</p>'+
-                        '</div>'+
-                        '</div>';
-                    $('#thumbpic-content').append(div);
-                    uploaderlist.addButton({
-                        id: '#thumblistpic'
-                    });
-                    $('.img-delete').off('click').on('click', function(){
-                        var dom = $(this);
-                        var filePath = dom.attr('file-path');
-                        deleteFile(filePath, function(json){
-                            if(json.code > 0){
-                                dom.closest('div').remove();
-                                uploader.reset();
-                            }else{
-                                BUI.Message.Alert('删除失败！');
-                            }
-                        });
-                    });
-                }else{
-                    BUI.Message.Alert('上传失败！');
-                }
-            });
-            // 文件上传失败，显示上传出错。
-            uploader.on('uploadError', function (file) {
-
-            });
-
-
-            /*上传细胞图*/
-            var uploaderlist = WebUploader.create({
-                // 选完文件后，是否自动上传。
-                auto: true,
-                //文件名称
-                fileVal: 'attachment',
-                // swf文件路径
-                swf: '/plugins/webuploader/Uploader.swf',
-                // 文件接收服务端。
-                server: "/common/file/upload",
-                // 选择文件的按钮。可选。
-                pick: '#thumblistpic',
-                //文件数量
-                fileNumLimit: 5,
-                //文件大小 byte
-                fileSizeLimit: 5 * 1024 * 1024,
-                // 只允许选择图片文件。
-                accept: {
-                    title: 'Images',
-                    extensions: 'gif,jpg,jpeg,bmp,png',
-                    mimeTypes: 'image/*'
-                },
-                //传递的参数
-                formData: {
-                    objtype: 'case'
-                }
-            });
-            // 当有文件添加进来之前
-            uploaderlist.on('beforeFileQueued', function (handler) {
-
-            });
-            // 当有文件添加进来的时候-执行队列
-            uploaderlist.on( 'fileQueued', function( file ) {
-
-            });
-            //文件数量，格式等出错
-            uploaderlist.on('error', function (handler) {
-                _file_upload_notice(handler);
-            });
-            // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-            uploaderlist.on('uploadSuccess', function (file, response) {
-                if(response.code > 0){
-                    var data = response.data;
-                    var div =
-                        '<div id="'+ file.id +'" class=" pull-left img-content-li">'+
-                        '<a href="javaScript:;"><span class="label label-important img-delete" file-path="'+ data.filePath +'">删除</span></a>'+
-                        '<div aria-disabled="false"  class="" aria-pressed="false">'+
-                        '<img  src="'+ data.filePath +'" />'+
-                        '<input type="hidden" name="case[thumb_list]" value="'+ data.filePath +'">'+
-                        '<p>'+ file.name +'</p>'+
-                        '</div>'+
-                        '</div>';
-                    $('#thumblistpic-content').append(div);
-                    $('.img-delete').off('click').on('click', function(){
-                        var dom = $(this);
-                        var filePath = dom.attr('file-path');
-                        deleteFile(filePath, function(json){
-                            if(json.code > 0){
-                                dom.closest('div').remove();
-                            }else{
-                                BUI.Message.Alert('删除失败！');
-                            }
-                        });
-                    });
-                }else{
-                    BUI.Message.Alert('上传失败！');
-                }
-            });
-            // 文件上传失败，显示上传出错。
-            uploaderlist.on('uploadError', function (file) {
-
-            });
-        });
-
-        var _file_upload_notice = function (handler) {
-            switch (handler) {
-                case 'Q_TYPE_DENIED':
-                    alert('文件类型不正确！');
-                    break;
-                case 'Q_EXCEED_SIZE_LIMIT':
-                    alert('上传文件总大小超过限制！');
-                    break;
-                case 'Q_EXCEED_NUM_LIMIT':
-                    alert('上传文件总数量超过限制！');
-                    break;
-            }
-        };
-
-        var deleteFile = function (filePath, callback){
-            $._ajax('/common/file/delete', {filepath: filePath},  'POST', 'Json', function(json){
-                if(typeof (callback) == 'function'){
-                    callback(json);
-                }
-            });
-        }
-
-        $('.img-delete').off('click').on('click', function(){
-            var dom = $(this);
-            var filePath = dom.attr('file-path');
-            deleteFile(filePath, function(json){
-                if(json.code > 0){
-                    dom.closest('div').remove();
-                }else{
-                    BUI.Message.Alert('删除失败！');
-                }
-            });
-        });
 
     </script>
 
