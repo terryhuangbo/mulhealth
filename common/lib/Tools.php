@@ -121,6 +121,11 @@ class Tools extends yii\base\Component {
                 'from' => '-1 month',
                 'to' => 'now',
             ],
+            6 => [
+                'text' => '不限',
+                'from' => '0',
+                'to' => '0',
+            ],
 
         ];
     }

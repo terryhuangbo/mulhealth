@@ -11,6 +11,8 @@ use app\base\BaseController;
 class KnowledgeController extends BaseController
 {
     public $enableCsrfValidation = false;
+    private $_tagFree = '不限';
+
     /**
      * 知识列表
      * @return string
@@ -23,10 +25,10 @@ class KnowledgeController extends BaseController
         $to = $this->req('to');
         //获取（筛选）列表
         $query = Knowledge::find()->where(['status' => Knowledge::STATUS_ON]);
-        if (isset($tags)) {
+        if (isset($tags) && $tags !== $this->_tagFree) {
             $query->andWhere(['like', 'tags', $tags]);
         }
-        if (isset($from, $to)) {
+        if (!empty($from) && !empty($to)) {
             $query->andWhere(['between', 'create_at', strtotime($from), strtotime($to)]);
         }
         if (isset($orderBy)) {
