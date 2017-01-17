@@ -88,6 +88,9 @@ return [
             'debug' => false,
             'appAccount' => 'kangheyuan2015',
         ],
+        'curl' => [
+            'class' => 'common\utils\Curl'
+        ],
         'view' => [
             'theme' => [
                 'pathMap' => [

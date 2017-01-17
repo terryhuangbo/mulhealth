@@ -9,7 +9,7 @@ namespace common\lib;
 
 use yii;
 
-class Http extends \yii\db\ActiveRecord {
+class Http extends \yii\base\Component  {
 
     //post请求
     public function post($url, $post_data = [], $header = []) {
