@@ -158,6 +158,7 @@ class CellController extends BaseController
         }
         //保存
         $cell_info['report_at'] = strtotime($cell_info['report_at']);
+        $cell_info['pics'] = Tools::toJson($cell_info['pics']);
         $cell->load($cell_info, '');
         if (!$cell->validate()) {
             return $this->toJson(-40301, reset($cell->getFirstErrors()));
@@ -179,6 +180,9 @@ class CellController extends BaseController
         }
         $cell['update_at'] = date('Y-m-d H:i:s', $cell['update_at']);
         $cell['create_at'] = date('Y-m-d H:i:s', $cell['create_at']);
+        $cell['report_at'] = date('Y-m-d H:i:s', $cell['report_at']);
+        $cell['pics'] = json_decode($cell['pics'], true);
+        $cell['status'] = Cell::getStatuses($cell['status']);
         $_data = [
             'cell' => $cell
         ];

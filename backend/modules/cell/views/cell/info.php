@@ -1,17 +1,15 @@
 <style>
     .avatar_content{
-        height: 120px;
-        width: 140px;
-        display: block;
+        margin-left: -1px;
+        margin-bottom: 80px;
+    }
+    .avatar_content li{
+        float: left;
     }
     .avatar_img{
         height: 100px;
         width: 120px;
-        position: relative;
-        top: -21px;
-        left: 118px;
         display: block;
-
     }
     .bui-stdmod-body{
         overflow-x : hidden;
@@ -29,40 +27,30 @@
                     <span  class="control-text" ><?php echo $cell['id'] ?></span>
                 </div>
             </div>
-            <div class="control-group ">
-                <label class="control-label">细胞标题：</label>
-                <div class="controls">
-                    <span  class="control-text" ><?php echo $cell['title'] ?></span>
-                </div>
-            </div>
-            <div class="control-group  avatar_content" >
+            <div class="control-group span20 avatar_content">
                 <label class="control-label">细胞图片：</label>
-                <div class="controls">
-                    <img class="avatar_img" src="<?php echo $cell['pic'] ?>">
-                </div>
+                <? foreach ($cell['pics'] as $f): ?>
+                    <li class="controls">
+                        <a href="<?php echo $f ?>" target="_blank"><img class="avatar_img" src="<?php echo $f ?>"></a>
+                    </li>
+                <? endforeach ?>
             </div>
             <div class="control-group ">
                 <label class="control-label">详情：</label>
                 <div class="controls">
-                    <span  class="control-text" ><?php echo $cell['detail'] ?></span>
+                    <span  class="control-text" ><?php echo $cell['description'] ?></span>
                 </div>
             </div>
             <div class="control-group ">
-                <label class="control-label">标签：</label>
+                <label class="control-label">状态：</label>
                 <div class="controls">
-                    <span  class="control-text" ><?php echo $cell['tags'] ?></span>
+                    <span  class="control-text" ><?php echo $cell['status']?></span>
                 </div>
             </div>
             <div class="control-group ">
                 <label class="control-label">创建时间：</label>
                 <div class="controls">
-                    <span  class="control-text" ><?php echo $cell['create_at']?></span>
-                </div>
-            </div>
-            <div class="control-group ">
-                <label class="control-label">更新登录：</label>
-                <div class="controls">
-                    <span  class="control-text" ><?php echo $cell['update_at'] ?></span>
+                    <span  class="control-text" ><?php echo $cell['report_at']?></span>
                 </div>
             </div>
         </div>
