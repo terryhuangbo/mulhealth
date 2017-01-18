@@ -11,7 +11,6 @@ use app\base\BaseController;
 class KnowledgeController extends BaseController
 {
     public $enableCsrfValidation = false;
-    private $_tagFree = '不限';
 
     /**
      * 知识列表
@@ -25,7 +24,7 @@ class KnowledgeController extends BaseController
         $to = $this->req('to');
         //获取（筛选）列表
         $query = Knowledge::find()->where(['status' => Knowledge::STATUS_ON]);
-        if (isset($tags) && $tags !== $this->_tagFree) {
+        if (!empty($tags)) {
             $query->andWhere(['like', 'tags', $tags]);
         }
         if (!empty($from) && !empty($to)) {
@@ -39,6 +38,7 @@ class KnowledgeController extends BaseController
         $knowledgeList = $query->asArray()->all();
         foreach ($knowledgeList as $key => &$value) {
             $value['pic'] = reset(json_decode($value['pic']));
+            $value['detail'] = strip_tags($value['detail']);
             $value['create_at'] = date('Y/m/d H:i:s', $value['create_at']);
         }
         $_data = [

@@ -1,7 +1,6 @@
 <section class="center">
     <div class="team">
-        <!--        <div class="title"><img src="/images/teamTitle.png"/></div>-->
-        <br>
+        <div class="title"><?php echo $knowledge['title'] ?></div>
         <div class="img">
             <div class="swiper-container">
                 <div class="swiper-wrapper">

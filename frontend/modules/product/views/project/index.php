@@ -3,30 +3,28 @@
         <div class="filter">
             <ul>
                 <li>
-                    <a><p><span id="time-filter" from="0" to="0">时间筛选</span><img src="/images/arrowDown.png"/></p></a>
-                    <div id="time">
-                        <ul>
-                            <? foreach ($timeFilters as $t): ?>
-                                <li from="<?php echo $t['from'] ?>" to="<?php echo $t['to'] ?>"><?php echo $t['text'] ?></li>
-                            <? endforeach ?>
-                        </ul>
-                    </div>
+                    <select data-placeholder="时间筛选" id="time-filter" from="0" to="0" style="" class="dept_select">
+                        <option value="0##0">时间筛选<img src="/images/arrowDown.png"/></option>
+                        <? foreach ($timeFilters as $k => $t): ?>
+                            <option value="<?php echo $t['from'] . '##' . $t['to'] ?>"><?php echo $t['text'] ?></option>
+                        <? endforeach ?>
+                    </select>
+                    <img src="/images/arrowDown.png"/>
                 </li>
                 <li>
-                    <a><p><span id="tag-filter" tag="不限">标签筛选</span><img src="/images/arrowDown.png"/></p></a>
-                    <div id="items">
-                        <ul>
-                            <? foreach ($tagList as $t): ?>
-                                <li><?php echo $t ?></li>
-                            <? endforeach ?>
-                            <li>不限</li>
-                        </ul>
-                    </div>
+                    <select data-placeholder="标签筛选" id="tag-filter" tag="0" style="" class="dept_select">
+                        <option value="0">标签筛选</option>
+                        <? foreach ($tagList as $t): ?>
+                            <option value="<?php echo $t ?>"><?php echo $t ?></option>
+                        <? endforeach ?>
+                        <option value="0">不限</option>
+                    </select>
+                    <img src="/images/arrowDown.png"/>
                 </li>
             </ul>
         </div>
         <div id="content">
-            <? foreach ($projectList as $project): ?>
+            <?php foreach($projectList as $project): ?>
                 <div class="list">
                     <div class="title">
                         <p class="fl"><?php echo $project['title'] ?></p>
@@ -38,7 +36,7 @@
                         <a href="/product/project/detail?id=<?php echo $project['id'] ?>">阅读>></a>
                     </div>
                 </div>
-            <? endforeach ?>
+            <?php endforeach ?>
         </div>
     </div>
 </section>
@@ -53,15 +51,18 @@
     });
 </script>
 <script>
-    $("#time li").on('click', function () {
+    $("#time-filter ").on('click', function () {
         var el = $(this);
-        $("#time-filter").attr('from', el.attr('from'));
-        $("#time-filter").attr('to', el.attr('to'));
+        var val = el.val().split('##');
+        var from = val[0];
+        var to = val[1];
+        $("#time-filter").attr('from', from);
+        $("#time-filter").attr('to', to);
         getItems();
     });
-    $("#items li").on('click', function () {
+    $("#tag-filter").on('click', function () {
         var el = $(this);
-        var tags = el.text();
+        var tags = el.val();
         $("#tag-filter").attr('tag', tags);
         getItems();
     });

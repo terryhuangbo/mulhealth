@@ -2,6 +2,7 @@
 
 namespace frontend\modules\product\controllers;
 
+use common\lib\Filter;
 use common\lib\Tools;
 use common\models\Project;
 use common\models\Tag;
@@ -11,7 +12,6 @@ use app\base\BaseController;
 class ProjectController extends BaseController
 {
     public $enableCsrfValidation = false;
-    private $_tagFree = '不限';
 
     /**
      * 项目列表
@@ -25,7 +25,7 @@ class ProjectController extends BaseController
         $to = $this->req('to');
         //获取（筛选）列表
         $query = Project::find()->where(['status' => Project::STATUS_ON]);
-        if (isset($tags) && $tags !== $this->_tagFree) {
+        if (!empty($tags)) {
             $query->andWhere(['like', 'tags', $tags]);
         }
         if (!empty($from) && !empty($to)) {
@@ -39,6 +39,7 @@ class ProjectController extends BaseController
         $projectList = $query->asArray()->all();
         foreach ($projectList as $key => &$value) {
             $value['pic'] = reset(json_decode($value['pic']));
+            $value['detail'] = strip_tags($value['detail']);
             $value['create_at'] = date('Y/m/d H:i:s', $value['create_at']);
         }
         $_data = [
