@@ -6,6 +6,27 @@
  * Time: 11:49
  */
 
+if (!function_exists('app')) {
+    /**
+     * Get the available container instance.
+     *
+     * @param string $instance
+     *
+     * @return mixed|\yii\di\Container
+     */
+    function app($instance = null)
+    {
+        if (is_null($instance)) {
+            return Yii::$container;
+        }
+
+        if (Yii::$app->has($instance)) {
+            return Yii::$app->get($instance);
+        }
+
+        return Yii::$container->get($instance);
+    }
+}
 /**
  * 获取Yii配置
  * @param string $key
@@ -169,5 +190,17 @@ function lg($content, $type = 1){
         file_put_contents($path . "/1.txt", print_r($content ,true));
     }else{
         file_put_contents($path . "/1.txt", "\r\n" . print_r($content ,true), FILE_APPEND);
+    }
+}
+
+if (!function_exists('dd')) {
+    function dd(...$param)
+    {
+        if (empty($param)) {
+            var_dump(app());
+            exit(1);
+        }
+        var_dump(...$param);
+        exit(1);
     }
 }
