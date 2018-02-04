@@ -1,8 +1,8 @@
 <?php
 /**
- * @link      http://www.yiiframework.com/
+ * @link http://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
- * @license   http://www.yiiframework.com/license/
+ * @license http://www.yiiframework.com/license/
  */
 
 namespace yii\gii\console;
@@ -23,7 +23,7 @@ use yii\console\Controller;
  *
  * @author Tobias Munk <schmunk@usrbin.de>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @since  2.0
+ * @since 2.0
  */
 class GenerateController extends Controller
 {
@@ -32,7 +32,7 @@ class GenerateController extends Controller
      */
     public $module;
     /**
-     * @var boolean whether to overwrite all existing code files when in non-interactive mode.
+     * @var bool whether to overwrite all existing code files when in non-interactive mode.
      * Defaults to false, meaning none of the existing code files will be overwritten.
      * This option is used only when `--interactive=0`.
      */

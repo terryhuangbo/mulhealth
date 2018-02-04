@@ -9,7 +9,6 @@ namespace yii\bootstrap;
 
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 
 /**
  * Collapse renders an accordion bootstrap javascript component.
@@ -61,16 +60,42 @@ class Collapse extends Widget
      * - label: string, required, the group header label.
      * - encode: boolean, optional, whether this label should be HTML-encoded. This param will override
      *   global `$this->encodeLabels` param.
-     * - content: array|string, required, the content (HTML) of the group
+     * - content: array|string|object, required, the content (HTML) of the group
      * - options: array, optional, the HTML attributes of the group
      * - contentOptions: optional, the HTML attributes of the group's content
+     *
+     * Since version 2.0.7 you may also specify this property as key-value pairs, where the key refers to the
+     * `label` and the value refers to `content`. If value is a string it is interpreted as label. If it is
+     * an array, it is interpreted as explained above.
+     *
+     * For example:
+     *
+     * ```php
+     * echo Collapse::widget([
+     *     'items' => [
+     *       'Introduction' => 'This is the first collapsable menu',
+     *       'Second panel' => [
+     *           'content' => 'This is the second collapsable menu',
+     *       ],
+     *       [
+     *           'label' => 'Third panel',
+     *           'content' => 'This is the third collapsable menu',
+     *       ],
+     *   ]
+     * ])
+     * ```
      */
     public $items = [];
-
     /**
      * @var boolean whether the labels for header items should be HTML-encoded.
      */
     public $encodeLabels = true;
+    /**
+     * @var boolean whether to close other items if an item is opened. Defaults to `true` which causes an
+     * accordion effect. Set this to `false` to allow keeping multiple items open at once.
+     * @since 2.0.7
+     */
+    public $autoCloseItems = true;
 
 
     /**
@@ -79,7 +104,7 @@ class Collapse extends Widget
     public function init()
     {
         parent::init();
-        Html::addCssClass($this->options, 'panel-group');
+        Html::addCssClass($this->options, ['widget' => 'panel-group']);
     }
 
     /**
@@ -104,13 +129,20 @@ class Collapse extends Widget
     {
         $items = [];
         $index = 0;
-        foreach ($this->items as $item) {
+        foreach ($this->items as $key => $item) {
+            if (!is_array($item)) {
+                $item = ['content' => $item];
+            }
             if (!array_key_exists('label', $item)) {
-                throw new InvalidConfigException("The 'label' option is required.");
+                if (is_int($key)) {
+                    throw new InvalidConfigException("The 'label' option is required.");
+                } else {
+                    $item['label'] = $key;
+                }
             }
             $header = $item['label'];
             $options = ArrayHelper::getValue($item, 'options', []);
-            Html::addCssClass($options, 'panel panel-default');
+            Html::addCssClass($options, ['panel' => 'panel', 'widget' => 'panel-default']);
             $items[] = Html::tag('div', $this->renderItem($header, $item, ++$index), $options);
         }
 
@@ -121,7 +153,7 @@ class Collapse extends Widget
      * Renders a single collapsible item group
      * @param string $header a label of the item group [[items]]
      * @param array $item a single item from [[items]]
-     * @param integer $index the item index as each item group content must have an id
+     * @param int $index the item index as each item group content must have an id
      * @return string the rendering result
      * @throws InvalidConfigException
      */
@@ -131,22 +163,25 @@ class Collapse extends Widget
             $id = $this->options['id'] . '-collapse' . $index;
             $options = ArrayHelper::getValue($item, 'contentOptions', []);
             $options['id'] = $id;
-            Html::addCssClass($options, 'panel-collapse collapse');
+            Html::addCssClass($options, ['widget' => 'panel-collapse', 'collapse' => 'collapse']);
 
             $encodeLabel = isset($item['encode']) ? $item['encode'] : $this->encodeLabels;
             if ($encodeLabel) {
                 $header = Html::encode($header);
             }
 
-            $headerToggle = Html::a($header, '#' . $id, [
-                    'class' => 'collapse-toggle',
-                    'data-toggle' => 'collapse',
-                    'data-parent' => '#' . $this->options['id']
-                ]) . "\n";
+            $headerOptions = [
+                'class' => 'collapse-toggle',
+                'data-toggle' => 'collapse',
+            ];
+            if ($this->autoCloseItems) {
+                $headerOptions['data-parent'] = '#' . $this->options['id'];
+            }
+            $headerToggle = Html::a($header, '#' . $id, $headerOptions) . "\n";
 
             $header = Html::tag('h4', $headerToggle, ['class' => 'panel-title']);
 
-            if (is_string($item['content'])) {
+            if (is_string($item['content']) || is_numeric($item['content']) || is_object($item['content'])) {
                 $content = Html::tag('div', $item['content'], ['class' => 'panel-body']) . "\n";
             } elseif (is_array($item['content'])) {
                 $content = Html::ul($item['content'], [
@@ -160,7 +195,7 @@ class Collapse extends Widget
                     $content .= Html::tag('div', $item['footer'], ['class' => 'panel-footer']) . "\n";
                 }
             } else {
-                throw new InvalidConfigException('The "content" option should be a string or array.');
+                throw new InvalidConfigException('The "content" option should be a string, array or object.');
             }
         } else {
             throw new InvalidConfigException('The "content" option is required.');

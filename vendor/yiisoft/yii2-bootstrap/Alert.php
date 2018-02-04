@@ -9,7 +9,6 @@ namespace yii\bootstrap;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 
 /**
  * Alert renders an alert bootstrap component.
@@ -53,7 +52,7 @@ class Alert extends Widget
      */
     public $body;
     /**
-     * @var array the options for rendering the close button tag.
+     * @var array|false the options for rendering the close button tag.
      * The close button is displayed in the header of the modal window. Clicking
      * on the button will hide the modal window. If this is false, no close button will be rendered.
      *
@@ -136,9 +135,7 @@ class Alert extends Widget
      */
     protected function initOptions()
     {
-        Html::addCssClass($this->options, 'alert');
-        Html::addCssClass($this->options, 'fade');
-        Html::addCssClass($this->options, 'in');
+        Html::addCssClass($this->options, ['alert', 'fade', 'in']);
 
         if ($this->closeButton !== false) {
             $this->closeButton = array_merge([
