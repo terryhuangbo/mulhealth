@@ -40,7 +40,7 @@ class BaseController extends Controller
                             }
                             $this->user = Yii::$app->user->identity->toArray();
                             $this->uid = Yii::$app->user->identity->uid;
-                            $this->signPackage = Yii::$app->jssdk->getSignPackage();
+//                            $this->signPackage = Yii::$app->jssdk->getSignPackage();
                             return true;
                         },
                         'denyCallback' => function($rule, $action){//跳转登录页面
@@ -58,19 +58,10 @@ class BaseController extends Controller
      */
     public function init()
     {
-        parent::init();
-        $session = Yii::$app->session;
 
-        //<editor-fold desc="测试">
-//        $session->set('openid', 'open_id123344');
-//        $session->set('wxuser', [
-//            'open_id' => 'open_id123344',
-//            'nickname' => 'nick',
-//            'avatar' => '',
-//        ]);
-//        $session->remove('openid');
-//        $session->remove('wxuser');
-        //</editor-fold>
+        parent::init();
+        return;
+        $session = Yii::$app->session;
 
         $this->open_id = $session->get('openid');
         $this->wxuser = $session->get('wxuser');
